@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "396489923420",
+    "firebase_url": "https://fitfusion-air-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "fitfusion-air",
+    "storage_bucket": "fitfusion-air.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:396489923420:android:3e598230908719715b3f99",
+        "android_client_info": {
+          "package_name": "hr.foi.air.fitfusion"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBcUZja73xf4RalRopLFfzzTmX82PitzTw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
