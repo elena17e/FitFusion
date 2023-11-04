@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <EditText
+        android:id="@+id/FirstName"
+        android:layout_width="match_parent"
+        android:layout_height="107dp"
+        android:ems="10"
+        android:inputType="text"
+        android:text="First Name"
+        android:textAlignment="center" />
+
+    <EditText
+        android:id="@+id/LastName"
+        android:layout_width="match_parent"
+        android:layout_height="85dp"
+        android:ems="10"
+        android:inputType="text"
+        android:textAlignment="center"
+        android:text="Last Name" />
+
+    <EditText
+        android:id="@+id/Email"
+        android:layout_width="match_parent"
+        android:layout_height="92dp"
+        android:ems="10"
+        android:inputType="textEmailAddress"
+        android:text="Email"
+        android:textAlignment="center" />
+
+    <EditText
+        android:id="@+id/Password"
+        android:layout_width="match_parent"
+        android:layout_height="73dp"
+        android:ems="10"
+        android:inputType="textPassword"
+        android:text="Password"
+        android:textAlignment="center" />
+
+    <Button
+        android:id="@+id/Done"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:layout_marginTop="30dp"
+        android:background="@color/purple_200"
+        android:text="Done" />
+
+    <Button
+        android:id="@+id/Cancel"
+        android:layout_width="match_parent"
+        android:layout_height="63dp"
+        android:layout_marginTop="20dp"
+        android:background="@color/purple_200"
+        android:text="Cancel"
+        />
+</LinearLayout>
