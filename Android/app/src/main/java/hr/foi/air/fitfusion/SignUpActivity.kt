@@ -28,7 +28,6 @@ class SignUpActivity : ComponentActivity() {
         etUsSurname = findViewById(R.id.LastName)
         etUsEmail = findViewById(R.id.Email)
         etUsPassword = findViewById(R.id.Password)
-        etUsPassword = findViewById(R.id.Password)
         btnDone = findViewById(R.id.Done)
         btnReturn = findViewById(R.id.Cancel)
 
