@@ -53,7 +53,10 @@ class LoginActivity : ComponentActivity() {
 
     data class UserModel(
         var email: String?=null,
-        var password: String?=null
+        var password: String?=null,
+        var firstName: String?=null,
+        var lastName: String?=null
+
     )
 
     private fun loginUser(email: String, password: String) {
