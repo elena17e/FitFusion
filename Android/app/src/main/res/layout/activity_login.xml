@@ -65,6 +65,8 @@
         android:layout_height="50dp"
         android:layout_marginLeft="130dp"
         android:layout_marginTop="50dp"
+        android:backgroundTint="@color/design_default_color_primary"
+        android:textColor="@color/white"
         android:text="Login" />
 
     <Button
@@ -73,6 +75,8 @@
         android:layout_height="50dp"
         android:layout_marginLeft="90dp"
         android:layout_marginTop="20dp"
-        android:text="Create an account" />
+        android:text="Create an account"
+        android:textColor="@color/white"
+        android:backgroundTint="@color/design_default_color_primary"/>
 
 </LinearLayout>
