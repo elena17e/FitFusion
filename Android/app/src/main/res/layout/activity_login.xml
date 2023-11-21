@@ -12,7 +12,7 @@
         android:layout_width="200dp"
         android:layout_height="200dp"
         android:layout_marginLeft="100dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="20dp"
         android:src="@drawable/main_logo" />
 
     <TextView
@@ -20,7 +20,6 @@
         android:layout_width="80dp"
         android:layout_height="30dp"
         android:layout_marginLeft="20dp"
-        android:layout_marginTop="20dp"
         android:textSize="20dp"
         android:text="Email:" />
 
@@ -39,7 +38,7 @@
         android:layout_width="100dp"
         android:layout_height="30dp"
         android:layout_marginLeft="20dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="20dp"
         android:textSize="20dp"
         android:text="Password:" />
 
@@ -52,6 +51,13 @@
         android:ems="10"
         android:inputType="textPassword"
         android:hint="Type in your password"/>
+
+    <CheckBox
+        android:id="@+id/showPasswordCheckBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:text="Show password" />
 
     <Button
         android:id="@+id/loginButton"

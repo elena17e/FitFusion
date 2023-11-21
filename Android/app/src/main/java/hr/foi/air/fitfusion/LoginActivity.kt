@@ -4,9 +4,12 @@ import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.service.autofill.UserData
+import android.text.method.HideReturnsTransformationMethod
+import android.text.method.PasswordTransformationMethod
 import android.view.inputmethod.InputBinding
 import androidx.activity.ComponentActivity
 import android.widget.Button
+import android.widget.CheckBox
 import android.widget.EditText
 import android.widget.Toast
 import androidx.annotation.RequiresApi
@@ -49,7 +52,17 @@ class LoginActivity : ComponentActivity() {
             val intent = Intent(this, SignUpActivity::class.java)
             startActivity(intent)
         }
+
+        val showPassword = binding.showPasswordCheckBox
+        showPassword.setOnCheckedChangeListener { buttonView, isChecked ->
+            if (isChecked) {
+                binding.loginPassword.transformationMethod = HideReturnsTransformationMethod.getInstance()
+            } else {
+                binding.loginPassword.transformationMethod = PasswordTransformationMethod.getInstance()
+            }
+        }
     }
+
 
     data class UserModel(
         var email: String?=null,
@@ -71,7 +84,7 @@ class LoginActivity : ComponentActivity() {
                         if (userData?.email == email && userData.password == password){
                             Toast.makeText(this@LoginActivity, "Login successful", Toast.LENGTH_SHORT).show()
                             val intent = Intent(this@LoginActivity, WelcomeActivity::class.java)
-                            intent.putExtra("USER_NAME", userData.firstName) // Ovdje umetnite stvarno korisnikovo ime
+                            intent.putExtra("USER_NAME", userData.firstName)
                             startActivity(intent)
                             finish()
                             return
