@@ -3,8 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
-    <!-- android:background="@android:color/white" --> <!-- od komentiraj pa ces vidjet sta se desi! -->
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@android:color/white"> <!-- od komentiraj pa ces vidjet sta se desi! -->
 
     <Button
         android:id="@+id/logoutButton"
@@ -33,16 +33,16 @@
         android:layout_width="0dp"
         android:layout_height="75dp"
         app:tabMode="fixed"
-        android:backgroundTint="@color/purple_200"
+        android:backgroundTint="@color/color_primary"
         app:tabGravity="fill"
-        app:tabIndicatorColor="@color/teal_700"
-        app:tabRippleColor="@color/purple_200"
+        app:tabIndicatorColor="@color/color_accent"
+        app:tabRippleColor="@color/color_primary"
         app:tabSelectedTextColor="@color/white"
         app:tabTextColor="@color/white"
         app:tabIconTint="@color/white"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent" />
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/viewpager"
