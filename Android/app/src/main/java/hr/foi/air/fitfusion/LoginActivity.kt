@@ -70,7 +70,9 @@ class LoginActivity : ComponentActivity() {
 
                         if (userData?.email == email && userData.password == password){
                             Toast.makeText(this@LoginActivity, "Login successful", Toast.LENGTH_SHORT).show()
-                            startActivity(Intent(this@LoginActivity, MainActivity::class.java))
+                            val intent = Intent(this@LoginActivity, WelcomeActivity::class.java)
+                            intent.putExtra("USER_NAME", userData.firstName) // Ovdje umetnite stvarno korisnikovo ime
+                            startActivity(intent)
                             finish()
                             return
                         }
