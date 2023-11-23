@@ -10,12 +10,12 @@ import hr.foi.air.fitfusion.R
 import hr.foi.air.fitfusion.helpers.MockDataLoader
 
 class ForumFragment : Fragment() {
-    //private val mockTasks = MockDataLoader.getDemoData() tu nesto ne valja
+    private val mockTasks = MockDataLoader.getDemoData()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        //mockTasks.forEach { Log.i("MOCK_PENDING_TASKS", it.name) }
+        mockTasks.forEach { Log.i("MOCK_PENDING_TASKS", it.name) }
         return inflater.inflate(R.layout.fragment_forum, container, false)
     }
 }
