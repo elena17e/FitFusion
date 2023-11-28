@@ -46,7 +46,7 @@
         android:layout_width="0dp"
         android:layout_height="75dp"
         app:tabMode="fixed"
-        android:background="@color/color_accent"
+        android:background="@color/color_primary"
         app:tabGravity="fill"
         app:tabIndicatorColor="@color/color_primary"
         app:tabRippleColor="@color/color_primary"
