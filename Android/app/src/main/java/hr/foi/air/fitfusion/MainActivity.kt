@@ -32,20 +32,6 @@ class MainActivity : ComponentActivity() {
             }
         }
     }
-
-    private fun getUserProfile() {
-        // [START get_user_profile]
-        val user = Firebase.auth.currentUser
-        user?.let {
-            val name = it.displayName
-            val email = it.email
-
-            //val type = it.uid
-
-            //need to add function that checks the node which current user is under (Admin/Trainer/user)
-            //accordingly to that node, write user type
-        }
-    }
 }
 
 
