@@ -8,6 +8,7 @@ import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import hr.foi.air.fitfusion.adapters.MainPagerAdapter
 import hr.foi.air.fitfusion.databinding.ActivityWelcomeBinding
+import hr.foi.air.fitfusion.fragments.AdminFragment
 import hr.foi.air.fitfusion.fragments.CalendarFragment
 import hr.foi.air.fitfusion.fragments.ForumFragment
 import hr.foi.air.fitfusion.fragments.HomeFragment
@@ -27,29 +28,41 @@ class WelcomeActivity : AppCompatActivity() {
         tabLayout = findViewById(R.id.tabs)
         viewPager2 = findViewById(R.id.viewpager)
 
+        val isAdmin = intent.getBooleanExtra("IS_ADMIN", false)
+
         val mainPagerAdapter = MainPagerAdapter(supportFragmentManager, lifecycle)
 
-        mainPagerAdapter.addFragment(
-            MainPagerAdapter.FragmentItem(
-                R.string.home,
-                R.drawable.baseline_home_24,
-                HomeFragment::class
+        if (!isAdmin){
+            mainPagerAdapter.addFragment(
+                MainPagerAdapter.FragmentItem(
+                    R.string.home,
+                    R.drawable.baseline_home_24,
+                    HomeFragment::class
+                )
             )
-        )
-        mainPagerAdapter.addFragment(
-            MainPagerAdapter.FragmentItem(
-                R.string.calendar,
-                R.drawable.baseline_calendar_month_24,
-                CalendarFragment::class
+            mainPagerAdapter.addFragment(
+                MainPagerAdapter.FragmentItem(
+                    R.string.calendar,
+                    R.drawable.baseline_calendar_month_24,
+                    CalendarFragment::class
+                )
             )
-        )
-        mainPagerAdapter.addFragment(
-            MainPagerAdapter.FragmentItem(
-                R.string.forum,
-                R.drawable.baseline_forum_24,
-                ForumFragment::class
+            mainPagerAdapter.addFragment(
+                MainPagerAdapter.FragmentItem(
+                    R.string.forum,
+                    R.drawable.baseline_forum_24,
+                    ForumFragment::class
+                )
             )
-        )
+        } else {
+            mainPagerAdapter.addFragment(
+                MainPagerAdapter.FragmentItem(
+                    R.string.home,
+                    R.drawable.baseline_home_24,
+                    AdminFragment::class
+                )
+            )
+        }
 
         viewPager2.adapter = mainPagerAdapter
         TabLayoutMediator(tabLayout, viewPager2) { tab, position ->

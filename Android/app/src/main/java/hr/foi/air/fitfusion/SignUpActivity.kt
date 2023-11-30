@@ -55,7 +55,7 @@ class SignUpActivity : ComponentActivity() {
                     if (isValidPassword(password)) {
                         val userId = databaseRf.push().key!!
 
-                        val user = LoginActivity.UserModel(email, password,firstName, lastName,)
+                        val user = LoginActivity.UserModel(email, password,firstName, lastName, admin = false)
 
                         databaseRf.child(userId).setValue(user)
                             .addOnCompleteListener {

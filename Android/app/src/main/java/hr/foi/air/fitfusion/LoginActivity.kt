@@ -18,6 +18,7 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.getValue
 import hr.foi.air.fitfusion.databinding.ActivityLoginBinding
 import javax.net.ssl.SSLSessionBindingEvent
 
@@ -68,12 +69,11 @@ class LoginActivity : ComponentActivity() {
         var email: String?=null,
         var password: String?=null,
         var firstName: String?=null,
-        var lastName: String?=null
-
+        var lastName: String?=null,
+        var admin: Boolean?=false
     )
 
     private fun loginUser(email: String, password: String) {
-
         databaseReference.orderByChild("email").equalTo(email).addListenerForSingleValueEvent(object : ValueEventListener {
             @RequiresApi(Build.VERSION_CODES.P)
             override fun onDataChange(dataSnapshot: DataSnapshot) {
@@ -81,14 +81,13 @@ class LoginActivity : ComponentActivity() {
                     for (userSnapshot in dataSnapshot.children){
                         val userData = userSnapshot.getValue(UserModel::class.java)
 
-                        if (userData?.email == email && userData.password == password){
-                            Toast.makeText(this@LoginActivity, "Login successful", Toast.LENGTH_SHORT).show()
-                            val intent = Intent(this@LoginActivity, WelcomeActivity::class.java)
-                            intent.putExtra("USER_NAME", userData.firstName)
-                            startActivity(intent)
-                            finish()
-                            return
-                        }
+                        Toast.makeText(this@LoginActivity, "User login successful", Toast.LENGTH_SHORT).show()
+                        val intent = Intent(this@LoginActivity, WelcomeActivity::class.java)
+                        intent.putExtra("USER_NAME", userData?.firstName)
+                        intent.putExtra("IS_ADMIN", userData?.admin)
+                        startActivity(intent)
+                        finish()
+                        return
                     }
                 }
                 Toast.makeText(this@LoginActivity, "Login failed", Toast.LENGTH_SHORT).show()
