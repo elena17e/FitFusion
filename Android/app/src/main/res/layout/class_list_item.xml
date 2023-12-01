@@ -25,7 +25,7 @@
                 android:id="@+id/tvType"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Type"
+                android:text="@string/type"
                 android:textColor="@color/black"
                 android:textSize="24sp"/>
 
@@ -41,7 +41,7 @@
                 android:id="@+id/tvDate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Date"
+                android:text="@string/date"
                 android:textColor="@color/black"
                 android:textSize="24sp"/>
 
@@ -57,7 +57,7 @@
                 android:id="@+id/tvTime"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Time"
+                android:text="@string/time"
                 android:textColor="@color/black"
                 android:textSize="24sp"/>
 
@@ -73,7 +73,7 @@
                 android:id="@+id/tvParticipants"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Participants"
+                android:text="@string/participants"
                 android:textColor="@color/black"
                 android:textSize="24sp"/>
 
@@ -86,16 +86,16 @@
         android:id="@+id/btnEdit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="250dp"
+        android:layout_marginStart="250dp"
         android:layout_marginTop="10dp"
-        android:text="Edit" />
+        android:text="@string/edit" />
 
     <Button
         android:id="@+id/btnCancel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="250dp"
+        android:layout_marginStart="250dp"
         android:layout_marginTop="70dp"
-        android:text="Cancel" />
+        android:text="@string/cancel" />
 
 </androidx.cardview.widget.CardView>

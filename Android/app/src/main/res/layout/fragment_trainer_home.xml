@@ -9,10 +9,10 @@
         android:id="@+id/btnNewClass"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="62dp"
-        android:text="Add new class"
-        app:layout_constraintBottom_toTopOf="@+id/rvClassList"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="33dp"
+        android:text="@string/add_new_class"
+        app:layout_constraintBottom_toTopOf="@+id/rvClassListStrength"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -21,26 +21,69 @@
         android:id="@+id/txtMyClasses"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="5dp"
-        android:layout_marginTop="92dp"
-        android:text="My Strength Classes"
+        android:layout_marginStart="4dp"
+        android:text="@string/my_strength_classes"
         android:textSize="25sp"
+        app:layout_constraintStart_toStartOf="@+id/rvClassListStrength"
+        app:layout_constraintTop_toBottomOf="@+id/btnNewClass" />
+
+    <TextView
+        android:id="@+id/txtMyClasses2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="7dp"
+        android:text="@string/my_cardio_classes"
+        android:textSize="25sp"
+        app:layout_constraintBottom_toTopOf="@+id/rvClassListCardio"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/rvClassListStrength" />
+
+
+    <TextView
+        android:id="@+id/txtMyClasses4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:layout_marginBottom="16dp"
+        android:text="@string/my_yoga_classes"
+        android:textSize="25sp"
+        app:layout_constraintBottom_toTopOf="@+id/rvClassListYoga"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/rvClassListCardio" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvClassList"
-        android:layout_width="408dp"
+        android:id="@+id/rvClassListStrength"
+        android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginStart="1dp"
-        android:layout_marginEnd="1dp"
-        android:layout_marginBottom="37dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="15dp"
+        app:layout_constraintBottom_toTopOf="@+id/txtMyClasses2"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnNewClass"
-        app:layout_constraintVertical_bias="0.642"
+        tools:listitem="@layout/class_list_item" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvClassListCardio"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="20dp"
+        app:layout_constraintBottom_toTopOf="@+id/txtMyClasses4"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtMyClasses2"
+        tools:listitem="@layout/class_list_item" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvClassListYoga"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginEnd="4dp"
+        android:layout_marginBottom="6dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtMyClasses4"
         tools:listitem="@layout/class_list_item" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
