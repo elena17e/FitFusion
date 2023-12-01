@@ -5,11 +5,11 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import hr.foi.air.fitfusion.R
-import hr.foi.air.fitfusion.entities.ClassesStrength
+import hr.foi.air.fitfusion.entities.ClassesCardio
 
 
 
-class ClassAdapter (private val classList : ArrayList<ClassesStrength>) : RecyclerView.Adapter<ClassAdapter.MyViewHolder>(){
+class ClassAdapterCardio (private val classList : ArrayList<ClassesCardio>) : RecyclerView.Adapter<ClassAdapterCardio.MyViewHolder>(){
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
 
         val itemView = LayoutInflater.from(parent.context).inflate(R.layout.class_list_item,
