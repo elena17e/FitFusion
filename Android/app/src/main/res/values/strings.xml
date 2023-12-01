@@ -3,17 +3,4 @@
     <string name="home">Home</string>
     <string name="calendar">Calendar</string>
     <string name="forum">Forum</string>
-    <string name="logout">Logout</string>
-    <string name="welcome">Welcome</string>
-    <string name="this_is_a_blank_page">This is a blank page</string>
-    <string name="type">Type</string>
-    <string name="date">Date</string>
-    <string name="time">Time</string>
-    <string name="participants">Participants</string>
-    <string name="edit">Edit</string>
-    <string name="cancel">Cancel</string>
-    <string name="add_new_class">Add new class</string>
-    <string name="my_strength_classes">My Strength Classes</string>
-    <string name="my_cardio_classes">My Cardio Classes</string>
-    <string name="my_yoga_classes">My Yoga Classes</string>
 </resources>

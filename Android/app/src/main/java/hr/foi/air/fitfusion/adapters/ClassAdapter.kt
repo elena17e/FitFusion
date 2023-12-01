@@ -1,15 +1,19 @@
 package hr.foi.air.fitfusion.adapters
 import android.view.LayoutInflater
+import android.view.SurfaceView
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.core.graphics.toColorInt
 import androidx.recyclerview.widget.RecyclerView
 import hr.foi.air.fitfusion.R
-import hr.foi.air.fitfusion.entities.ClassesStrength
+import hr.foi.air.fitfusion.entities.Classes
+import hr.foi.air.fitfusion.entities.Task
+import java.text.SimpleDateFormat
+import java.util.Locale
 
 
-
-class ClassAdapter (private val classList : ArrayList<ClassesStrength>) : RecyclerView.Adapter<ClassAdapter.MyViewHolder>(){
+class ClassAdapter (private val classList : ArrayList<Classes>) : RecyclerView.Adapter<ClassAdapter.MyViewHolder>(){
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
 
         val itemView = LayoutInflater.from(parent.context).inflate(R.layout.class_list_item,
