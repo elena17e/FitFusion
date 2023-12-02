@@ -10,6 +10,7 @@ import hr.foi.air.fitfusion.ui.theme.FitFusionTheme
 class MainActivity : ComponentActivity() {
     private lateinit var btnSignUp: Button
     private lateinit var btnLogIn: Button
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -27,6 +28,7 @@ class MainActivity : ComponentActivity() {
                     val intent = Intent(this, LoginActivity::class.java)
                     startActivity(intent)
                 }
+
             }
         }
     }

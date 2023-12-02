@@ -16,4 +16,8 @@
     <string name="my_strength_classes">My Strength Classes</string>
     <string name="my_cardio_classes">My Cardio Classes</string>
     <string name="my_yoga_classes">My Yoga Classes</string>
+    <string name="typeTxt">Type:</string>
+    <string name="dateTxt">Date:</string>
+    <string name="timeTxt">Time:</string>
+    <string name="participantsTxt">Participants:</string>
 </resources>

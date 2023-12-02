@@ -1,3 +1,3 @@
 package hr.foi.air.fitfusion.entities
 
-data class ClassesYoga(var Date : String ?= null, var Participants : Number ?= null, var Time : String ?= null, var Type : String ?= "Yoga")
+data class ClassesYoga(var date : String ?= null, var participants : String ?= null, var time : String ?= null, var type : String ?= null)
