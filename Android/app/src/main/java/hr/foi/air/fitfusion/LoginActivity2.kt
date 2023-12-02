@@ -21,36 +21,46 @@ class LoginActivity2 : androidx.activity.ComponentActivity() {
     private lateinit var binding: ActivityLoginBinding
     private lateinit var userRepository: UserRepository
 
-    //change manifest.xml first
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        userRepository = UserRepository(FirebaseManager())
 
-        binding.loginButton.setOnClickListener{
+        binding.loginButton.setOnClickListener {
             val loginEmail = binding.loginEmail.text.toString()
             val loginPassword = binding.loginPassword.text.toString()
 
 
-            if (loginEmail.isNotEmpty() && loginPassword.isNotEmpty()){
+            if (loginEmail.isNotEmpty() && loginPassword.isNotEmpty()) {
                 userRepository.loginUser(loginEmail, loginPassword) { user, error ->
                     if (user != null) {
-                        Toast.makeText(this@LoginActivity2,"Login successful!", Toast.LENGTH_SHORT).show()
-                        val userData = UserModel(loginEmail, loginPassword)
+                        Toast.makeText(this@LoginActivity2, "Login successful!", Toast.LENGTH_SHORT)
+                            .show()
                         val intent = Intent(this@LoginActivity2, WelcomeActivity::class.java)
-                        //val userData = userRepository.getUserData(loginEmail, loginPassword)
-                        intent.putExtra("USER_NAME", userData.email) //change to first name once getUserData() works
+                        intent.putExtra(
+                            "USER_NAME",
+                            user.firstName
+                        )
                         startActivity(intent)
                         finish()
                     } else {
-                        Toast.makeText(this@LoginActivity2,"Wrong credentials!", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(
+                            this@LoginActivity2,
+                            "Wrong credentials!",
+                            Toast.LENGTH_SHORT
+                        ).show()
                     }
                 }
-            } else{
-                Toast.makeText(this@LoginActivity2,"You must fill in all of the fields!", Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(
+                    this@LoginActivity2,
+                    "You must fill in all of the fields!",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
-
+        }
         binding.createAcc.setOnClickListener {
             val intent = Intent(this, SignUpActivity::class.java)
             startActivity(intent)
@@ -59,54 +69,12 @@ class LoginActivity2 : androidx.activity.ComponentActivity() {
         val showPassword = binding.showPasswordCheckBox
         showPassword.setOnCheckedChangeListener { buttonView, isChecked ->
             if (isChecked) {
-                binding.loginPassword.transformationMethod = HideReturnsTransformationMethod.getInstance()
+                binding.loginPassword.transformationMethod =
+                    HideReturnsTransformationMethod.getInstance()
             } else {
-                binding.loginPassword.transformationMethod = PasswordTransformationMethod.getInstance()
+                binding.loginPassword.transformationMethod =
+                    PasswordTransformationMethod.getInstance()
             }
         }
-    }
-
-
-
- /*   public override fun onStart() {
-        super.onStart()
-
-        val currentUser = auth.currentUser
-        if (currentUser != null){
-            reload()
-        }
-    }
-
-    private fun reload() {
-        TODO("Not yet implemented")
-    }
-
-    private fun signIn (email: String, password: String){
-        auth.signInWithEmailAndPassword(email, password)
-            .addOnCompleteListener(this) { task ->
-                if (task.isSuccessful){
-                    Log.d(TAG, "signInWithEmail:success")
-                    val user = auth.currentUser
-                    updateIU(user)
-                } else{
-                    Log.w(TAG, "signInWithEmail:failure", task.exception)
-                    Toast.makeText(
-                        baseContext,
-                        "Authentication failed.",
-                        Toast.LENGTH_SHORT,
-                    ).show()
-                    updateIU(null)
-                }
-
-            }
-    }
-
-    private fun updateIU(user: FirebaseUser?) {
-
-    }
-
-    companion object {
-        private const val TAG = "EmailPassword"
-    }*/
     }
 }

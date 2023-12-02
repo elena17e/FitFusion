@@ -26,7 +26,7 @@ class MainActivity : ComponentActivity() {
                 }
 
                 btnLogIn.setOnClickListener {
-                    val intent = Intent(this, LoginActivity::class.java)
+                    val intent = Intent(this, LoginActivity2::class.java)
                     startActivity(intent)
                 }
             }
