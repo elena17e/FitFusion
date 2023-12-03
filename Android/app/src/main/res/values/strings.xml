@@ -3,4 +3,7 @@
     <string name="home">Home</string>
     <string name="calendar">Calendar</string>
     <string name="forum">Forum</string>
+    <string name="post_title" />
+    <string name="author_name" />
+    <string name="date_created" />
 </resources>
