@@ -63,7 +63,7 @@ class WelcomeActivity : AppCompatActivity() {
         binding.welcomeMessageTextView.text = welcomeMessage
 
         binding.logoutButton.setOnClickListener {
-            val intent = Intent(this, LoginActivity::class.java)
+            val intent = Intent(this, LoginActivity2::class.java)
             intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
             startActivity(intent)
             finish()

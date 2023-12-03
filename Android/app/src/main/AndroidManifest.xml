@@ -13,6 +13,7 @@
         android:theme="@style/Theme.FitFusion"
         tools:targetApi="31">
         <activity
+            android:name=".LoginActivity2"
             android:name=".WelcomeTrainerActivity"
             android:exported="false" />
         <activity
@@ -28,7 +29,6 @@
             android:theme="@style/Theme.FitFusion">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

@@ -15,6 +15,7 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import hr.foi.air.fitfusion.data_classes.UserModel
 import hr.foi.air.fitfusion.ui.theme.FitFusionTheme
 
 class SignUpActivity : ComponentActivity() {
@@ -55,7 +56,7 @@ class SignUpActivity : ComponentActivity() {
                     if (isValidPassword(password)) {
                         val userId = databaseRf.push().key!!
 
-                        val user = LoginActivity.UserModel(email, password,firstName, lastName,)
+                        val user = UserModel(email, password,firstName, lastName,)
 
                         databaseRf.child(userId).setValue(user)
                             .addOnCompleteListener {
@@ -65,7 +66,11 @@ class SignUpActivity : ComponentActivity() {
                                     Toast.LENGTH_LONG
                                 ).show()
 
-                                val intent = Intent(this@SignUpActivity, LoginActivity::class.java)
+                                val intent = Intent(this@SignUpActivity, WelcomeActivity::class.java)
+                                intent.putExtra(
+                                    "USER_NAME",
+                                    user.firstName
+                                )
                                 startActivity(intent)
                                 finish()
 
