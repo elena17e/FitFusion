@@ -1,34 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="3dp"
-    android:elevation="10dp">
-    <LinearLayout
+    android:padding="8dp">
+
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <SurfaceView
-            android:id="@+id/sv_task_category_color"
-            android:layout_width="15dp"
-            android:layout_height="match_parent" />
+        android:layout_height="wrap_content"
+        android:layout_margin="3dp"
+        android:elevation="5dp">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="10dp">
+            android:padding="12dp">
+
             <TextView
-                android:id="@+id/tv_task_name"
-                android:layout_width="wrap_content"
+                android:id="@+id/tv_post_title"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="20sp"
-                tools:text="Name of a task" />
-            <TextView
-                android:id="@+id/tv_task_due_date"
-                android:layout_width="wrap_content"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:text="@string/post_title" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                tools:text="28.1.2023." />
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tv_post_author"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="14sp"
+                    android:text="@string/author_name" />
+
+                <TextView
+                    android:id="@+id/tv_post_date"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textSize="14sp"
+                    android:textAlignment="viewEnd"
+                    android:text="@string/date_created" />
+            </LinearLayout>
+
         </LinearLayout>
-    </LinearLayout>
-</androidx.cardview.widget.CardView>
+    </androidx.cardview.widget.CardView>
+</LinearLayout>
