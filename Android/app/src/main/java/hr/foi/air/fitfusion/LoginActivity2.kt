@@ -38,7 +38,7 @@ class LoginActivity2 : androidx.activity.ComponentActivity() {
                     if (user != null) {
                         Toast.makeText(this@LoginActivity2, "Login successful!", Toast.LENGTH_SHORT)
                             .show()
-                        val intent = Intent(this@LoginActivity2, WelcomeActivity::class.java)
+                        val intent = Intent(this@LoginActivity2, WelcomeTrainerActivity::class.java)
                         intent.putExtra(
                             "USER_NAME",
                             user.firstName
