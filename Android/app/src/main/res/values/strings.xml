@@ -20,4 +20,7 @@
     <string name="dateTxt">Date:</string>
     <string name="timeTxt">Time:</string>
     <string name="participantsTxt">Participants:</string>
+    <string name="post_title" />
+    <string name="author_name" />
+    <string name="date_created" />
 </resources>
