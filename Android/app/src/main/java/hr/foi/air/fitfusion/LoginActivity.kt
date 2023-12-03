@@ -13,6 +13,7 @@ import android.widget.CheckBox
 import android.widget.EditText
 import android.widget.Toast
 import androidx.annotation.RequiresApi
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
