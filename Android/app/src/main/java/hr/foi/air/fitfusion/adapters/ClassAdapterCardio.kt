@@ -22,10 +22,10 @@ class ClassAdapterCardio (private val classList : ArrayList<ClassesCardio>) : Re
 
         val currentitem = classList[position]
 
-        holder.date.text = currentitem.Date
-        holder.time.text = currentitem.Time
-        holder.type.text = currentitem.Type
-        holder.participants.text = currentitem.Participants.toString()
+        holder.date.text = currentitem.date
+        holder.time.text = currentitem.time
+        holder.type.text = currentitem.type
+        holder.participants.text = currentitem.participants
 
     }
 
