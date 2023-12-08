@@ -23,4 +23,6 @@
     <string name="post_title" />
     <string name="author_name" />
     <string name="date_created" />
+    <string name="add_new_training_session">Add new training session</string>
+    <string name="my_classes">My Classes</string>
 </resources>

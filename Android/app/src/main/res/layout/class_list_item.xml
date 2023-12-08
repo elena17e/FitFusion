@@ -114,20 +114,4 @@
 
     </LinearLayout>
 
-    <Button
-        android:id="@+id/btnEdit"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="275dp"
-        android:layout_marginTop="10dp"
-        android:text="@string/edit" />
-
-    <Button
-        android:id="@+id/btnCancel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="275dp"
-        android:layout_marginTop="70dp"
-        android:text="@string/cancel" />
-
 </androidx.cardview.widget.CardView>
