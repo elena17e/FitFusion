@@ -34,6 +34,9 @@
         <activity
             android:name=".WelcomeActivity"
             android:theme="@style/Theme.AppCompat" />
+        <activity
+            android:name=".TrainingSessionActivity"
+            android:exported="false" />
     </application>
 
 </manifest>

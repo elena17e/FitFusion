@@ -12,6 +12,9 @@ import hr.foi.air.fitfusion.data_classes.FirebaseManager
 import hr.foi.air.fitfusion.entities.ClassesCardio
 import hr.foi.air.fitfusion.entities.ClassesStrength
 import hr.foi.air.fitfusion.entities.ClassesYoga
+import android.content.Intent
+import android.widget.Button
+import hr.foi.air.fitfusion.TrainingSessionActivity
 
 
 
@@ -23,12 +26,14 @@ class HomeTrainerFragment : Fragment() {
     private lateinit var classArrayListStrength : ArrayList<ClassesStrength>
     private lateinit var classArrayListCardio : ArrayList<ClassesCardio>
     private lateinit var classArrayListYoga : ArrayList<ClassesYoga>
+    private lateinit var btnNewClass : Button
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         return inflater.inflate(R.layout.fragment_trainer_home, container, false)
     }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         firebaseManager = FirebaseManager()
         classRecyclerviewStrength = view.findViewById(R.id.rvClassListStrength)
@@ -47,8 +52,15 @@ class HomeTrainerFragment : Fragment() {
         classArrayListCardio = arrayListOf()
         classArrayListYoga= arrayListOf()
 
+        btnNewClass = view.findViewById(R.id.btnNewClass)
+        btnNewClass.setOnClickListener {
+            val intent = Intent(activity, TrainingSessionActivity::class.java)
+            startActivity(intent)
+        }
+
         showTrainingsList()
     }
+
     private fun showTrainingsList() {
         firebaseManager.showTrainingsList(
             classRecyclerviewStrength,
