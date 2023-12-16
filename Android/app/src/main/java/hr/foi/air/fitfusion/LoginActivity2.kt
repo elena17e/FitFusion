@@ -1,19 +1,11 @@
 package hr.foi.air.fitfusion
 
-import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.text.method.HideReturnsTransformationMethod
 import android.text.method.PasswordTransformationMethod
-import android.util.Log
 import android.widget.Toast
-import androidx.core.app.ComponentActivity
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.auth.auth
-import com.google.firebase.Firebase
 import hr.foi.air.fitfusion.data_classes.FirebaseManager
-import hr.foi.air.fitfusion.data_classes.UserModel
 import hr.foi.air.fitfusion.databinding.ActivityLoginBinding
 import hr.foi.air.fitfusion.repositories.UserRepository
 

@@ -35,8 +35,15 @@
             android:name=".WelcomeActivity"
             android:theme="@style/Theme.AppCompat" />
         <activity
+            android:name=".TrainerActivity"
+            android:exported="false" />
+        <activity
             android:name=".TrainingSessionActivity"
             android:exported="false" />
+        <activity
+            android:name=".WelcomeAdminActivity"
+            android:exported="false" />
+
     </application>
 
 </manifest>

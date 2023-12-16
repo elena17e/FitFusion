@@ -17,6 +17,48 @@ class FirebaseManager {
     private lateinit var firebaseDatabase: FirebaseDatabase
     private lateinit var databaseReference: DatabaseReference
 
+    init {
+        firebaseDatabase = FirebaseDatabase.getInstance()
+        databaseReference = firebaseDatabase.reference.child("user")
+    }
+
+    fun addTrainer(
+        firstName: String,
+        lastName: String,
+        email: String,
+        password: String,
+        description: String,
+        callback: (Boolean, String?) -> Unit
+    ) {
+        databaseReference.orderByChild("email").equalTo(email).addListenerForSingleValueEvent(object :
+            ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                if (snapshot.exists()) {
+                    callback(false, "User with this email already exists")
+                } else {
+                    val trainerId = databaseReference.push().key!!
+
+                    val trainer = TrainerModel()
+                    trainer.firstName = firstName
+                    trainer.lastName = lastName
+                    trainer.email = email
+                    trainer.password = password
+                    trainer.type = "trainer"
+                    trainer.description = description
+                    trainer.trainerId = trainerId
+
+                    databaseReference.child(trainerId).setValue(trainer)
+
+                    callback(true, "Trainer added successfully")
+                }
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {
+                callback(false, "Error checking existing user")
+            }
+        })
+    }
+
     fun loginUser(email: String, password: String, callback: (UserModel?, String?) -> Unit) {
         firebaseDatabase = FirebaseDatabase.getInstance()
         databaseReference = firebaseDatabase.reference.child("user")
