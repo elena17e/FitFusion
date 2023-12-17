@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
     <TextView
         android:id="@+id/textView"
@@ -11,7 +11,9 @@
         android:layout_height="30dp"
         android:layout_marginStart="40dp"
         android:layout_marginTop="40dp"
-        android:text="Session Type:" />
+        android:text="Session Type:"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"/>
 
     <Spinner
         android:id="@+id/spinner"
@@ -20,14 +22,20 @@
         android:layout_marginStart="40dp"
         android:layout_marginEnd="100dp"
         android:layout_marginBottom="40dp"
-        android:spinnerMode="dropdown" />
+        android:spinnerMode="dropdown"
+        app:layout_constraintTop_toBottomOf="@+id/textView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <TextView
         android:id="@+id/number"
         android:layout_width="180dp"
         android:layout_height="30dp"
         android:layout_marginStart="40dp"
-        android:text="Number of participants:" />
+        android:layout_marginTop="30dp"
+        android:text="Number of participants:"
+        app:layout_constraintTop_toBottomOf="@+id/spinner"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <EditText
         android:id="@+id/Number"
@@ -37,14 +45,19 @@
         android:layout_marginStart="40dp"
         android:ems="10"
         android:hint="Number"
-        android:inputType="number" />
+        android:inputType="number"
+        app:layout_constraintTop_toBottomOf="@+id/number"
+        app:layout_constraintStart_toStartOf="parent"/>
 
     <TextView
         android:id="@+id/time"
         android:layout_width="100dp"
         android:layout_height="30dp"
         android:layout_marginStart="40dp"
-        android:text="Time:" />
+        android:layout_marginTop="30dp"
+        android:text="Time:"
+        app:layout_constraintTop_toBottomOf="@+id/Number"
+        app:layout_constraintStart_toStartOf="parent"/>
 
     <EditText
         android:id="@+id/Time"
@@ -54,14 +67,33 @@
         android:layout_marginStart="40dp"
         android:ems="10"
         android:hint="Time"
-        android:inputType="time" />
+        android:focusable="false"
+        android:clickable="false"
+        android:inputType="none"
+        app:layout_constraintTop_toBottomOf="@+id/time"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/SelectTime"
+        android:layout_width="100dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="20dp"
+        android:text="Select Time"
+        android:backgroundTint="#D3D3D3"
+        android:textColor="#111111"
+        app:layout_constraintTop_toBottomOf="@+id/time"
+        app:layout_constraintStart_toEndOf="@id/Time"
+        app:layout_constraintBottom_toBottomOf="@id/Time" />
 
     <TextView
         android:id="@+id/date"
         android:layout_width="100dp"
         android:layout_height="30dp"
         android:layout_marginStart="40dp"
-        android:text="Date:" />
+        android:layout_marginTop="30dp"
+        android:text="Date:"
+        app:layout_constraintTop_toBottomOf="@+id/Time"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <EditText
         android:id="@+id/Date"
@@ -71,7 +103,23 @@
         android:layout_marginStart="40dp"
         android:ems="10"
         android:hint="Date"
-        android:inputType="date" />
+        android:focusable="false"
+        android:clickable="false"
+        android:inputType="none"
+        app:layout_constraintTop_toBottomOf="@+id/date"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/SelectDate"
+        android:layout_width="100dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="20dp"
+        android:text="Select Date"
+        android:backgroundTint= "#D3D3D3"
+        android:textColor="#111111"
+        app:layout_constraintTop_toBottomOf="@+id/date"
+        app:layout_constraintStart_toEndOf="@id/Date"
+        app:layout_constraintBottom_toBottomOf="@id/Date" />
 
     <Button
         android:id="@+id/Done"
@@ -79,8 +127,12 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
-        android:layout_marginBottom="10dp"
-        android:text="Done" />
+        android:layout_marginBottom="40dp"
+        android:layout_marginTop="40dp"
+        android:text="Done"
+        app:layout_constraintTop_toBottomOf="@+id/Date"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <Button
         android:id="@+id/Cancel"
@@ -90,7 +142,11 @@
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
         android:backgroundTint="#F44336"
+        android:layout_marginTop="20dp"
         android:text="Cancel"
-        android:textColor="#FFFFFF" />
+        android:textColor="#FFFFFF"
+        app:layout_constraintTop_toBottomOf="@+id/Done"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

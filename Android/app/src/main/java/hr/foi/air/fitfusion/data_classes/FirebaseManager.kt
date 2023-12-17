@@ -59,6 +59,37 @@ class FirebaseManager {
         })
     }
 
+    fun addTrainingSession(
+        time: String,
+        date: String,
+        participants: String,
+        type: String,
+        userId: String,
+        callback: (Boolean, String) -> Unit
+    ) {
+        val databaseRf = FirebaseDatabase.getInstance().getReference("Training")
+
+        if (type.isNotEmpty() && participants.isNotEmpty() && time.isNotEmpty() && date.isNotEmpty()) {
+            val sessionId: String = databaseRf.push().key ?: ""
+
+            val trainingSession = TrainingModel(
+                id = sessionId,
+                date = date,
+                participants = participants,
+                state = "active",
+                time = time,
+                userId = userId,
+                type = type
+            )
+
+            databaseRf.child(sessionId).setValue(trainingSession)
+
+            callback(true, "Training session saved successfully")
+        } else {
+            callback(false, "Please fill in all the fields")
+        }
+    }
+
     fun loginUser(email: String, password: String, callback: (UserModel?, String?) -> Unit) {
         firebaseDatabase = FirebaseDatabase.getInstance()
         databaseReference = firebaseDatabase.reference.child("user")
@@ -164,6 +195,8 @@ class FirebaseManager {
         })
 
     }
+
+
 
     private val database = FirebaseDatabase.getInstance()
     private val postRef = database.getReference("Posts")
