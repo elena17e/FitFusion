@@ -5,9 +5,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import hr.foi.air.fitfusion.R
-import hr.foi.air.fitfusion.entities.ClassesCardio
 import hr.foi.air.fitfusion.entities.ClassesStrength
-
 
 
 class ClassAdapter (private val classList : ArrayList<ClassesStrength>) : RecyclerView.Adapter<ClassAdapter.MyViewHolder>(){
@@ -27,15 +25,12 @@ class ClassAdapter (private val classList : ArrayList<ClassesStrength>) : Recycl
      holder.time.text = currentitem.time
      holder.type.text = currentitem.type
      holder.participants.text = currentitem.participants
-
-
     }
 
     override fun getItemCount(): Int {
 
         return classList.size
     }
-
 
     class MyViewHolder(itemView : View) : RecyclerView.ViewHolder(itemView){
 

@@ -27,6 +27,7 @@ class HomeTrainerFragment : Fragment() {
     private lateinit var classArrayListCardio : ArrayList<ClassesCardio>
     private lateinit var classArrayListYoga : ArrayList<ClassesYoga>
     private lateinit var btnNewClass : Button
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -39,6 +40,7 @@ class HomeTrainerFragment : Fragment() {
         classRecyclerviewStrength = view.findViewById(R.id.rvClassListStrength)
         classRecyclerviewStrength.layoutManager = LinearLayoutManager(view.context)
         classRecyclerviewStrength.setHasFixedSize(true)
+
 
         classRecyclerviewCardio = view.findViewById(R.id.rvClassListCardio)
         classRecyclerviewCardio.layoutManager = LinearLayoutManager(view.context)
@@ -59,6 +61,7 @@ class HomeTrainerFragment : Fragment() {
         }
 
         showTrainingsList()
+
     }
 
     private fun showTrainingsList() {
@@ -71,5 +74,4 @@ class HomeTrainerFragment : Fragment() {
             classArrayListYoga
         )
     }
-
 }
