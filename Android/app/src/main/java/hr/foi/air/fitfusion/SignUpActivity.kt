@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.text.method.HideReturnsTransformationMethod
 import android.text.method.PasswordTransformationMethod
 import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
 import android.widget.Button
 import android.widget.CheckBox
 import android.widget.EditText
@@ -16,7 +15,6 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import hr.foi.air.fitfusion.data_classes.UserModel
-import hr.foi.air.fitfusion.ui.theme.FitFusionTheme
 
 class SignUpActivity : ComponentActivity() {
     private lateinit var etUsName: EditText
@@ -66,7 +64,7 @@ class SignUpActivity : ComponentActivity() {
                                     Toast.LENGTH_LONG
                                 ).show()
 
-                                val intent = Intent(this@SignUpActivity, WelcomeActivity::class.java)
+                                val intent = Intent(this@SignUpActivity, WelcomeTrainerActivity::class.java)
                                 intent.putExtra(
                                     "USER_NAME",
                                     user.firstName
