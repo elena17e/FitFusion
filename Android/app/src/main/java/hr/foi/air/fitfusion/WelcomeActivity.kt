@@ -15,8 +15,8 @@ import hr.foi.air.fitfusion.fragments.HomeFragment
 class WelcomeActivity : AppCompatActivity() {
     private lateinit var binding: ActivityWelcomeBinding
 
-    lateinit var tabLayout: TabLayout
-    lateinit var viewPager2: ViewPager2
+    private lateinit var tabLayout: TabLayout
+    private lateinit var viewPager2: ViewPager2
 
     override fun onCreate(savedInstanceState: Bundle?) {
         supportActionBar?.hide()

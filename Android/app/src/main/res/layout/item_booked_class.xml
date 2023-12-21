@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="16dp"
@@ -24,7 +25,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Booked classes"
+                android:text="@string/booked_classes"
                 android:textColor="@color/black"
                 android:textSize="24sp"
                 android:textStyle="bold" />
@@ -42,7 +43,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                tools:ignore="UselessParent">
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -55,7 +57,7 @@
                         android:id="@+id/type"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="tu vuče tip treninga"
+                        android:text="@string/tu_vu_e_tip_treninga"
                         android:textColor="@color/black"
                         android:textSize="20sp" />
 
@@ -72,7 +74,7 @@
                         android:id="@+id/date"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="tu vuče datum treninga"
+                        android:text="@string/tu_vu_e_datum_treninga"
                         android:textColor="@color/black"
                         android:textSize="20sp" />
 
@@ -89,7 +91,7 @@
                         android:id="@+id/time"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="tu vuče vrijeme treninga"
+                        android:text="@string/tu_vu_e_vrijeme_treninga"
                         android:textColor="@color/black"
                         android:textSize="20sp" />
 
@@ -101,10 +103,12 @@
                     android:id="@+id/cancelTraining"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
-                    android:layout_marginLeft="20dp"
+                    android:layout_marginStart="20dp"
                     android:layout_weight="1"
                     android:background="@drawable/roundcorner"
-                    app:srcCompat="@drawable/x_white" />
+                    app:srcCompat="@drawable/x_white"
+                    android:contentDescription="@string/todo"
+                    tools:ignore="InefficientWeight" />
 
             </LinearLayout>
 

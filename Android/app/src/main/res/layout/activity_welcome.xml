@@ -13,9 +13,9 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
         android:layout_marginEnd="4dp"
-        android:text="Logout"
-        android:textColor="@color/white"
         android:background="@color/color_accent"
+        android:text="@string/logout1"
+        android:textColor="#263238"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -25,7 +25,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:layout_marginTop="15dp"
-        android:text="Welcome"
+        android:text="@string/welcome1"
         android:textSize="20sp"
         android:textColor="@color/black"
         app:layout_constraintStart_toStartOf="parent"
@@ -45,16 +45,17 @@
         android:id="@+id/tabs"
         android:layout_width="0dp"
         android:layout_height="75dp"
-        app:tabMode="fixed"
         android:background="@color/color_primary"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:tabGravity="fill"
+        app:tabIconTint="@color/white"
         app:tabIndicatorColor="@color/color_primary"
+        app:tabMode="fixed"
         app:tabRippleColor="@color/color_primary"
         app:tabSelectedTextColor="@color/white"
         app:tabTextColor="@color/white"
-        app:tabIconTint="@color/white"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent" />
+        tools:ignore="SpeakableTextPresentCheck" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

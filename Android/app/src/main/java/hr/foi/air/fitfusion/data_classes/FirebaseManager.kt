@@ -14,8 +14,8 @@ import hr.foi.air.fitfusion.entities.Post
 
 class FirebaseManager {
 
-    private lateinit var firebaseDatabase: FirebaseDatabase
-    private lateinit var databaseReference: DatabaseReference
+    private var firebaseDatabase: FirebaseDatabase
+    private var databaseReference: DatabaseReference
 
     init {
         firebaseDatabase = FirebaseDatabase.getInstance()

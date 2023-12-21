@@ -54,7 +54,7 @@ class SignUpActivity : ComponentActivity() {
                     if (isValidPassword(password)) {
                         val userId = databaseRf.push().key!!
 
-                        val user = UserModel(email, password,firstName, lastName,)
+                        val user = UserModel(email, password, firstName, lastName)
 
                         databaseRf.child(userId).setValue(user)
                             .addOnCompleteListener {
@@ -97,7 +97,7 @@ class SignUpActivity : ComponentActivity() {
 
         val showPasswordCheckBox: CheckBox = findViewById(R.id.showPasswordCheckBox)
 
-        showPasswordCheckBox.setOnCheckedChangeListener { buttonView, isChecked ->
+        showPasswordCheckBox.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
                 etUsPassword.transformationMethod = HideReturnsTransformationMethod.getInstance()
             } else {

@@ -5,8 +5,6 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import android.widget.Button
-import com.google.firebase.Firebase
-import com.google.firebase.auth.auth
 import hr.foi.air.fitfusion.ui.theme.FitFusionTheme
 
 class MainActivity : ComponentActivity() {
