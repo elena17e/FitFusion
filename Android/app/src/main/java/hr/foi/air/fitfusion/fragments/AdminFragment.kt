@@ -1,6 +1,5 @@
 package hr.foi.air.fitfusion.fragments
 
-import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -46,8 +45,8 @@ class AdminFragment : Fragment() {
 
         database = FirebaseDatabase.getInstance().getReference("Trainers")
 
-        trainersArrayList = arrayListOf<Trainer>()
-        var dataQuery = database.orderByChild("email")
+        trainersArrayList = arrayListOf()
+        val dataQuery = database.orderByChild("email")
 
         dataQuery.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
