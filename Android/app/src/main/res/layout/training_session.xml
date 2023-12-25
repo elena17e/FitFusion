@@ -16,14 +16,14 @@
         android:layout_height="44dp"
         android:layout_marginStart="40dp"
         android:layout_marginTop="40dp"
-        android:text="Type:" />
+        android:text="@string/type1" />
 
     <TextView
         android:id="@+id/textView2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="40dp"
-        android:text="TextView" />
+        android:text="@string/textview" />
 
     <TextView
         android:id="@+id/Date"
@@ -32,14 +32,14 @@
         android:layout_marginStart="40dp"
         android:layout_marginEnd="100dp"
         android:layout_marginTop="30dp"
-        android:text="Date:" />
+        android:text="@string/date1" />
 
     <TextView
         android:id="@+id/textView3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="40dp"
-        android:text="TextView" />
+        android:text="@string/textview1" />
 
     <TextView
         android:id="@+id/Time"
@@ -48,23 +48,24 @@
         android:layout_marginStart="40dp"
         android:layout_marginEnd="100dp"
         android:layout_marginTop="30dp"
-        android:text="Time:" />
+        android:text="@string/time1" />
 
     <TextView
         android:id="@+id/textView4"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="40dp"
-        android:text="TextView" />
+        android:text="@string/textview2" />
 
     <TextView
         android:id="@+id/Participants"
         android:layout_width="99dp"
         android:layout_height="44dp"
         android:layout_marginStart="40dp"
-        android:layout_marginEnd="100dp"
         android:layout_marginTop="30dp"
-        android:text="Participants:" />
+        android:layout_marginEnd="100dp"
+        android:text="@string/participants1"
+        tools:ignore="TextSizeCheck" />
 
     <TextView
         android:id="@+id/textView5"
@@ -72,7 +73,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="40dp"
 
-        android:text="TextView" />
+        android:text="@string/textview3" />
 
     <TextView
         android:id="@+id/Active"
@@ -81,14 +82,14 @@
         android:layout_marginStart="40dp"
         android:layout_marginEnd="100dp"
         android:layout_marginTop="30dp"
-        android:text="Active:" />
+        android:text="@string/active" />
 
         <Switch
             android:id="@+id/switch1"
             android:layout_width="223dp"
             android:layout_height="58dp"
             android:layout_marginStart="40dp"
-            android:text="Canceled"
+            android:text="@string/canceled"
             tools:ignore="UseSwitchCompatOrMaterialXml" />
     <Button
         android:id="@+id/Edit"
@@ -97,16 +98,18 @@
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
         android:layout_marginBottom="10dp"
-        android:text="Edit" />
+        android:text="@string/edit1"
+        tools:ignore="VisualLintButtonSize" />
 
     <Button
         android:id="@+id/Cancel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
+        android:layout_marginBottom="10dp"
         android:backgroundTint="#F44336"
-        android:text="Cancel"
-        android:textColor="#FFFFFF" />
+        android:text="@string/cancel1"
+        android:textColor="#000000"
+        tools:ignore="VisualLintButtonSize" />
 </LinearLayout>

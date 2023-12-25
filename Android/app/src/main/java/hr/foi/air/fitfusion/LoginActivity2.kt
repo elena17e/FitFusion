@@ -26,7 +26,7 @@ class LoginActivity2 : androidx.activity.ComponentActivity() {
 
 
             if (loginEmail.isNotEmpty() && loginPassword.isNotEmpty()) {
-                userRepository.loginUser(loginEmail, loginPassword) { user, error ->
+                userRepository.loginUser(loginEmail, loginPassword) { user, _ ->
                     if (user != null) {
                         Toast.makeText(this@LoginActivity2, "Login successful!", Toast.LENGTH_SHORT)
                             .show()
@@ -67,7 +67,7 @@ class LoginActivity2 : androidx.activity.ComponentActivity() {
         }
 
         val showPassword = binding.showPasswordCheckBox
-        showPassword.setOnCheckedChangeListener { buttonView, isChecked ->
+        showPassword.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
                 binding.loginPassword.transformationMethod =
                     HideReturnsTransformationMethod.getInstance()

@@ -1,26 +1,17 @@
 package hr.foi.air.fitfusion
 
 import android.content.Intent
-import android.os.Build
 import android.os.Bundle
-import android.service.autofill.UserData
 import android.text.method.HideReturnsTransformationMethod
 import android.text.method.PasswordTransformationMethod
-import android.view.inputmethod.InputBinding
 import androidx.activity.ComponentActivity
-import android.widget.Button
-import android.widget.CheckBox
-import android.widget.EditText
 import android.widget.Toast
-import androidx.annotation.RequiresApi
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import hr.foi.air.fitfusion.databinding.ActivityLoginBinding
-import javax.net.ssl.SSLSessionBindingEvent
 
 class LoginActivity : ComponentActivity() {
 
@@ -55,7 +46,7 @@ class LoginActivity : ComponentActivity() {
         }
 
         val showPassword = binding.showPasswordCheckBox
-        showPassword.setOnCheckedChangeListener { buttonView, isChecked ->
+        showPassword.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
                 binding.loginPassword.transformationMethod = HideReturnsTransformationMethod.getInstance()
             } else {
@@ -76,7 +67,6 @@ class LoginActivity : ComponentActivity() {
     private fun loginUser(email: String, password: String) {
 
         databaseReference.orderByChild("email").equalTo(email).addListenerForSingleValueEvent(object : ValueEventListener {
-            @RequiresApi(Build.VERSION_CODES.P)
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 if (dataSnapshot.exists()) {
                     for (userSnapshot in dataSnapshot.children){
