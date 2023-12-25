@@ -44,10 +44,10 @@ class AdminFragment : Fragment() {
         recyclerView = view.findViewById(R.id.trainers)
         recyclerView.layoutManager = LinearLayoutManager(view.context)
 
-        database = FirebaseDatabase.getInstance().getReference("Trainers")
-
         trainersArrayList = arrayListOf<Trainer>()
-        var dataQuery = database.orderByChild("email")
+        database = FirebaseDatabase.getInstance().getReference("user")
+
+        var dataQuery = database.orderByChild("type").equalTo("trainer")
 
         dataQuery.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {

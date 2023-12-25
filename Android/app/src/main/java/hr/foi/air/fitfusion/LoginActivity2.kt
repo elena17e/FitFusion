@@ -30,7 +30,15 @@ class LoginActivity2 : androidx.activity.ComponentActivity() {
                     if (user != null) {
                         Toast.makeText(this@LoginActivity2, "Login successful!", Toast.LENGTH_SHORT)
                             .show()
-                        val intent = Intent(this@LoginActivity2, WelcomeTrainerActivity::class.java)
+                        val intent: Intent = when (user?.type) {
+                            "admin" -> Intent(this@LoginActivity2, WelcomeAdminActivity::class.java)
+                            "trainer" -> Intent(this@LoginActivity2, WelcomeTrainerActivity::class.java)
+                            "user" -> Intent(this@LoginActivity2, WelcomeActivity::class.java)
+                            else -> {
+                                Toast.makeText(this@LoginActivity2, "User type not recognized", Toast.LENGTH_SHORT).show()
+                                return@loginUser
+                            }
+                        }
                         intent.putExtra(
                             "USER_NAME",
                             user.firstName
