@@ -42,6 +42,8 @@ class SignUpActivity : ComponentActivity() {
             val lastName = etUsSurname.text.toString()
             val email = etUsEmail.text.toString()
             val password = etUsPassword.text.toString()
+            val type = "user"
+
 
             checkIfEmailExists(email) { exists ->
                 if (exists) {
@@ -54,7 +56,7 @@ class SignUpActivity : ComponentActivity() {
                     if (isValidPassword(password)) {
                         val userId = databaseRf.push().key!!
 
-                        val user = UserModel(email, password, firstName, lastName)
+                        val user = UserModel(email, password, firstName, lastName, type, userId)
 
                         databaseRf.child(userId).setValue(user)
                             .addOnCompleteListener {
@@ -64,7 +66,7 @@ class SignUpActivity : ComponentActivity() {
                                     Toast.LENGTH_LONG
                                 ).show()
 
-                                val intent = Intent(this@SignUpActivity, WelcomeTrainerActivity::class.java)
+                                val intent = Intent(this@SignUpActivity, WelcomeActivity::class.java)
                                 intent.putExtra(
                                     "USER_NAME",
                                     user.firstName

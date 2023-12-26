@@ -33,7 +33,7 @@
         </activity>
         <activity
             android:name=".WelcomeActivity"
-            android:theme="@style/Theme.AppCompat" />
+            android:exported="false" />
         <activity
             android:name=".TrainerActivity"
             android:exported="false" />
