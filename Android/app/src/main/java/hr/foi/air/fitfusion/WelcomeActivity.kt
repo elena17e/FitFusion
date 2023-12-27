@@ -7,6 +7,7 @@ import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import hr.foi.air.fitfusion.adapters.MainPagerAdapter
+import hr.foi.air.fitfusion.data_classes.LoggedInUser
 import hr.foi.air.fitfusion.databinding.ActivityWelcomeBinding
 import hr.foi.air.fitfusion.fragments.CalendarFragment
 import hr.foi.air.fitfusion.fragments.ForumFragment
@@ -14,7 +15,7 @@ import hr.foi.air.fitfusion.fragments.HomeFragment
 
 class WelcomeActivity : AppCompatActivity() {
     private lateinit var binding: ActivityWelcomeBinding
-
+    private lateinit var loggedInUser: LoggedInUser
     private lateinit var tabLayout: TabLayout
     private lateinit var viewPager2: ViewPager2
 
@@ -23,7 +24,7 @@ class WelcomeActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityWelcomeBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
+        loggedInUser = LoggedInUser(this)
         tabLayout = findViewById(R.id.tabs)
         viewPager2 = findViewById(R.id.viewpager)
 
@@ -57,12 +58,13 @@ class WelcomeActivity : AppCompatActivity() {
             tab.setIcon(mainPagerAdapter.fragmentItems[position].iconRes)
         }.attach()
 
-        val userName = intent.getStringExtra("USER_NAME")
-        val welcomeMessage = "Welcome $userName!"
+        val firstName = loggedInUser.getFirstName()
+        val welcomeMessage = "Welcome $firstName!"
 
         binding.welcomeMessageTextView.text = welcomeMessage
 
         binding.logoutButton.setOnClickListener {
+            loggedInUser.clearUserData()
             val intent = Intent(this, LoginActivity2::class.java)
             intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
             startActivity(intent)
