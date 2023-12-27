@@ -6,12 +6,15 @@ import android.text.method.HideReturnsTransformationMethod
 import android.text.method.PasswordTransformationMethod
 import android.widget.Toast
 import hr.foi.air.fitfusion.data_classes.FirebaseManager
+import hr.foi.air.fitfusion.data_classes.LoggedInUser
+
 import hr.foi.air.fitfusion.databinding.ActivityLoginBinding
 import hr.foi.air.fitfusion.repositories.UserRepository
 
 class LoginActivity2 : androidx.activity.ComponentActivity() {
     private lateinit var binding: ActivityLoginBinding
     private lateinit var userRepository: UserRepository
+    private lateinit var loggedInUser: LoggedInUser
 
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,6 +33,8 @@ class LoginActivity2 : androidx.activity.ComponentActivity() {
                     if (user != null) {
                         Toast.makeText(this@LoginActivity2, "Login successful!", Toast.LENGTH_SHORT)
                             .show()
+                        loggedInUser = LoggedInUser(this)
+                        loggedInUser.saveUserData(user.usId, user.firstName, user.lastName, loginPassword, loginEmail, user.type)
                         val intent: Intent = when (user?.type) {
                             "admin" -> Intent(this@LoginActivity2, WelcomeAdminActivity::class.java)
                             "trainer" -> Intent(this@LoginActivity2, WelcomeTrainerActivity::class.java)
@@ -39,10 +44,6 @@ class LoginActivity2 : androidx.activity.ComponentActivity() {
                                 return@loginUser
                             }
                         }
-                        intent.putExtra(
-                            "USER_NAME",
-                            user.firstName
-                        )
                         startActivity(intent)
                         finish()
                     } else {
