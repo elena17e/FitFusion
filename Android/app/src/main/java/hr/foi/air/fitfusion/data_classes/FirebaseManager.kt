@@ -11,15 +11,46 @@ import hr.foi.air.fitfusion.entities.ClassesCardio
 import hr.foi.air.fitfusion.entities.ClassesStrength
 import hr.foi.air.fitfusion.entities.ClassesYoga
 import hr.foi.air.fitfusion.entities.Post
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.*
 
 class FirebaseManager {
 
     private var firebaseDatabase: FirebaseDatabase
     private var databaseReference: DatabaseReference
+    private val databaseRf: DatabaseReference
 
     init {
         firebaseDatabase = FirebaseDatabase.getInstance()
         databaseReference = firebaseDatabase.reference.child("user")
+        databaseRf = FirebaseDatabase.getInstance().getReference("Training")
+    }
+
+    fun saveTrainingSession(time: String, date: String, participants: String, type: String, callback: (Boolean) -> Unit) {
+
+        if (type.isNotEmpty() && participants.isNotEmpty() && time.isNotEmpty() && date.isNotEmpty()) {
+            val sessionId: String = databaseRf.push().key ?: ""
+
+            val trainingSession = TrainingModel(
+                id = sessionId,
+                date = date,
+                participants = participants,
+                state = "active",
+                time = time,
+                userId = FirebaseAuth.getInstance().currentUser?.uid ?: "",
+                type = type
+            )
+
+            databaseRf.child(sessionId).setValue(trainingSession)
+                .addOnSuccessListener {
+                    callback(true)
+                }
+                .addOnFailureListener {
+                    callback(false)
+                }
+        } else {
+            callback(false)
+        }
     }
 
     fun addTrainer(
