@@ -5,6 +5,8 @@ data class TrainerModel (
     var lastName: String?=null,
     var email: String?=null,
     var password: String?=null,
+    var hashedPassword: String?=null,
+    var salt: String?=null,
     var type: String?=null,
     var description: String?=null,
     var trainerId: String?=null

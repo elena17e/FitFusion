@@ -15,6 +15,8 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import hr.foi.air.fitfusion.data_classes.UserModel
+import java.security.MessageDigest
+import java.security.SecureRandom
 
 class SignUpActivity : ComponentActivity() {
     private lateinit var etUsName: EditText
@@ -56,7 +58,10 @@ class SignUpActivity : ComponentActivity() {
                     if (isValidPassword(password)) {
                         val userId = databaseRf.push().key!!
 
-                        val user = UserModel(email, password, firstName, lastName, type, userId)
+                        val salt = generateSalt()
+                        val hashedPassword = hashPassword(password, salt)
+
+                        val user = UserModel(email, password, hashedPassword, salt, firstName, lastName, type, userId)
 
                         databaseRf.child(userId).setValue(user)
                             .addOnCompleteListener {
@@ -121,9 +126,25 @@ class SignUpActivity : ComponentActivity() {
             }
 
             override fun onCancelled(databaseError: DatabaseError) {
-                // Handle cancelled event
                 callback(false)
             }
         })
+    }
+    private fun generateSalt(): String {
+        val random = SecureRandom()
+        val saltBytes = ByteArray(16)
+        random.nextBytes(saltBytes)
+        return saltBytes.joinToString("") { "%02x".format(it) }
+    }
+
+    private fun hashPassword(password: String, salt: String): String {
+        try {
+            val bytes = (password + salt).toByteArray(Charsets.UTF_8)
+            val md = MessageDigest.getInstance("SHA-256")
+            val digest = md.digest(bytes)
+            return digest.joinToString("") { "%02x".format(it) }
+        } catch (e: Exception) {
+            throw RuntimeException("Error hashing password", e)
+        }
     }
 }
