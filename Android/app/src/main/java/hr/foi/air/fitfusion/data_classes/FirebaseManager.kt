@@ -14,6 +14,8 @@ import hr.foi.air.fitfusion.entities.ClassesStrength
 import hr.foi.air.fitfusion.entities.ClassesYoga
 import hr.foi.air.fitfusion.entities.Post
 import com.google.firebase.auth.FirebaseAuth
+import java.security.MessageDigest
+import java.security.SecureRandom
 
 class FirebaseManager() {
 
