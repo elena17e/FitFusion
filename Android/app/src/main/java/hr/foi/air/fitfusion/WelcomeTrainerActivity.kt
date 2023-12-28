@@ -60,6 +60,8 @@ class WelcomeTrainerActivity : AppCompatActivity() {
         }.attach()
 
         val firstName = loggedInUser.getFirstName()
+
+
         val welcomeMessage = "Welcome $firstName!"
 
         binding.txtWelcomeMessage.text = welcomeMessage
