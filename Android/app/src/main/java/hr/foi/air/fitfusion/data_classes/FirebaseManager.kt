@@ -12,7 +12,8 @@ import hr.foi.air.fitfusion.entities.ClassesStrength
 import hr.foi.air.fitfusion.entities.ClassesYoga
 import hr.foi.air.fitfusion.entities.Post
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.*
+import java.security.MessageDigest
+import java.security.SecureRandom
 
 class FirebaseManager {
 
@@ -69,11 +70,16 @@ class FirebaseManager {
                 } else {
                     val trainerId = databaseReference.push().key!!
 
+                    val salt = generateSalt()
+                    val hashedPassword = hashPassword(password, salt)
+
                     val trainer = TrainerModel()
                     trainer.firstName = firstName
                     trainer.lastName = lastName
                     trainer.email = email
                     trainer.password = password
+                    trainer.hashedPassword = hashedPassword
+                    trainer.salt = salt
                     trainer.type = "trainer"
                     trainer.description = description
                     trainer.trainerId = trainerId
@@ -90,28 +96,55 @@ class FirebaseManager {
         })
     }
 
+    private fun generateSalt(): String {
+        val random = SecureRandom()
+        val saltBytes = ByteArray(16)
+        random.nextBytes(saltBytes)
+        return saltBytes.joinToString("") { "%02x".format(it) }
+    }
+
+    private fun hashPassword(password: String, salt: String): String {
+        val bytes = (password + salt).toByteArray(Charsets.UTF_8)
+        val md = MessageDigest.getInstance("SHA-256")
+        val digest = md.digest(bytes)
+        return digest.joinToString("") { "%02x".format(it) }
+    }
+
     fun loginUser(email: String, password: String, callback: (UserModel?, String?) -> Unit) {
         firebaseDatabase = FirebaseDatabase.getInstance()
         databaseReference = firebaseDatabase.reference.child("user")
 
         databaseReference.orderByChild("email").equalTo(email).addListenerForSingleValueEvent(object : ValueEventListener {
-           @RequiresApi(Build.VERSION_CODES.P)
+            @RequiresApi(Build.VERSION_CODES.P)
             override fun onDataChange(snapshot: DataSnapshot) {
                 if(snapshot.exists()) {
                     for (userSnapshot in snapshot.children){
                         val userData = userSnapshot.getValue(UserModel::class.java)
-                        callback(userData, null)
+                        if (userData != null && verifyPassword(password, userData.hashedPassword, userData.salt)) {
+                            callback(userData, null)
+                        } else {
+                            callback(null, "Invalid email or password")
+                        }
                         return
                     }
                 } else {
-                    callback(null, null)
+                    callback(null, "Invalid email or password")
                 }
             }
+
             override fun onCancelled(databaseError: DatabaseError) {
                 callback(null, databaseError.message)
             }
         })
     }
+    private fun verifyPassword(enteredPassword: String, hashedPassword: String?, salt: String?): Boolean {
+        if (hashedPassword == null || salt == null) {
+            return false
+        }
+        val enteredPasswordHash = hashPassword(enteredPassword, salt)
+        return enteredPasswordHash == hashedPassword
+    }
+
 
     fun showTrainingsList (classRecyclerviewStrength : RecyclerView, classRecyclerviewCardio : RecyclerView, classRecyclerviewYoga : RecyclerView, classArrayListStrength : ArrayList<ClassesStrength>, classArrayListCardio : ArrayList<ClassesCardio>, classArrayListYoga : ArrayList<ClassesYoga>){
         firebaseDatabase = FirebaseDatabase.getInstance()
