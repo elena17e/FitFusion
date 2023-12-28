@@ -2,7 +2,6 @@ package hr.foi.air.fitfusion.data_classes
 import android.content.Context
 import android.os.Build
 import android.util.Log
-import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.database.*
@@ -17,7 +16,7 @@ import com.google.firebase.auth.FirebaseAuth
 import java.security.MessageDigest
 import java.security.SecureRandom
 
-class FirebaseManager() {
+class FirebaseManager {
 
     private var firebaseDatabase: FirebaseDatabase
     private var databaseReference: DatabaseReference
@@ -29,7 +28,7 @@ class FirebaseManager() {
         databaseRf = FirebaseDatabase.getInstance().getReference("Training")
     }
 
-    fun saveTrainingSession(time: String, date: String, participants: String, type: String, callback: (Boolean) -> Unit) {
+    fun saveTrainingSession(time: String, date: String, participants: String, type: String, trainerId: String?, callback: (Boolean) -> Unit) {
 
         if (type.isNotEmpty() && participants.isNotEmpty() && time.isNotEmpty() && date.isNotEmpty()) {
             val sessionId: String = databaseRf.push().key ?: ""
@@ -41,7 +40,9 @@ class FirebaseManager() {
                 state = "active",
                 time = time,
                 userId = FirebaseAuth.getInstance().currentUser?.uid ?: "",
-                type = type
+                type = type,
+                trainerId = trainerId,
+                type_trainerId = type + "_" + trainerId
             )
 
             databaseRf.child(sessionId).setValue(trainingSession)
@@ -70,7 +71,7 @@ class FirebaseManager() {
                 if (snapshot.exists()) {
                     callback(false, "User with this email already exists")
                 } else {
-                    val trainerId = databaseReference.push().key!!
+                    val usId = databaseReference.push().key!!
 
                     val salt = generateSalt()
                     val hashedPassword = hashPassword(password, salt)
@@ -84,9 +85,9 @@ class FirebaseManager() {
                     trainer.salt = salt
                     trainer.type = "trainer"
                     trainer.description = description
-                    trainer.trainerId = trainerId
+                    trainer.usId = usId
 
-                    databaseReference.child(trainerId).setValue(trainer)
+                    databaseReference.child(usId).setValue(trainer)
 
                     callback(true, "Trainer added successfully")
                 }
@@ -154,8 +155,8 @@ class FirebaseManager() {
         val trainerId = loggedInUser.getUserId()
         databaseReference = firebaseDatabase.reference.child("Training")
         if (trainerId != null) {
-            val query = databaseReference.orderByChild("type").equalTo("Strength")
-            val queryTrainer = databaseReference.orderByChild("trainerId").equalTo(trainerId)
+            val query = databaseReference.orderByChild("type_trainerId").equalTo("Strength_$trainerId")
+
         query.addValueEventListener(object : ValueEventListener {
 
             override fun onDataChange(snapshot: DataSnapshot) {
@@ -180,9 +181,10 @@ class FirebaseManager() {
 
 
         })
-        }
-        val query2 = databaseReference.orderByChild("type").equalTo("Cardio")
-        val query3 = databaseReference.orderByChild("type").equalTo("Yoga")
+
+
+        val query2 = databaseReference.orderByChild("type_trainerId").equalTo("Cardio_$trainerId")
+        val query3 = databaseReference.orderByChild("type_trainerId").equalTo("Yoga_$trainerId")
         query2.addValueEventListener(object : ValueEventListener {
 
             override fun onDataChange(snapshot: DataSnapshot) {
@@ -233,6 +235,7 @@ class FirebaseManager() {
 
         })
 
+        }
     }
 
     private val database = FirebaseDatabase.getInstance()
