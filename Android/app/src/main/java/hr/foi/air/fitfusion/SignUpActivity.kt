@@ -14,6 +14,7 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import hr.foi.air.fitfusion.data_classes.LoggedInUser
 import hr.foi.air.fitfusion.data_classes.UserModel
 import java.security.MessageDigest
 import java.security.SecureRandom
@@ -26,6 +27,7 @@ class SignUpActivity : ComponentActivity() {
     private lateinit var btnDone: Button
     private lateinit var btnReturn: Button
     private lateinit var databaseRf: DatabaseReference
+    private lateinit var loggedInUser: LoggedInUser
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -65,6 +67,8 @@ class SignUpActivity : ComponentActivity() {
 
                         databaseRf.child(userId).setValue(user)
                             .addOnCompleteListener {
+                                loggedInUser = LoggedInUser(this)
+                                loggedInUser.saveUserData(userId, firstName, lastName, password, email, type)
                                 Toast.makeText(
                                     this@SignUpActivity,
                                     "Registration complete",

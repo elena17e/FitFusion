@@ -9,5 +9,5 @@ data class TrainerModel (
     var salt: String?=null,
     var type: String?=null,
     var description: String?=null,
-    var trainerId: String?=null
+    var usId: String?=null
 )

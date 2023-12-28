@@ -11,6 +11,7 @@ import android.widget.Spinner
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import hr.foi.air.fitfusion.data_classes.FirebaseManager
+import hr.foi.air.fitfusion.data_classes.LoggedInUser
 import java.util.Calendar
 import java.util.Locale
 
@@ -23,11 +24,12 @@ class TrainingSessionActivity : AppCompatActivity() {
     private lateinit var btnDone: Button
     private lateinit var btnCancel: Button
     private lateinit var firebaseManager: FirebaseManager
+    private lateinit var loggedInUser: LoggedInUser
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.new_training_session)
-
+        loggedInUser = LoggedInUser(this)
         etTime = findViewById(R.id.Time)
         etDate = findViewById(R.id.Date)
         etNumber = findViewById(R.id.Number)
@@ -73,8 +75,9 @@ class TrainingSessionActivity : AppCompatActivity() {
         val date = etDate.text.toString()
         val participants = etNumber.text.toString()
         val type = sspinner.selectedItem.toString()
+        val trainerId = loggedInUser.getUserId()
 
-        firebaseManager.saveTrainingSession(time, date, participants, type) { success ->
+        firebaseManager.saveTrainingSession(time, date, participants, type, trainerId) { success ->
             if (success) {
                 Toast.makeText(this, "Training session saved successfully", Toast.LENGTH_SHORT)
                     .show()
