@@ -1,6 +1,8 @@
 package hr.foi.air.fitfusion.data_classes
+import android.content.Context
 import android.os.Build
 import android.util.Log
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.database.*
@@ -12,9 +14,8 @@ import hr.foi.air.fitfusion.entities.ClassesStrength
 import hr.foi.air.fitfusion.entities.ClassesYoga
 import hr.foi.air.fitfusion.entities.Post
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.*
 
-class FirebaseManager {
+class FirebaseManager() {
 
     private var firebaseDatabase: FirebaseDatabase
     private var databaseReference: DatabaseReference
@@ -113,13 +114,14 @@ class FirebaseManager {
         })
     }
 
-    fun showTrainingsList (classRecyclerviewStrength : RecyclerView, classRecyclerviewCardio : RecyclerView, classRecyclerviewYoga : RecyclerView, classArrayListStrength : ArrayList<ClassesStrength>, classArrayListCardio : ArrayList<ClassesCardio>, classArrayListYoga : ArrayList<ClassesYoga>){
+    fun showTrainingsList (classRecyclerviewStrength: RecyclerView, classRecyclerviewCardio: RecyclerView, classRecyclerviewYoga: RecyclerView, classArrayListStrength: ArrayList<ClassesStrength>, classArrayListCardio: ArrayList<ClassesCardio>, classArrayListYoga: ArrayList<ClassesYoga>, context: Context){
         firebaseDatabase = FirebaseDatabase.getInstance()
+        val loggedInUser = LoggedInUser(context)
+        val trainerId = loggedInUser.getUserId()
         databaseReference = firebaseDatabase.reference.child("Training")
-        val query = databaseReference.orderByChild("type").equalTo("Strength")
-        val query2 = databaseReference.orderByChild("type").equalTo("Cardio")
-        val query3 = databaseReference.orderByChild("type").equalTo("Yoga")
-
+        if (trainerId != null) {
+            val query = databaseReference.orderByChild("type").equalTo("Strength")
+            val queryTrainer = databaseReference.orderByChild("trainerId").equalTo(trainerId)
         query.addValueEventListener(object : ValueEventListener {
 
             override fun onDataChange(snapshot: DataSnapshot) {
@@ -144,6 +146,9 @@ class FirebaseManager {
 
 
         })
+        }
+        val query2 = databaseReference.orderByChild("type").equalTo("Cardio")
+        val query3 = databaseReference.orderByChild("type").equalTo("Yoga")
         query2.addValueEventListener(object : ValueEventListener {
 
             override fun onDataChange(snapshot: DataSnapshot) {
