@@ -13,6 +13,10 @@ import hr.foi.air.fitfusion.entities.ClassesStrength
 import hr.foi.air.fitfusion.entities.ClassesYoga
 import hr.foi.air.fitfusion.entities.Post
 import com.google.firebase.auth.FirebaseAuth
+import hr.foi.air.fitfusion.fragments.CardioDataListener
+import hr.foi.air.fitfusion.fragments.HomeTrainerFragment
+import hr.foi.air.fitfusion.fragments.StrengthDataListener
+import hr.foi.air.fitfusion.fragments.YogaDataListener
 import java.security.MessageDigest
 import java.security.SecureRandom
 
@@ -149,7 +153,13 @@ class FirebaseManager {
     }
 
 
-    fun showTrainingsList (classRecyclerviewStrength: RecyclerView, classRecyclerviewCardio: RecyclerView, classRecyclerviewYoga: RecyclerView, classArrayListStrength: ArrayList<ClassesStrength>, classArrayListCardio: ArrayList<ClassesCardio>, classArrayListYoga: ArrayList<ClassesYoga>, context: Context){
+    fun showTrainingsList (
+        classArrayListStrength: ArrayList<ClassesStrength>, classArrayListCardio: ArrayList<ClassesCardio>,
+        classArrayListYoga: ArrayList<ClassesYoga>, context: Context,
+        strengthDataListener: StrengthDataListener, cardioDataListener: CardioDataListener,
+        yogaDataListener: YogaDataListener
+    )
+    {
         firebaseDatabase = FirebaseDatabase.getInstance()
         val loggedInUser = LoggedInUser(context)
         val trainerId = loggedInUser.getUserId()
@@ -157,30 +167,22 @@ class FirebaseManager {
         if (trainerId != null) {
             val query = databaseReference.orderByChild("type_trainerId").equalTo("Strength_$trainerId")
 
-        query.addValueEventListener(object : ValueEventListener {
+            query.addValueEventListener(object : ValueEventListener {
 
-            override fun onDataChange(snapshot: DataSnapshot) {
-
-                if (snapshot.exists()){
-
-                    for (classSnapshot in snapshot.children){
-
-                        val classesStrength = classSnapshot.getValue(ClassesStrength::class.java)
-                        classArrayListStrength.add(classesStrength!!)
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    if (snapshot.exists()){
+                        for (classSnapshot in snapshot.children){
+                            val classesStrength = classSnapshot.getValue(ClassesStrength::class.java)
+                            classArrayListStrength.add(classesStrength!!)
+                        }
+                        strengthDataListener.onStrengthDataReceived(classArrayListStrength)
                     }
-
-                    classRecyclerviewStrength.adapter = ClassAdapter(classArrayListStrength)
                 }
 
-            }
-
-
-            override fun onCancelled(error: DatabaseError) {
-               error.message
-            }
-
-
-        })
+                override fun onCancelled(error: DatabaseError) {
+                   error.message
+                }
+            })
 
 
         val query2 = databaseReference.orderByChild("type_trainerId").equalTo("Cardio_$trainerId")
@@ -196,7 +198,7 @@ class FirebaseManager {
                         classArrayListCardio.add(classesCardio!!)
                     }
 
-                    classRecyclerviewCardio.adapter = ClassAdapterCardio(classArrayListCardio)
+                    cardioDataListener.onCardioDataReceived(classArrayListCardio)
                 }
 
             }
@@ -222,7 +224,7 @@ class FirebaseManager {
 
                     }
 
-                    classRecyclerviewYoga.adapter = ClassAdapterYoga(classArrayListYoga)
+                    yogaDataListener.onYogaDataReceived(classArrayListYoga)
                 }
 
             }

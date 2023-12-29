@@ -84,13 +84,13 @@
         android:layout_marginTop="30dp"
         android:text="@string/active" />
 
-        <Switch
-            android:id="@+id/switch1"
-            android:layout_width="223dp"
-            android:layout_height="58dp"
-            android:layout_marginStart="40dp"
-            android:text="@string/canceled"
-            tools:ignore="UseSwitchCompatOrMaterialXml" />
+    <Switch
+        android:id="@+id/switch1"
+        android:layout_width="223dp"
+        android:layout_height="58dp"
+        android:layout_marginStart="40dp"
+        android:text="@string/canceled"
+        tools:ignore="UseSwitchCompatOrMaterialXml" />
     <Button
         android:id="@+id/Edit"
         android:layout_width="match_parent"
