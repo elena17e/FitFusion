@@ -1,8 +1,11 @@
 package hr.foi.air.fitfusion.data_classes
 import android.content.Context
+import android.content.Intent
 import android.os.Build
 import android.util.Log
+import android.widget.Toast
 import androidx.annotation.RequiresApi
+import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.database.*
 import hr.foi.air.fitfusion.adapters.ClassAdapter
@@ -13,6 +16,8 @@ import hr.foi.air.fitfusion.entities.ClassesStrength
 import hr.foi.air.fitfusion.entities.ClassesYoga
 import hr.foi.air.fitfusion.entities.Post
 import com.google.firebase.auth.FirebaseAuth
+import hr.foi.air.fitfusion.UserProfile
+import hr.foi.air.fitfusion.WelcomeActivity
 import java.security.MessageDigest
 import java.security.SecureRandom
 
@@ -235,6 +240,35 @@ class FirebaseManager {
 
         })
 
+        }
+    }
+
+    fun saveChangedPassword(email: String?, password: String,firstName: String?, lastName: String?, type: String?, userId: String?, context: Context){
+        if (userId != null) {
+            val referenca = firebaseDatabase.getReference("user").child(userId)
+
+            val salt = generateSalt()
+            val hashedPassword = hashPassword(password, salt)
+
+            val user =
+                UserModel(email, password, hashedPassword, salt, firstName, lastName, type, userId)
+
+            referenca.setValue(user)
+                .addOnCompleteListener {
+                    val loggedInUser = LoggedInUser(context)
+                    loggedInUser.saveUserData(userId, firstName, lastName, password, email, type)
+                    Toast.makeText(
+                        context,
+                        "Password change complete",
+                        Toast.LENGTH_LONG
+                    ).show()
+                }.addOnFailureListener { err ->
+                    Toast.makeText(
+                        context,
+                        "Error ${err.message}",
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
         }
     }
 

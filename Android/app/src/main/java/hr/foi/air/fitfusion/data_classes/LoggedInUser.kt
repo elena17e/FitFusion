@@ -16,7 +16,7 @@ class LoggedInUser(context: Context) {
 
     }
 
-    fun saveUserData(userId: String?, firstName: String?, lastName: String?, password: String, email: String, type: String?) {
+    fun saveUserData(userId: String?, firstName: String?, lastName: String?, password: String, email: String?, type: String?) {
         editor.putString(KEY_USER_ID, userId)
         editor.putString(KEY_FIRST_NAME, firstName)
         editor.putString(KEY_LAST_NAME, lastName)
