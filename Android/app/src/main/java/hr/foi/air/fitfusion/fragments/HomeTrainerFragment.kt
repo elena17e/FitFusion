@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import hr.foi.air.fitfusion.R
 import hr.foi.air.fitfusion.TrainingSessionActivity
+import hr.foi.air.fitfusion.TrainingSessionDetailsActivity
 import hr.foi.air.fitfusion.adapters.ClassAdapter
 import hr.foi.air.fitfusion.adapters.ClassAdapterCardio
 import hr.foi.air.fitfusion.adapters.ClassAdapterYoga
@@ -110,25 +111,36 @@ class HomeTrainerFragment : Fragment(),
     override fun onItemClick(position: Int) {
         val strength = classArrayListStrength[position]
 
-        val bundle = Bundle().apply {
-            putString("type", strength.type)
-            putString("date", strength.date)
-            putString("time", strength.time)
-            putString("participants", strength.participants)
-        }
-        val detailsFragment = TrainingSessionDetailsFragment()
-        detailsFragment.arguments = bundle
-        parentFragmentManager.beginTransaction()
-            .replace(R.id.fragmentContainerView, detailsFragment)
-            .addToBackStack(null)
-            .commit()
+        val intent = Intent(context, TrainingSessionDetailsActivity::class.java)
+        intent.putExtra("type", strength.type)
+        intent.putExtra("date", strength.date)
+        intent.putExtra("time", strength.time)
+        intent.putExtra("participants", strength.participants)
+
+        startActivity(intent)
     }
 
     override fun onItemClick2(position: Int) {
         val cardio = classArrayListCardio[position]
+
+        val intent = Intent(context, TrainingSessionDetailsActivity::class.java)
+        intent.putExtra("type", cardio.type)
+        intent.putExtra("date", cardio.date)
+        intent.putExtra("time", cardio.time)
+        intent.putExtra("participants", cardio.participants)
+
+        startActivity(intent)
     }
 
     override fun onItemClick3(position: Int) {
         val yoga = classArrayListYoga[position]
+
+        val intent = Intent(context, TrainingSessionDetailsActivity::class.java)
+        intent.putExtra("type", yoga.type)
+        intent.putExtra("date", yoga.date)
+        intent.putExtra("time", yoga.time)
+        intent.putExtra("participants", yoga.participants)
+
+        startActivity(intent)
     }
 }
