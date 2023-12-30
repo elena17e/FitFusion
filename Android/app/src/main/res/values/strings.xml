@@ -116,4 +116,18 @@
     <string name="Time">Time:</string>
     <string name="SelectTime">SELECT TIME</string>
     <string name="SelectDate">SELECT DATE</string>
+    <string name="save_changes">Save Changes</string>
+    <string name="cancel3">Cancel</string>
+    <string name="firstname1">FirstName</string>
+    <string name="firstname">FirstName</string>
+    <string name="lastname">LastName</string>
+    <string name="lastname1">LastName</string>
+    <string name="email4">Email</string>
+    <string name="email5">Email</string>
+    <string name="password3">Password</string>
+    <string name="password4">Password</string>
+    <string name="my_profile">My Profile</string>
+    <string name="first_name3">First name:</string>
+    <string name="last_name3">Last name:</string>
+    <string name="email6">Email</string>
 </resources>
