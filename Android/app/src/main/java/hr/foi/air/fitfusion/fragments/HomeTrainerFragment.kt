@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -110,6 +109,19 @@ class HomeTrainerFragment : Fragment(),
 
     override fun onItemClick(position: Int) {
         val strength = classArrayListStrength[position]
+
+        val bundle = Bundle().apply {
+            putString("type", strength.type)
+            putString("date", strength.date)
+            putString("time", strength.time)
+            putString("participants", strength.participants)
+        }
+        val detailsFragment = TrainingSessionDetailsFragment()
+        detailsFragment.arguments = bundle
+        parentFragmentManager.beginTransaction()
+            .replace(R.id.fragmentContainerView, detailsFragment)
+            .addToBackStack(null)
+            .commit()
     }
 
     override fun onItemClick2(position: Int) {

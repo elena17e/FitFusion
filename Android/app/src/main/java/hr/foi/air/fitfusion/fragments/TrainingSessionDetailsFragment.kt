@@ -7,17 +7,19 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import hr.foi.air.fitfusion.R
-import android.widget.TextView
-import android.widget.Switch
+import android.widget.EditText
 import android.widget.Button
 import hr.foi.air.fitfusion.WelcomeTrainerActivity
+import android.text.Editable
+import androidx.appcompat.widget.SwitchCompat
+
 
 class TrainingSessionDetailsFragment : Fragment() {
-    private lateinit var typeTextView: TextView
-    private lateinit var dateTextView: TextView
-    private lateinit var timeTextView: TextView
-    private lateinit var participantsTextView: TextView
-    private lateinit var switchCanceled: Switch
+    private lateinit var typeEditText: EditText
+    private lateinit var dateEditText: EditText
+    private lateinit var timeEditText: EditText
+    private lateinit var participantsEditText: EditText
+    private lateinit var switchCanceled: SwitchCompat
     private lateinit var editButton: Button
     private lateinit var cancelButton: Button
 
@@ -29,26 +31,33 @@ class TrainingSessionDetailsFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        typeTextView = view.findViewById(R.id.Type)
-        dateTextView = view.findViewById(R.id.textView2)
-        timeTextView = view.findViewById(R.id.textView3)
-        participantsTextView = view.findViewById(R.id.textView4)
+        typeEditText = view.findViewById(R.id.typeEditText)
+        dateEditText = view.findViewById(R.id.dateEditText)
+        timeEditText = view.findViewById(R.id.timeEditText)
+        participantsEditText = view.findViewById(R.id.participantsEditText)
         switchCanceled = view.findViewById(R.id.switch1)
         editButton = view.findViewById(R.id.Edit)
         cancelButton = view.findViewById(R.id.Cancel)
 
         val args = arguments
         if (args != null) {
-            val args = requireArguments()
             val type = args.getString("type")
             val date = args.getString("date")
             val time = args.getString("time")
             val participants = args.getString("participants")
 
-            typeTextView.text = "Type: $type"
-            dateTextView.text = "Date: $date"
-            timeTextView.text = "Time: $time"
-            participantsTextView.text = "Participants: $participants"
+            typeEditText.setText(type)
+            dateEditText.setText(date)
+            timeEditText.setText(time)
+            participantsEditText.setText(participants)
+        }
+
+        switchCanceled.setOnCheckedChangeListener { _, isChecked ->
+            if(isChecked){
+                
+            }else{
+
+            }
         }
 
         editButton.setOnClickListener {

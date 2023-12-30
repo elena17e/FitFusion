@@ -116,4 +116,8 @@
     <string name="Time">Time:</string>
     <string name="SelectTime">SELECT TIME</string>
     <string name="SelectDate">SELECT DATE</string>
+    <string name="type_format">Type: %1$s</string>
+    <string name="date_format">Date: %1$s</string>
+    <string name="time_format">Time: %1$s</string>
+    <string name="participants_format">Participants: %1$s</string>
 </resources>
