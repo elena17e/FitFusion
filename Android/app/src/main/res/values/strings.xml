@@ -21,6 +21,7 @@
     <string name="timeTxt">Time:</string>
     <string name="participantsTxt">Participants:</string>
     <string name="post_title" />
+    <string name="post_content" />
     <string name="author_name" />
     <string name="date_created" />
     <string name="add_new_training_session">Add new training session</string>
@@ -78,9 +79,9 @@
     <string name="first_name1">First Name:</string>
     <string name="last_name1">Last name:</string>
     <string name="password">Password:</string>
-    <string name="unesite_tekst">Unesite tekst</string>
+    <string name="unesite_tekst">Message</string>
     <string name="post">Post</string>
-    <string name="unesite_naslov">Unesite naslov</string>
+    <string name="unesite_naslov">Title</string>
     <string name="trainers">Trainers</string>
     <string name="tu_vu_e_listu_trenera_u_obliku_ime_prezime">tu vuče listu trenera u obliku Ime Prezime</string>
     <string name="completed_classes">Completed classes</string>

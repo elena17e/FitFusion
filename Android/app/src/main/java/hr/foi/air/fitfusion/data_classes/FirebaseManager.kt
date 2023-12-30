@@ -237,44 +237,4 @@ class FirebaseManager {
 
         }
     }
-
-    private val database = FirebaseDatabase.getInstance()
-    private val postRef = database.getReference("Posts")
-    fun savePost(title: String, content: String, timestamp: Long){
-        val postId = postRef.push().key
-        val newPost = postId?.let {
-            mapOf(
-                "title" to title,
-                "content" to content,
-                //"author" to author, //autor nije dovršen
-                "timestamp" to timestamp
-            )
-        }
-        if (postId != null && newPost != null){
-            postRef.child(postId).setValue(newPost)
-                .addOnSuccessListener {}
-                .addOnFailureListener {}
-        }
-    }
-     fun fetchPosts(completion: (List<Post>) -> Unit) {
-        postRef.addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                val posts: MutableList<Post> = mutableListOf()
-
-                for (postSnapshot in dataSnapshot.children) {
-                    val title = postSnapshot.child("title").getValue(String::class.java) ?: ""
-                    val content = postSnapshot.child("content").getValue(String::class.java) ?: ""
-                    val timestamp = postSnapshot.child("timestamp").getValue(Long::class.java) ?: 0
-
-                    val post = Post(title, content, timestamp)
-                    posts.add(post)
-                }
-                completion(posts)
-            }
-
-            override fun onCancelled(databaseError: DatabaseError) {
-                Log.d("FirebaseManager", "onCancelled: ${databaseError.message}")
-            }
-        })
-    }
 }
