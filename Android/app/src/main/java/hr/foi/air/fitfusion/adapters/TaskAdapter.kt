@@ -1,10 +1,10 @@
 package hr.foi.air.fitfusion.adapters
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import hr.foi.air.fitfusion.R
@@ -15,8 +15,6 @@ import java.util.Calendar
 import java.util.Locale
 
 class TaskAdapter(private val postsList : List<Post>) : RecyclerView.Adapter<TaskAdapter.TaskViewHolder>(){
-
-        private lateinit var btnReplyPost: Button
 
     inner class TaskViewHolder(view: View) : RecyclerView.ViewHolder(view){
         private val taskTitle: TextView = view.findViewById(R.id.tv_post_title )
@@ -36,10 +34,10 @@ class TaskAdapter(private val postsList : List<Post>) : RecyclerView.Adapter<Tas
                 view.context.startActivity(intent)
             }
         }
+        @SuppressLint("SetTextI18n")
         fun bind(post: Post) {
             taskTitle.text = post.title
-            taskAuthor.text = "${post.authorFirstName} ${post.authorLastName}"
-            //taskContent.text = post.content
+            taskAuthor.text = post.authorFirstName + post.authorLastName
             taskDate.text = convertTimestampToDateString(post.timestamp)
         }
         private fun convertTimestampToDateString(timestamp: Long): String {

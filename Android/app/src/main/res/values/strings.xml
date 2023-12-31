@@ -119,4 +119,9 @@
     <string name="SelectDate">SELECT DATE</string>
     <string name="reply">Reply</string>
     <string name="reply2">Reply</string>
+    <string name="by_author_date_and_time">by Author - Date and Time</string>
+    <string name="reply3">Reply</string>
+    <string name="content">Content</string>
+    <string name="title">Title</string>
+    <string name="replies">Replies</string>
 </resources>
