@@ -2,6 +2,7 @@ package hr.foi.air.fitfusion
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.MenuInflater
 import android.widget.ImageButton
 import android.widget.PopupMenu
@@ -37,6 +38,23 @@ class WelcomeActivity : AppCompatActivity() {
             val popup = PopupMenu(this, it)
             val inflater: MenuInflater = popup.menuInflater
             inflater.inflate(R.menu.account_menu, popup.menu)
+
+            try {
+                val fields = PopupMenu::class.java.declaredFields
+                for (field in fields) {
+                    if ("mPopup" == field.name) {
+                        field.isAccessible = true
+                        val menuPopupHelper = field.get(popup)
+                        val classPopupHelper = Class.forName(menuPopupHelper.javaClass.name)
+                        val setForceIcons = classPopupHelper.getMethod("setForceShowIcon", Boolean::class.javaPrimitiveType)
+                        setForceIcons.invoke(menuPopupHelper, true)
+                        break
+                    }
+                }
+            } catch (e: Exception) {
+                Log.e("Popup", "Error showing menu icons", e)
+            }
+
             popup.show()
         }
 
