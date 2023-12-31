@@ -2,6 +2,9 @@ package hr.foi.air.fitfusion
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.MenuInflater
+import android.widget.ImageButton
+import android.widget.PopupMenu
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayout
@@ -26,6 +29,15 @@ class WelcomeAdminActivity : AppCompatActivity() {
         loggedInUser = LoggedInUser(this)
         tabLayout = findViewById(R.id.tabs2)
         viewPager2 = findViewById(R.id.viewpager3)
+
+        val imgButton = findViewById<ImageButton>(R.id.imageButtonUser)
+
+        imgButton.setOnClickListener(){
+            val popup = PopupMenu(this, it)
+            val inflater: MenuInflater = popup.menuInflater
+            inflater.inflate(R.menu.account_menu, popup.menu)
+            popup.show()
+        }
 
         val mainPagerAdapter = MainPagerAdapter(supportFragmentManager, lifecycle)
 

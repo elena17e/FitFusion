@@ -110,4 +110,7 @@
     <string name="show_password1">Show password</string>
     <string name="sign_up1">Sign Up</string>
     <string name="log_in">Log in</string>
+    <string name="settings_option">My Settings</string>
+    <string name="logout_option">Log out</string>
+
 </resources>
