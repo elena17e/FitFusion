@@ -1,7 +1,6 @@
 package hr.foi.air.fitfusion.fragments
 
 import android.app.AlertDialog
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -10,8 +9,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
-import android.widget.TextView
-import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -20,11 +17,7 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import hr.foi.air.fitfusion.R
-import hr.foi.air.fitfusion.ReplyActivity
-import hr.foi.air.fitfusion.TrainerActivity
-import hr.foi.air.fitfusion.WelcomeAdminActivity
 import hr.foi.air.fitfusion.adapters.TaskAdapter
-import hr.foi.air.fitfusion.data_classes.FirebaseManager
 import hr.foi.air.fitfusion.data_classes.LoggedInUser
 import hr.foi.air.fitfusion.entities.Post
 
@@ -33,7 +26,7 @@ class ForumFragment : Fragment() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var btnCreatePost: FloatingActionButton
 
-    //private lateinit var btnReplyPost: Button
+
 
     private lateinit var taskAdapter: TaskAdapter
 
@@ -66,10 +59,7 @@ class ForumFragment : Fragment() {
         fetchPostsFromFirebase()
 
 
-        /*btnReplyPost = view.findViewById(R.id.btn_clickable)
-        btnReplyPost.setOnClickListener{
 
-        }*/
     }
     private fun showDialog() {
         val newTaskDialogView = LayoutInflater

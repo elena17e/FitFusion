@@ -117,4 +117,6 @@
     <string name="Time">Time:</string>
     <string name="SelectTime">SELECT TIME</string>
     <string name="SelectDate">SELECT DATE</string>
+    <string name="reply">Reply</string>
+    <string name="reply2">Reply</string>
 </resources>
