@@ -13,6 +13,7 @@ import com.google.android.material.tabs.TabLayoutMediator
 import hr.foi.air.fitfusion.adapters.MainPagerAdapter
 import hr.foi.air.fitfusion.data_classes.LoggedInUser
 import hr.foi.air.fitfusion.databinding.ActivityWelcomeBinding
+import hr.foi.air.fitfusion.entities.ProfileMenu
 import hr.foi.air.fitfusion.fragments.CalendarFragment
 import hr.foi.air.fitfusion.fragments.ForumFragment
 import hr.foi.air.fitfusion.fragments.HomeFragment
@@ -34,28 +35,26 @@ class WelcomeActivity : AppCompatActivity() {
 
         val imgButton = findViewById<ImageButton>(R.id.imageButtonUser)
 
-        imgButton.setOnClickListener(){
-            val popup = PopupMenu(this, it)
-            val inflater: MenuInflater = popup.menuInflater
-            inflater.inflate(R.menu.account_menu, popup.menu)
-
-            try {
-                val fields = PopupMenu::class.java.declaredFields
-                for (field in fields) {
-                    if ("mPopup" == field.name) {
-                        field.isAccessible = true
-                        val menuPopupHelper = field.get(popup)
-                        val classPopupHelper = Class.forName(menuPopupHelper.javaClass.name)
-                        val setForceIcons = classPopupHelper.getMethod("setForceShowIcon", Boolean::class.javaPrimitiveType)
-                        setForceIcons.invoke(menuPopupHelper, true)
-                        break
+        imgButton.setOnClickListener(){ button ->
+            ProfileMenu.showMenu(
+                context = this,
+                anchor = button,
+                menuRes = R.menu.account_menu,
+                actionHandler = { itemId ->
+                    when (itemId) {
+                        R.id.settings_option -> {
+                            //take user to settings
+                        }
+                        R.id.logout_option -> {
+                            //handle logout action
+                        }
+                        else -> {
+                            //something else
+                        }
                     }
                 }
-            } catch (e: Exception) {
-                Log.e("Popup", "Error showing menu icons", e)
-            }
+            )
 
-            popup.show()
         }
 
         val mainPagerAdapter = MainPagerAdapter(supportFragmentManager, lifecycle)
