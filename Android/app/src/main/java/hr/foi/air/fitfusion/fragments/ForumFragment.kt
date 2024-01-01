@@ -100,7 +100,7 @@ class ForumFragment : Fragment() {
                 "authorLastName" to authorLastName
             )
 
-        if (postId != null && newPost != null){
+        if (postId != null){
             postRef.child(postId).setValue(newPost)
                 .addOnSuccessListener {}
                 .addOnFailureListener {}

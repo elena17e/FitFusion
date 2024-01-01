@@ -1,7 +1,6 @@
 package hr.foi.air.fitfusion.data_classes
 import android.content.Context
 import android.os.Build
-import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.database.*
@@ -11,9 +10,7 @@ import hr.foi.air.fitfusion.adapters.ClassAdapterYoga
 import hr.foi.air.fitfusion.entities.ClassesCardio
 import hr.foi.air.fitfusion.entities.ClassesStrength
 import hr.foi.air.fitfusion.entities.ClassesYoga
-import hr.foi.air.fitfusion.entities.Post
 import com.google.firebase.auth.FirebaseAuth
-import hr.foi.air.fitfusion.adapters.TaskAdapter
 import java.security.MessageDigest
 import java.security.SecureRandom
 
@@ -163,13 +160,12 @@ class FirebaseManager {
                         id = classSnapshot.child("id").getValue(String::class.java) ?: ""
                     }
                 }
-                // Pass the id to the callback
+
                 callback(id)
             }
 
             override fun onCancelled(error: DatabaseError) {
                 error.message
-                // Pass an empty string to the callback in case of an error
                 callback("")
             }
         })
