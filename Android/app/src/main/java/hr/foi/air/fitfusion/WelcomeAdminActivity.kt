@@ -52,6 +52,7 @@ class WelcomeAdminActivity : AppCompatActivity() {
                         }
                         R.id.logout_option -> {
                             //handle logout action
+                            ProfileMenu.handleLogout(this, loggedInUser)
                         }
                         else -> {
                             //something else
@@ -83,12 +84,12 @@ class WelcomeAdminActivity : AppCompatActivity() {
 
         binding.txtWelcomeMessage.text = welcomeMessage
 
-        binding.btnLogout.setOnClickListener {
+        /*binding.btnLogout.setOnClickListener {
             loggedInUser.clearUserData()
             val intent = Intent(this, LoginActivity2::class.java)
             intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
             startActivity(intent)
             finish()
-        }
+        }*/
     }
 }

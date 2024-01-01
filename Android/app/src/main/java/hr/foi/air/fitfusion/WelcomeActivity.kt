@@ -47,6 +47,7 @@ class WelcomeActivity : AppCompatActivity() {
                         }
                         R.id.logout_option -> {
                             //handle logout action
+                            ProfileMenu.handleLogout(this, loggedInUser)
                         }
                         else -> {
                             //something else
@@ -54,7 +55,6 @@ class WelcomeActivity : AppCompatActivity() {
                     }
                 }
             )
-
         }
 
         val mainPagerAdapter = MainPagerAdapter(supportFragmentManager, lifecycle)
@@ -92,13 +92,13 @@ class WelcomeActivity : AppCompatActivity() {
 
         binding.welcomeMessageTextView.text = welcomeMessage
 
-        binding.logoutButton.setOnClickListener {
+        /*binding.logoutButton.setOnClickListener {
             loggedInUser.clearUserData()
             val intent = Intent(this, LoginActivity2::class.java)
             intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
             startActivity(intent)
             finish()
-        }
+        }*/
     }
 }
 

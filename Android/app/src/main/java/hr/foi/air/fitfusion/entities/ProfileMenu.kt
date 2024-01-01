@@ -1,11 +1,15 @@
 package hr.foi.air.fitfusion.entities
 
 import android.content.Context
+import android.content.Intent
 import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import android.widget.PopupMenu
+import androidx.appcompat.app.AppCompatActivity
+import hr.foi.air.fitfusion.LoginActivity2
 import hr.foi.air.fitfusion.R
+import hr.foi.air.fitfusion.data_classes.LoggedInUser
 
 object ProfileMenu {
     fun showMenu(context: Context, anchor: View, menuRes: Int, actionHandler: (Int) -> Unit){
@@ -33,5 +37,13 @@ object ProfileMenu {
             true
         }
         popup.show()
+    }
+
+    fun handleLogout(activity: AppCompatActivity, loggedInUser: LoggedInUser) {
+        loggedInUser.clearUserData()
+        val intent = Intent(activity, LoginActivity2::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+        activity.startActivity(intent)
+        activity.finish()
     }
 }
