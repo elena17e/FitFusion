@@ -43,7 +43,7 @@ class FirebaseManager {
                 participants = participants,
                 state = "active",
                 time = time,
-                userId = FirebaseAuth.getInstance().currentUser?.uid ?: "",
+                //userId = FirebaseAuth.getInstance().currentUser?.uid ?: "",
                 type = type,
                 trainerId = trainerId,
                 type_trainerId = type + "_" + trainerId
@@ -173,6 +173,9 @@ class FirebaseManager {
                     if (snapshot.exists()){
                         for (classSnapshot in snapshot.children){
                             val classesStrength = classSnapshot.getValue(ClassesStrength::class.java)
+                            if (classesStrength != null) {
+                                classesStrength.sessionId=classSnapshot.key
+                            }
                             classArrayListStrength.add(classesStrength!!)
                         }
                         strengthDataListener.onStrengthDataReceived(classArrayListStrength)
@@ -192,6 +195,9 @@ class FirebaseManager {
                     if (snapshot.exists()){
                         for (classSnapshot in snapshot.children){
                             val classesCardio = classSnapshot.getValue(ClassesCardio::class.java)
+                            if (classesCardio != null) {
+                                classesCardio.sessionId=classSnapshot.key
+                            }
                             classArrayListCardio.add(classesCardio!!)
                         }
                         cardioDataListener.onCardioDataReceived(classArrayListCardio)
@@ -209,6 +215,10 @@ class FirebaseManager {
                     if (snapshot.exists()){
                         for (classSnapshot in snapshot.children){
                             val classesYoga = classSnapshot.getValue(ClassesYoga::class.java)
+
+                            if (classesYoga != null) {
+                                classesYoga.sessionId=classSnapshot.key
+                            }
                             classArrayListYoga.add(classesYoga!!)
                         }
                         yogaDataListener.onYogaDataReceived(classArrayListYoga)
@@ -261,4 +271,12 @@ class FirebaseManager {
             }
         })
     }
+
+    fun updateTrainingSession( date : String, participants : String, time : String,  type : String,  state:String,  sessionId:String,trainerId: String){
+        val updatedData = TrainingModel(sessionId,date,participants,state,time,type,trainerId,type+"_"+trainerId)
+        databaseRf.child(sessionId).setValue(updatedData)
+    }
+
+
+
 }

@@ -1,7 +1,9 @@
 package hr.foi.air.fitfusion.fragments
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,6 +18,7 @@ import hr.foi.air.fitfusion.adapters.ClassAdapter
 import hr.foi.air.fitfusion.adapters.ClassAdapterCardio
 import hr.foi.air.fitfusion.adapters.ClassAdapterYoga
 import hr.foi.air.fitfusion.data_classes.FirebaseManager
+import hr.foi.air.fitfusion.data_classes.LoggedInUser
 import hr.foi.air.fitfusion.entities.ClassesCardio
 import hr.foi.air.fitfusion.entities.ClassesStrength
 import hr.foi.air.fitfusion.entities.ClassesYoga
@@ -71,7 +74,6 @@ class HomeTrainerFragment : Fragment(),
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         firebaseManager = FirebaseManager()
         classRecyclerviewStrength = view.findViewById(R.id.rvClassListStrength)
         classRecyclerviewStrength.layoutManager = LinearLayoutManager(view.context)
@@ -116,7 +118,9 @@ class HomeTrainerFragment : Fragment(),
         intent.putExtra("date", strength.date)
         intent.putExtra("time", strength.time)
         intent.putExtra("participants", strength.participants)
-
+        intent.putExtra("sessionId",strength.sessionId)
+        intent.putExtra("state",strength.state)
+        intent.putExtra("userId",LoggedInUser(this.context as Context).getUserId() as String)
         startActivity(intent)
     }
 
@@ -128,7 +132,9 @@ class HomeTrainerFragment : Fragment(),
         intent.putExtra("date", cardio.date)
         intent.putExtra("time", cardio.time)
         intent.putExtra("participants", cardio.participants)
-
+        intent.putExtra("sessionId",cardio.sessionId)
+        intent.putExtra("state",cardio.state)
+        intent.putExtra("userId",LoggedInUser(this.context as Context).getUserId() as String)
         startActivity(intent)
     }
 
@@ -140,7 +146,9 @@ class HomeTrainerFragment : Fragment(),
         intent.putExtra("date", yoga.date)
         intent.putExtra("time", yoga.time)
         intent.putExtra("participants", yoga.participants)
-
+        intent.putExtra("sessionId",yoga.sessionId)
+        intent.putExtra("state",yoga.state)
+        intent.putExtra("userId",LoggedInUser(this.context as Context).getUserId() as String)
         startActivity(intent)
     }
 }
