@@ -1,5 +1,7 @@
 package hr.foi.air.fitfusion
 
+import android.app.DatePickerDialog
+import android.app.TimePickerDialog
 import android.content.Intent
 import android.os.Bundle
 import android.widget.ArrayAdapter
@@ -8,32 +10,34 @@ import android.widget.EditText
 import android.widget.Spinner
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
-import java.text.ParseException
-import java.text.SimpleDateFormat
-import java.util.*
-import hr.foi.air.fitfusion.data_classes.TrainingModel
+import hr.foi.air.fitfusion.data_classes.FirebaseManager
+import hr.foi.air.fitfusion.data_classes.LoggedInUser
+import java.util.Calendar
+import java.util.Locale
 
 class TrainingSessionActivity : AppCompatActivity() {
+
     private lateinit var etTime: EditText
     private lateinit var etDate: EditText
     private lateinit var etNumber: EditText
     private lateinit var sspinner: Spinner
     private lateinit var btnDone: Button
     private lateinit var btnCancel: Button
-    private lateinit var databaseRf: DatabaseReference
+    private lateinit var firebaseManager: FirebaseManager
+    private lateinit var loggedInUser: LoggedInUser
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.new_training_session)
-
+        loggedInUser = LoggedInUser(this)
         etTime = findViewById(R.id.Time)
         etDate = findViewById(R.id.Date)
         etNumber = findViewById(R.id.Number)
         sspinner = findViewById(R.id.spinner)
         btnDone = findViewById(R.id.Done)
         btnCancel = findViewById(R.id.Cancel)
+
+        firebaseManager = FirebaseManager()
 
         val classNames = listOf(
             "Yoga",
@@ -45,67 +49,95 @@ class TrainingSessionActivity : AppCompatActivity() {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         sspinner.adapter = adapter
 
-        databaseRf = FirebaseDatabase.getInstance().getReference("Training")
-
-
         btnDone.setOnClickListener {
-            val time = etTime.text.toString()
-            val date = etDate.text.toString()
-            val participants = etNumber.text.toString()
-            val type = sspinner.selectedItem.toString()
+            saveTrainingSession()
+        }
 
-            val timeRegex = Regex("^\\d{2}:\\d{2}\$")
-            val dateRegex = Regex("^\\d{2}\\.\\d{2}\\.\\d{4}\$")
+        val btnSelectTime: Button = findViewById(R.id.SelectTime)
+        val btnSelectDate: Button = findViewById(R.id.SelectDate)
 
-            val currentUser = FirebaseAuth.getInstance().currentUser
-            val userId: String = currentUser?.uid ?: ""
+        btnSelectTime.setOnClickListener {
+            showTimePickerDialog()
+        }
 
-            if (type.isNotEmpty() && participants.isNotEmpty() && time.isNotEmpty() && date.isNotEmpty()) {
-                if (!time.matches(timeRegex) || !date.matches(dateRegex)) {
-                    Toast.makeText(this, "Invalid time or date format", Toast.LENGTH_SHORT).show()
-                } else {
-                    try {
-                        val sdf = SimpleDateFormat("HH:mm", Locale.getDefault())
-                        sdf.parse(time)
-
-                        val dateSdf = SimpleDateFormat("dd.MM.yyyy", Locale.getDefault())
-                        dateSdf.isLenient = false
-                        dateSdf.parse(date)
-
-                        val sessionId: String = databaseRf.push().key ?: ""
-
-                        val trainingSession = TrainingModel(
-                            id = sessionId,
-                            date = date,
-                            participants = participants,
-                            state = "active",
-                            time = time,
-                            userId = userId,
-                            type = type
-                        )
-
-                        databaseRf.child(sessionId).setValue(trainingSession)
-
-                        Toast.makeText(
-                            this,
-                            "Training session saved successfully",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                        val intent = Intent(this, WelcomeTrainerActivity::class.java)
-                        startActivity(intent)
-                    } catch (e: ParseException) {
-                        Toast.makeText(this, "Invalid time or date", Toast.LENGTH_SHORT).show()
-                    }
-                }
-            } else {
-                Toast.makeText(this, "Please fill in all the fields", Toast.LENGTH_SHORT).show()
-            }
+        btnSelectDate.setOnClickListener {
+            showDatePickerDialog()
         }
 
         btnCancel.setOnClickListener {
             val intent = Intent(this, WelcomeTrainerActivity::class.java)
             startActivity(intent)
         }
+    }
 
+    private fun saveTrainingSession() {
+        val time = etTime.text.toString()
+        val date = etDate.text.toString()
+        val participants = etNumber.text.toString()
+        val type = sspinner.selectedItem.toString()
+        val trainerId = loggedInUser.getUserId()
+
+        firebaseManager.saveTrainingSession(time, date, participants, type, trainerId) { success ->
+            if (success) {
+                Toast.makeText(this, "Training session saved successfully", Toast.LENGTH_SHORT)
+                    .show()
+                val intent = Intent(this, WelcomeTrainerActivity::class.java)
+                startActivity(intent)
+            } else {
+                Toast.makeText(this, "Failed to save training session", Toast.LENGTH_SHORT)
+                    .show()
+            }
+        }
+    }
+
+    private fun showTimePickerDialog() {
+        val calendar = Calendar.getInstance()
+        val hour = calendar.get(Calendar.HOUR_OF_DAY)
+        val minute = calendar.get(Calendar.MINUTE)
+
+        val timePickerDialog = TimePickerDialog(
+            this,
+            { _, selectedHour, selectedMinute ->
+                val selectedTime =
+                    String.format(
+                        Locale.getDefault(),
+                        "%02d:%02d",
+                        selectedHour,
+                        selectedMinute
+                    )
+                etTime.setText(selectedTime)
+            },
+            hour,
+            minute,
+            true
+        )
+
+        timePickerDialog.show()
+    }
+
+    private fun showDatePickerDialog() {
+        val calendar = Calendar.getInstance()
+        val year = calendar.get(Calendar.YEAR)
+        val month = calendar.get(Calendar.MONTH)
+        val day = calendar.get(Calendar.DAY_OF_MONTH)
+
+        val datePickerDialog = DatePickerDialog(
+            this,
+            { _, selectedYear, selectedMonth, selectedDay ->
+                val selectedDate = String.format(
+                    Locale.getDefault(),
+                    "%02d.%02d.%04d",
+                    selectedDay,
+                    selectedMonth + 1,
+                    selectedYear
+                )
+                etDate.setText(selectedDate)
+            },
+            year,
+            month,
+            day
+        )
+
+        datePickerDialog.show()
     }
 }

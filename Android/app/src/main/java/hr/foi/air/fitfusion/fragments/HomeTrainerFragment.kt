@@ -1,5 +1,6 @@
 package hr.foi.air.fitfusion.fragments
 
+import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -18,6 +19,7 @@ import hr.foi.air.fitfusion.TrainingSessionActivity
 
 
 
+
 class HomeTrainerFragment : Fragment() {
     private lateinit var firebaseManager: FirebaseManager
     private lateinit var classRecyclerviewStrength : RecyclerView
@@ -27,6 +29,7 @@ class HomeTrainerFragment : Fragment() {
     private lateinit var classArrayListCardio : ArrayList<ClassesCardio>
     private lateinit var classArrayListYoga : ArrayList<ClassesYoga>
     private lateinit var btnNewClass : Button
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -40,7 +43,6 @@ class HomeTrainerFragment : Fragment() {
         classRecyclerviewStrength = view.findViewById(R.id.rvClassListStrength)
         classRecyclerviewStrength.layoutManager = LinearLayoutManager(view.context)
         classRecyclerviewStrength.setHasFixedSize(true)
-
 
         classRecyclerviewCardio = view.findViewById(R.id.rvClassListCardio)
         classRecyclerviewCardio.layoutManager = LinearLayoutManager(view.context)
@@ -60,18 +62,19 @@ class HomeTrainerFragment : Fragment() {
             startActivity(intent)
         }
 
-        showTrainingsList()
+        context?.let { showTrainingsList(it) }
 
     }
 
-    private fun showTrainingsList() {
+    private fun showTrainingsList(context: Context) {
         firebaseManager.showTrainingsList(
             classRecyclerviewStrength,
             classRecyclerviewCardio,
             classRecyclerviewYoga,
             classArrayListStrength,
             classArrayListCardio,
-            classArrayListYoga
+            classArrayListYoga,
+            context
         )
     }
 }
