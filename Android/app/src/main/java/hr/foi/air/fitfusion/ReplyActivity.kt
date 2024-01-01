@@ -8,6 +8,7 @@ import android.widget.EditText
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.database.FirebaseDatabase
+import hr.foi.air.fitfusion.data_classes.FirebaseManager
 import hr.foi.air.fitfusion.data_classes.LoggedInUser
 import java.text.SimpleDateFormat
 import java.util.Calendar
@@ -15,21 +16,26 @@ import java.util.Locale
 
 class ReplyActivity : AppCompatActivity(){
     private lateinit var btnPostReply: Button
+    private lateinit var idPost: String
+    private lateinit var firebaseManager: FirebaseManager
     private val database = FirebaseDatabase.getInstance()
     private val postRef = database.getReference("Replies")
     private lateinit var loggedInUser: LoggedInUser
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.fragment_post)
-
+        firebaseManager = FirebaseManager()
         val titleTextView = findViewById<TextView>(R.id.titleTextView)
         val authorTextView = findViewById<TextView>(R.id.authorTextView)
         val contentTextView = findViewById<TextView>(R.id.contentTextView)
 
-        val postTitle = intent.getStringExtra("postTitle")
+        val postTitle = intent.getStringExtra("postTitle")?: ""
         val postContent = intent.getStringExtra("postContent")
         val postAuthor = intent.getStringExtra("postAuthor")
         val postTimestamp = intent.getLongExtra("postTimestamp", 0)
+        firebaseManager.getPostId(postTitle){ postId ->
+            idPost = postId
+        }
 
         titleTextView.text = postTitle
         authorTextView.text = postAuthor
@@ -77,18 +83,19 @@ class ReplyActivity : AppCompatActivity(){
         }
     }
     private fun savePostToFirebase(content: String, timestamp: Long, authorFirstName: String?, authorLastName: String?){
-        val postId = postRef.push().key
+        val replyId = postRef.push().key
         val newPost =
             mapOf(
-                "id" to postId,
+                "id" to replyId,
                 "content" to content,
                 "timestamp" to timestamp,
                 "authorFirstName" to authorFirstName,
-                "authorLastName" to authorLastName
+                "authorLastName" to authorLastName,
+                "postId" to idPost
             )
 
-        if (postId != null && newPost != null){
-            postRef.child(postId).setValue(newPost)
+        if (replyId != null && newPost != null){
+            postRef.child(replyId).setValue(newPost)
                 .addOnSuccessListener {}
                 .addOnFailureListener {}
         }

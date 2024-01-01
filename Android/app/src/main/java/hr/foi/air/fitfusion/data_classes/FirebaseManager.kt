@@ -13,6 +13,7 @@ import hr.foi.air.fitfusion.entities.ClassesStrength
 import hr.foi.air.fitfusion.entities.ClassesYoga
 import hr.foi.air.fitfusion.entities.Post
 import com.google.firebase.auth.FirebaseAuth
+import hr.foi.air.fitfusion.adapters.TaskAdapter
 import java.security.MessageDigest
 import java.security.SecureRandom
 
@@ -148,7 +149,31 @@ class FirebaseManager {
         return enteredPasswordHash == hashedPassword
     }
 
+    fun getPostId(postTitle: String, callback: (String) -> Unit) {
+        var id = ""
+        firebaseDatabase = FirebaseDatabase.getInstance()
+        databaseReference = firebaseDatabase.reference.child("Posts")
 
+        val query = databaseReference.orderByChild("title").equalTo(postTitle)
+
+        query.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                if (snapshot.exists()) {
+                    for (classSnapshot in snapshot.children) {
+                        id = classSnapshot.child("id").getValue(String::class.java) ?: ""
+                    }
+                }
+                // Pass the id to the callback
+                callback(id)
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                error.message
+                // Pass an empty string to the callback in case of an error
+                callback("")
+            }
+        })
+    }
     fun showTrainingsList (classRecyclerviewStrength: RecyclerView, classRecyclerviewCardio: RecyclerView, classRecyclerviewYoga: RecyclerView, classArrayListStrength: ArrayList<ClassesStrength>, classArrayListCardio: ArrayList<ClassesCardio>, classArrayListYoga: ArrayList<ClassesYoga>, context: Context){
         firebaseDatabase = FirebaseDatabase.getInstance()
         val loggedInUser = LoggedInUser(context)
