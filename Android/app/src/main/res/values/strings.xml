@@ -40,10 +40,8 @@
     <string name="active">Active:</string>
     <string name="cancel1">Cancel</string>
     <string name="date1">Date:</string>
-    <string name="edit1">Edit</string>
-    <string name="participants1">Participants:</string>
+    <string name="save">Save</string>
     <string name="time1">Time:</string>
-    <string name="type1">Type:</string>
     <string name="canceled">Canceled</string>
     <string name="textview">TextView</string>
     <string name="textview1">TextView</string>

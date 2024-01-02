@@ -13,6 +13,10 @@ import hr.foi.air.fitfusion.entities.ClassesStrength
 import hr.foi.air.fitfusion.entities.ClassesYoga
 import hr.foi.air.fitfusion.entities.Post
 import com.google.firebase.auth.FirebaseAuth
+import hr.foi.air.fitfusion.fragments.CardioDataListener
+import hr.foi.air.fitfusion.fragments.HomeTrainerFragment
+import hr.foi.air.fitfusion.fragments.StrengthDataListener
+import hr.foi.air.fitfusion.fragments.YogaDataListener
 import java.security.MessageDigest
 import java.security.SecureRandom
 
@@ -39,7 +43,7 @@ class FirebaseManager {
                 participants = participants,
                 state = "active",
                 time = time,
-                userId = FirebaseAuth.getInstance().currentUser?.uid ?: "",
+                //userId = FirebaseAuth.getInstance().currentUser?.uid ?: "",
                 type = type,
                 trainerId = trainerId,
                 type_trainerId = type + "_" + trainerId
@@ -149,7 +153,13 @@ class FirebaseManager {
     }
 
 
-    fun showTrainingsList (classRecyclerviewStrength: RecyclerView, classRecyclerviewCardio: RecyclerView, classRecyclerviewYoga: RecyclerView, classArrayListStrength: ArrayList<ClassesStrength>, classArrayListCardio: ArrayList<ClassesCardio>, classArrayListYoga: ArrayList<ClassesYoga>, context: Context){
+    fun showTrainingsList (
+        classArrayListStrength: ArrayList<ClassesStrength>, classArrayListCardio: ArrayList<ClassesCardio>,
+        classArrayListYoga: ArrayList<ClassesYoga>, context: Context,
+        strengthDataListener: StrengthDataListener, cardioDataListener: CardioDataListener,
+        yogaDataListener: YogaDataListener
+    )
+    {
         firebaseDatabase = FirebaseDatabase.getInstance()
         val loggedInUser = LoggedInUser(context)
         val trainerId = loggedInUser.getUserId()
@@ -157,84 +167,68 @@ class FirebaseManager {
         if (trainerId != null) {
             val query = databaseReference.orderByChild("type_trainerId").equalTo("Strength_$trainerId")
 
-        query.addValueEventListener(object : ValueEventListener {
+            query.addValueEventListener(object : ValueEventListener {
 
-            override fun onDataChange(snapshot: DataSnapshot) {
-
-                if (snapshot.exists()){
-
-                    for (classSnapshot in snapshot.children){
-
-                        val classesStrength = classSnapshot.getValue(ClassesStrength::class.java)
-                        classArrayListStrength.add(classesStrength!!)
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    if (snapshot.exists()){
+                        for (classSnapshot in snapshot.children){
+                            val classesStrength = classSnapshot.getValue(ClassesStrength::class.java)
+                            if (classesStrength != null) {
+                                classesStrength.sessionId=classSnapshot.key
+                            }
+                            classArrayListStrength.add(classesStrength!!)
+                        }
+                        strengthDataListener.onStrengthDataReceived(classArrayListStrength)
                     }
-
-                    classRecyclerviewStrength.adapter = ClassAdapter(classArrayListStrength)
                 }
 
-            }
+                override fun onCancelled(error: DatabaseError) {
+                   error.message
+                }
+            })
 
 
-            override fun onCancelled(error: DatabaseError) {
-               error.message
-            }
+            val query2 = databaseReference.orderByChild("type_trainerId").equalTo("Cardio_$trainerId")
+            query2.addValueEventListener(object : ValueEventListener {
 
-
-        })
-
-
-        val query2 = databaseReference.orderByChild("type_trainerId").equalTo("Cardio_$trainerId")
-        val query3 = databaseReference.orderByChild("type_trainerId").equalTo("Yoga_$trainerId")
-        query2.addValueEventListener(object : ValueEventListener {
-
-            override fun onDataChange(snapshot: DataSnapshot) {
-
-                if (snapshot.exists()){
-
-                    for (classSnapshot in snapshot.children){
-                        val classesCardio = classSnapshot.getValue(ClassesCardio::class.java)
-                        classArrayListCardio.add(classesCardio!!)
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    if (snapshot.exists()){
+                        for (classSnapshot in snapshot.children){
+                            val classesCardio = classSnapshot.getValue(ClassesCardio::class.java)
+                            if (classesCardio != null) {
+                                classesCardio.sessionId=classSnapshot.key
+                            }
+                            classArrayListCardio.add(classesCardio!!)
+                        }
+                        cardioDataListener.onCardioDataReceived(classArrayListCardio)
                     }
-
-                    classRecyclerviewCardio.adapter = ClassAdapterCardio(classArrayListCardio)
                 }
 
-            }
+                override fun onCancelled(error: DatabaseError) {
+                    error.message
+                }
+            })
 
-            override fun onCancelled(error: DatabaseError) {
-                error.message
-            }
+            val query3 = databaseReference.orderByChild("type_trainerId").equalTo("Yoga_$trainerId")
+            query3.addValueEventListener(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    if (snapshot.exists()){
+                        for (classSnapshot in snapshot.children){
+                            val classesYoga = classSnapshot.getValue(ClassesYoga::class.java)
 
-
-        })
-
-        query3.addValueEventListener(object : ValueEventListener {
-
-            override fun onDataChange(snapshot: DataSnapshot) {
-
-                if (snapshot.exists()){
-
-                    for (classSnapshot in snapshot.children){
-
-
-                        val classesYoga = classSnapshot.getValue(ClassesYoga::class.java)
-                        classArrayListYoga.add(classesYoga!!)
-
+                            if (classesYoga != null) {
+                                classesYoga.sessionId=classSnapshot.key
+                            }
+                            classArrayListYoga.add(classesYoga!!)
+                        }
+                        yogaDataListener.onYogaDataReceived(classArrayListYoga)
                     }
-
-                    classRecyclerviewYoga.adapter = ClassAdapterYoga(classArrayListYoga)
                 }
 
-            }
-
-
-            override fun onCancelled(error: DatabaseError) {
-                error.message
-            }
-
-
-        })
-
+                override fun onCancelled(error: DatabaseError) {
+                    error.message
+                }
+            })
         }
     }
 
@@ -277,4 +271,12 @@ class FirebaseManager {
             }
         })
     }
+
+    fun updateTrainingSession( date : String, participants : String, time : String,  type : String,  state:String,  sessionId:String,trainerId: String){
+        val updatedData = TrainingModel(sessionId,date,participants,state,time,type,trainerId,type+"_"+trainerId)
+        databaseRf.child(sessionId).setValue(updatedData)
+    }
+
+
+
 }
