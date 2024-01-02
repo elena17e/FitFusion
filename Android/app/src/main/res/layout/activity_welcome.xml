@@ -7,7 +7,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/white">
 
-    <Button
+    <!--<Button
         android:id="@+id/logoutButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -17,17 +17,17 @@
         android:text="@string/logout1"
         android:textColor="#263238"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent" />-->
 
     <TextView
         android:id="@+id/welcomeMessageTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="15dp"
+        android:layout_marginStart="144dp"
+        android:layout_marginTop="16dp"
         android:text="@string/welcome1"
-        android:textSize="20sp"
         android:textColor="@color/black"
+        android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -37,6 +37,7 @@
         android:layout_height="526dp"
         app:layout_constraintBottom_toTopOf="@+id/tabs"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="1.0" />
@@ -57,5 +58,20 @@
         app:tabSelectedTextColor="@color/white"
         app:tabTextColor="@color/white"
         tools:ignore="SpeakableTextPresentCheck" />
+
+    <ImageButton
+        android:id="@+id/imageButtonUser"
+        android:layout_width="53dp"
+        android:layout_height="48dp"
+        android:background="@color/white"
+        android:contentDescription="@android:string/autofill"
+        android:scaleType="centerCrop"
+        android:src="@drawable/baseline_account_circle_24"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.044"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.006" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

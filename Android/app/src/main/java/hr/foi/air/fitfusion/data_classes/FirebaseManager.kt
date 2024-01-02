@@ -14,6 +14,10 @@ import hr.foi.air.fitfusion.entities.ClassesYoga
 import com.google.firebase.auth.FirebaseAuth
 import hr.foi.air.fitfusion.adapters.ReplyAdapter
 import hr.foi.air.fitfusion.entities.Reply
+import hr.foi.air.fitfusion.fragments.CardioDataListener
+import hr.foi.air.fitfusion.fragments.HomeTrainerFragment
+import hr.foi.air.fitfusion.fragments.StrengthDataListener
+import hr.foi.air.fitfusion.fragments.YogaDataListener
 import java.security.MessageDigest
 import java.security.SecureRandom
 
@@ -47,7 +51,7 @@ class FirebaseManager {
                 participants = participants,
                 state = "active",
                 time = time,
-                userId = FirebaseAuth.getInstance().currentUser?.uid ?: "",
+                //userId = FirebaseAuth.getInstance().currentUser?.uid ?: "",
                 type = type,
                 trainerId = trainerId,
                 type_trainerId = type + "_" + trainerId
@@ -170,9 +174,16 @@ class FirebaseManager {
 
     fun getPostId(postTitle: String, callback: (String) -> Unit) {
         var id = ""
+
+    fun showTrainingsList (
+        classArrayListStrength: ArrayList<ClassesStrength>, classArrayListCardio: ArrayList<ClassesCardio>,
+        classArrayListYoga: ArrayList<ClassesYoga>, context: Context,
+        strengthDataListener: StrengthDataListener, cardioDataListener: CardioDataListener,
+        yogaDataListener: YogaDataListener
+    )
+    {
         firebaseDatabase = FirebaseDatabase.getInstance()
         databaseReference = firebaseDatabase.reference.child("Posts")
-
         val query = databaseReference.orderByChild("title").equalTo(postTitle)
 
         query.addValueEventListener(object : ValueEventListener {
@@ -341,6 +352,70 @@ class FirebaseManager {
 
                             for (classSnapshot in snapshot.children) {
 
+            query.addValueEventListener(object : ValueEventListener {
+
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    if (snapshot.exists()){
+                        for (classSnapshot in snapshot.children){
+                            val classesStrength = classSnapshot.getValue(ClassesStrength::class.java)
+                            if (classesStrength != null) {
+                                classesStrength.sessionId=classSnapshot.key
+                            }
+                            classArrayListStrength.add(classesStrength!!)
+                        }
+                        strengthDataListener.onStrengthDataReceived(classArrayListStrength)
+                    }
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                   error.message
+                }
+            })
+
+
+            val query2 = databaseReference.orderByChild("type_trainerId").equalTo("Cardio_$trainerId")
+            query2.addValueEventListener(object : ValueEventListener {
+
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    if (snapshot.exists()){
+                        for (classSnapshot in snapshot.children){
+                            val classesCardio = classSnapshot.getValue(ClassesCardio::class.java)
+                            if (classesCardio != null) {
+                                classesCardio.sessionId=classSnapshot.key
+                            }
+                            classArrayListCardio.add(classesCardio!!)
+                        }
+                        cardioDataListener.onCardioDataReceived(classArrayListCardio)
+                    }
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                    error.message
+                }
+            })
+
+            val query3 = databaseReference.orderByChild("type_trainerId").equalTo("Yoga_$trainerId")
+            query3.addValueEventListener(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    if (snapshot.exists()){
+                        for (classSnapshot in snapshot.children){
+                            val classesYoga = classSnapshot.getValue(ClassesYoga::class.java)
+
+                            if (classesYoga != null) {
+                                classesYoga.sessionId=classSnapshot.key
+                            }
+                            classArrayListYoga.add(classesYoga!!)
+                        }
+                        yogaDataListener.onYogaDataReceived(classArrayListYoga)
+                    }
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                    error.message
+                }
+            })
+        }
+    }
 
                                 val classesYoga = classSnapshot.getValue(ClassesYoga::class.java)
                                 classArrayListYoga.add(classesYoga!!)
@@ -363,3 +438,12 @@ class FirebaseManager {
             }
         }
     }
+
+    fun updateTrainingSession( date : String, participants : String, time : String,  type : String,  state:String,  sessionId:String,trainerId: String){
+        val updatedData = TrainingModel(sessionId,date,participants,state,time,type,trainerId,type+"_"+trainerId)
+        databaseRf.child(sessionId).setValue(updatedData)
+    }
+
+
+
+}
