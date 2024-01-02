@@ -78,6 +78,7 @@
     <string name="enter_password">Enter password</string>
     <string name="first_name1">First Name:</string>
     <string name="last_name1">Last name:</string>
+    <string name="by">by :</string>
     <string name="password">Password:</string>
     <string name="unesite_tekst">Message</string>
     <string name="post">Post</string>
