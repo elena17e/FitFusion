@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="16dp"
@@ -11,7 +10,6 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginVertical="6dp"
         android:layout_marginStart="16dp"
         android:orientation="vertical">
 
@@ -21,44 +19,38 @@
             android:layout_gravity="center_vertical"
             android:orientation="horizontal">
 
-
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/trainers"
+                android:text="@string/name_surname"
                 android:textColor="@color/black"
-                android:textSize="24sp"
-                android:textStyle="bold" />
-
-
+                android:textSize="26sp"
+                android:textStyle="bold"/>
         </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:orientation="horizontal">
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:orientation="vertical"
-                tools:ignore="UselessParent">
+                android:orientation="horizontal">
 
-                <TextView
-                    android:id="@+id/trainers"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
-                    android:text="@string/tu_vu_e_listu_trenera_u_obliku_ime_prezime"
-                    android:textColor="@color/black"
-                    android:textSize="20sp" />
+            <TextView
+                android:id="@+id/trainerName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/klara"
+                android:textColor="@color/black"
+                android:layout_marginRight="20dp"
+                android:textSize="20sp"/>
 
-            </LinearLayout>
-
+            <TextView
+                android:id="@+id/trainerLastName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/klaric"
+                android:textColor="@color/black"
+                android:textSize="20sp"/>
         </LinearLayout>
-
     </LinearLayout>
 
 </androidx.cardview.widget.CardView>

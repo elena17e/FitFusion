@@ -47,11 +47,9 @@ class WelcomeActivity : AppCompatActivity() {
                             startActivity(intent)
                         }
                         R.id.logout_option -> {
-                            //handle logout action
                             ProfileMenu.handleLogout(this, loggedInUser)
                         }
                         else -> {
-                            //something else
                         }
                     }
                 }
