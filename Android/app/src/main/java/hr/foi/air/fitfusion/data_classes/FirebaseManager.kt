@@ -1,6 +1,7 @@
 package hr.foi.air.fitfusion.data_classes
 import android.content.Context
 import android.os.Build
+import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.database.*
@@ -11,6 +12,10 @@ import hr.foi.air.fitfusion.entities.ClassesCardio
 import hr.foi.air.fitfusion.entities.ClassesStrength
 import hr.foi.air.fitfusion.entities.ClassesYoga
 import com.google.firebase.auth.FirebaseAuth
+import hr.foi.air.fitfusion.adapters.ReplyAdapter
+import hr.foi.air.fitfusion.adapters.TaskAdapter
+import hr.foi.air.fitfusion.entities.Post
+import hr.foi.air.fitfusion.entities.Reply
 import java.security.MessageDigest
 import java.security.SecureRandom
 
@@ -256,6 +261,117 @@ class FirebaseManager {
 
         })
 
+        }
+    }
+
+    private val database = FirebaseDatabase.getInstance()
+    private val postRef = database.getReference("Posts")
+    fun savePost(title: String, content: String, timestamp: Long, authorFirstName: String, authorLastName: String){
+        val postId = postRef.push().key
+        val newPost =
+            mapOf(
+                "id" to postId,
+                "title" to title,
+                "content" to content,
+                "timestamp" to timestamp,
+                "authorFirstName" to authorFirstName,
+                "authorLastName" to authorLastName
+            )
+
+        if (postId != null){
+            postRef.child(postId).setValue(newPost)
+                .addOnSuccessListener {}
+                .addOnFailureListener {}
+        }
+    }
+    fun fetchPosts(completion: (List<Post>) -> Unit) {
+        postRef.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                val posts: MutableList<Post> = mutableListOf()
+
+                for (postSnapshot in dataSnapshot.children) {
+                    val id = postSnapshot.child("id").getValue(String::class.java) ?: ""
+                    val title = postSnapshot.child("title").getValue(String::class.java) ?: ""
+                    val content = postSnapshot.child("content").getValue(String::class.java) ?: ""
+                    val timestamp = postSnapshot.child("timestamp").getValue(Long::class.java) ?: 0
+                    val authorFirstName = postSnapshot.child("authorFirstName").getValue(String::class.java) ?: ""
+                    val authorLastName = postSnapshot.child("authorLastName").getValue(String::class.java) ?: ""
+
+
+                    val post = Post(id, title, content, timestamp, authorFirstName, authorLastName)
+                    posts.add(post)
+                }
+
+                completion(posts)
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {
+                Log.d("ForumFragment", "onCancelled: ${databaseError.message}")
+            }
+        })
+    }
+    fun saveReplyToFirebase(
+        content: String,
+        timestamp: Long,
+        authorFirstName: String?,
+        authorLastName: String?,
+        idPost: String
+    ) {
+        firebaseDatabase = FirebaseDatabase.getInstance()
+        databaseReference = firebaseDatabase.reference.child("Replies")
+        val replyId = databaseReference.push().key
+        val newPost =
+            mapOf(
+                "id" to replyId,
+                "content" to content,
+                "timestamp" to timestamp,
+                "authorFirstName" to authorFirstName,
+                "authorLastName" to authorLastName,
+                "postId" to idPost
+            )
+        if (replyId != null) {
+            databaseReference.child(replyId).setValue(newPost)
+                .addOnSuccessListener {}
+                .addOnFailureListener {}
+        }
+    }
+
+
+    fun fetchReplyFromFirebase(postTitle: String, recyclerView: RecyclerView) {
+        getPostId(postTitle) { postId ->
+            firebaseDatabase = FirebaseDatabase.getInstance()
+            databaseReference = firebaseDatabase.reference.child("Replies")
+            val query = databaseReference.orderByChild("postId").equalTo(postId)
+
+            query.addValueEventListener(object : ValueEventListener {
+                override fun onDataChange(dataSnapshot: DataSnapshot) {
+                    val replies: MutableList<Reply> = mutableListOf()
+
+                    for (postSnapshot in dataSnapshot.children) {
+                        val id = postSnapshot.child("id").getValue(String::class.java) ?: ""
+                        val postIds =
+                            postSnapshot.child("postId").getValue(String::class.java) ?: ""
+                        val content =
+                            postSnapshot.child("content").getValue(String::class.java) ?: ""
+                        val timestamp =
+                            postSnapshot.child("timestamp").getValue(Long::class.java) ?: 0
+                        val authorFirstName =
+                            postSnapshot.child("authorFirstName").getValue(String::class.java) ?: ""
+                        val authorLastName =
+                            postSnapshot.child("authorLastName").getValue(String::class.java) ?: ""
+
+
+                        val reply =
+                            Reply(id, postIds, content, timestamp, authorFirstName, authorLastName)
+                        replies.add(reply)
+                    }
+                    val replyAdapter = ReplyAdapter(replies)
+                    recyclerView.adapter = replyAdapter
+                }
+                override fun onCancelled(databaseError: DatabaseError) {
+                    Log.d("ReplyActivity", "onCancelled: ${databaseError.message}")
+                }
+            })
         }
     }
 }

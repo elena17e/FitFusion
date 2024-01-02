@@ -18,6 +18,7 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import hr.foi.air.fitfusion.R
 import hr.foi.air.fitfusion.adapters.TaskAdapter
+import hr.foi.air.fitfusion.data_classes.FirebaseManager
 import hr.foi.air.fitfusion.data_classes.LoggedInUser
 import hr.foi.air.fitfusion.entities.Post
 
@@ -27,12 +28,9 @@ class ForumFragment : Fragment() {
     private lateinit var btnCreatePost: FloatingActionButton
 
 
-
     private lateinit var taskAdapter: TaskAdapter
 
-    private val database = FirebaseDatabase.getInstance()
-    private val postRef = database.getReference("Posts")
-
+    private val firebaseManager = FirebaseManager()
 
 
     override fun onCreateView(
@@ -42,6 +40,7 @@ class ForumFragment : Fragment() {
 
         return inflater.inflate(R.layout.fragment_forum, container, false)
     }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -59,8 +58,8 @@ class ForumFragment : Fragment() {
         fetchPostsFromFirebase()
 
 
-
     }
+
     private fun showDialog() {
         val newTaskDialogView = LayoutInflater
             .from(context)
@@ -74,63 +73,26 @@ class ForumFragment : Fragment() {
             .setView(newTaskDialogView)
             .show()
 
-        postButton.setOnClickListener{
+        postButton.setOnClickListener {
             val title = titleEditText.text.toString()
             val content = contentEditText.text.toString()
 
-            if (title.isNotEmpty() && content.isNotEmpty()){
+            if (title.isNotEmpty() && content.isNotEmpty()) {
                 val loggedInUser = LoggedInUser(requireContext())
-                val authorFirstName = loggedInUser.getFirstName()?: ""
-                val authorLastName = loggedInUser.getLastName()?: ""
+                val authorFirstName = loggedInUser.getFirstName() ?: ""
+                val authorLastName = loggedInUser.getLastName() ?: ""
                 val timestamp = System.currentTimeMillis()
-                savePostToFirebase(title, content, timestamp, authorFirstName, authorLastName)
+                firebaseManager.savePost(title, content, timestamp, authorFirstName, authorLastName)
                 dialog.dismiss()
             }
         }
     }
-    private fun savePostToFirebase(title: String, content: String, timestamp: Long, authorFirstName: String, authorLastName: String){
-        val postId = postRef.push().key
-        val newPost =
-            mapOf(
-                "id" to postId,
-                "title" to title,
-                "content" to content,
-                "timestamp" to timestamp,
-                "authorFirstName" to authorFirstName,
-                "authorLastName" to authorLastName
-            )
 
-        if (postId != null){
-            postRef.child(postId).setValue(newPost)
-                .addOnSuccessListener {}
-                .addOnFailureListener {}
-        }
-    }
     private fun fetchPostsFromFirebase() {
-        postRef.addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                val posts: MutableList<Post> = mutableListOf()
+        firebaseManager.fetchPosts { posts ->
+            taskAdapter = TaskAdapter(posts)
+            recyclerView.adapter = taskAdapter
 
-                for (postSnapshot in dataSnapshot.children) {
-                    val id = postSnapshot.child("id").getValue(String::class.java) ?: ""
-                    val title = postSnapshot.child("title").getValue(String::class.java) ?: ""
-                    val content = postSnapshot.child("content").getValue(String::class.java) ?: ""
-                    val timestamp = postSnapshot.child("timestamp").getValue(Long::class.java) ?: 0
-                    val authorFirstName = postSnapshot.child("authorFirstName").getValue(String::class.java) ?: ""
-                    val authorLastName = postSnapshot.child("authorLastName").getValue(String::class.java) ?: ""
-
-
-                    val post = Post(id, title, content, timestamp, authorFirstName, authorLastName)
-                    posts.add(post)
-                }
-
-                taskAdapter = TaskAdapter(posts)
-                recyclerView.adapter = taskAdapter
-            }
-
-            override fun onCancelled(databaseError: DatabaseError) {
-                Log.d("ForumFragment", "onCancelled: ${databaseError.message}")
-            }
-        })
+        }
     }
 }
