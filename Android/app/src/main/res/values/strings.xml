@@ -48,9 +48,10 @@
     <string name="textview1">TextView</string>
     <string name="textview2">TextView</string>
     <string name="textview3">TextView</string>
-    <string name="first_name">First name :</string>
-    <string name="last_name">Last name :</string>
-    <string name="email">Email :</string>
+    <string name="name_surname">Name and surname:</string>
+    <string name="first_name">First name:</string>
+    <string name="last_name">Last name:</string>
+    <string name="email">Email:</string>
     <string name="klupi_gmail_com">klupi@gmail.com</string>
     <string name="klaric">Klaric</string>
     <string name="klara">Klara</string>

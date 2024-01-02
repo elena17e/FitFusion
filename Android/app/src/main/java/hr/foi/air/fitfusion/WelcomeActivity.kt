@@ -43,14 +43,11 @@ class WelcomeActivity : AppCompatActivity() {
                 actionHandler = { itemId ->
                     when (itemId) {
                         R.id.settings_option -> {
-                            //take user to settings
                         }
                         R.id.logout_option -> {
-                            //handle logout action
                             ProfileMenu.handleLogout(this, loggedInUser)
                         }
                         else -> {
-                            //something else
                         }
                     }
                 }

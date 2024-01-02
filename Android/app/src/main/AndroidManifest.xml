@@ -50,6 +50,9 @@
         <activity
             android:name=".WelcomeAdminActivity"
             android:exported="false" />
+        <activity
+            android:name=".TrainerDetailsActivity"
+            android:exported="false" />
     </application>
 
 </manifest>
