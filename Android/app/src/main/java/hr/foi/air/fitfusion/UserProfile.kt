@@ -56,16 +56,36 @@ class UserProfile : AppCompatActivity() {
         }
 
         btnCancel.setOnClickListener {
+            if (type == "user"){
             val intent = Intent(this, WelcomeActivity::class.java)
             startActivity(intent)
+        }
+            if (type == "trainer"){
+                val intent = Intent(this, WelcomeTrainerActivity::class.java)
+                startActivity(intent)
+            }
+            if (type == "admin"){
+                val intent = Intent(this, WelcomeAdminActivity::class.java)
+                startActivity(intent)
+            }
         }
 
         btnSave.setOnClickListener {
             val newPassword = etUsPassword.text.toString()
             if (isValidPassword(newPassword)) {
                 firebaseManager.saveChangedPassword(email, newPassword, firstName, lastName, type, usId, this)
-                val intent = Intent(this, WelcomeActivity::class.java)
-                startActivity(intent)
+                if (type == "user"){
+                    val intent = Intent(this, WelcomeActivity::class.java)
+                    startActivity(intent)
+                }
+                if (type == "trainer"){
+                    val intent = Intent(this, WelcomeTrainerActivity::class.java)
+                    startActivity(intent)
+                }
+                if (type == "admin"){
+                    val intent = Intent(this, WelcomeAdminActivity::class.java)
+                    startActivity(intent)
+                }
             }
             else {
                 Toast.makeText(
