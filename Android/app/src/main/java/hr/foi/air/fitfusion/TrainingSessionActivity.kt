@@ -79,12 +79,12 @@ class TrainingSessionActivity : AppCompatActivity() {
 
         firebaseManager.saveTrainingSession(time, date, participants, type, trainerId) { success ->
             if (success) {
-                Toast.makeText(this, "Training session saved successfully", Toast.LENGTH_SHORT)
+                Toast.makeText(this, "Training session added successfully", Toast.LENGTH_SHORT)
                     .show()
                 val intent = Intent(this, WelcomeTrainerActivity::class.java)
                 startActivity(intent)
             } else {
-                Toast.makeText(this, "Failed to save training session", Toast.LENGTH_SHORT)
+                Toast.makeText(this, "Failed to add training session", Toast.LENGTH_SHORT)
                     .show()
             }
         }

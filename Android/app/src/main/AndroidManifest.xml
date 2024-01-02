@@ -15,11 +15,17 @@
         <activity
             android:name=".UserProfile"
             android:exported="false" />
+         <activity
+            android:name=".ReplyActivity"
+            android:exported="false" />
         <activity
             android:name=".WelcomeTrainerActivity"
             android:exported="false" />
         <activity
             android:name=".LoginActivity2"
+            android:exported="false" />
+        <activity
+            android:name=".TrainingSessionDetailsActivity"
             android:exported="false" />
         <activity
             android:name=".SignUpActivity"
