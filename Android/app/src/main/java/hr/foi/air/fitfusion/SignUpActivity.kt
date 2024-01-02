@@ -76,10 +76,6 @@ class SignUpActivity : ComponentActivity() {
                                 ).show()
 
                                 val intent = Intent(this@SignUpActivity, WelcomeActivity::class.java)
-                                intent.putExtra(
-                                    "USER_NAME",
-                                    user.firstName
-                                )
                                 startActivity(intent)
                                 finish()
 

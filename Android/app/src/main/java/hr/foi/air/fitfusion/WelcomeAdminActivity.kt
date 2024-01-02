@@ -48,7 +48,8 @@ class WelcomeAdminActivity : AppCompatActivity() {
                 actionHandler = { itemId ->
                     when (itemId) {
                         R.id.settings_option -> {
-                            //take user to settings
+                            val intent = Intent(this, UserProfile::class.java)
+                            startActivity(intent)
                         }
                         R.id.logout_option -> {
                             //handle logout action

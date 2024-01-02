@@ -43,6 +43,8 @@ class WelcomeActivity : AppCompatActivity() {
                 actionHandler = { itemId ->
                     when (itemId) {
                         R.id.settings_option -> {
+                            val intent = Intent(this, UserProfile::class.java)
+                            startActivity(intent)
                         }
                         R.id.logout_option -> {
                             ProfileMenu.handleLogout(this, loggedInUser)
