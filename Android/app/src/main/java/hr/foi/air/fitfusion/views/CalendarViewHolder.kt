@@ -5,8 +5,14 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import hr.foi.air.fitfusion.adapters.CalendarAdapter
 
-class CalendarViewHolder (itemView: View, private val onItemListener: CalendarAdapter.OnItemListener) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
+public class CalendarViewHolder (
+    itemView: View,
+    private val onItemListener: CalendarAdapter.OnItemListener,
+) : RecyclerView.ViewHolder(itemView),
+    View.OnClickListener {
+
     val dayOfMonth: TextView = itemView.findViewById(R.id.cellDayText)
+    val parentView: View? = null
 
     init {
         itemView.setOnClickListener(this)

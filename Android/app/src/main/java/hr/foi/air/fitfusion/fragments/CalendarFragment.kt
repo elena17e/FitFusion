@@ -12,6 +12,8 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import hr.foi.air.fitfusion.R
 import hr.foi.air.fitfusion.adapters.CalendarAdapter
+import hr.foi.air.fitfusion.adapters.CalendarAdapter2
+import hr.foi.air.fitfusion.adapters.CalendarUtils
 import java.time.LocalDate
 import java.time.YearMonth
 import java.time.format.DateTimeFormatter
@@ -37,13 +39,21 @@ class CalendarFragment : Fragment(), CalendarAdapter.OnItemListener {
         btnBackCl = view.findViewById(R.id.btnBackCl)
         btnForwardCl = view.findViewById(R.id.btnForwardCl)
         btnBackCl.setOnClickListener {
-            selectedDate = selectedDate.minusMonths(1)
-            setMonthView()
+            previousMonthAction(btnBackCl)
         }
         btnForwardCl.setOnClickListener {
-            selectedDate = selectedDate.plusMonths(1)
-            setMonthView()
+            nextMonthAction(btnForwardCl)
         }
+    }
+
+    fun previousMonthAction(view: View?) {
+        selectedDate = selectedDate.minusMonths(1)
+        setMonthView()
+    }
+
+    fun nextMonthAction(view: View?) {
+        selectedDate = selectedDate.plusMonths(1)
+        setMonthView()
     }
     private fun setMonthView() {
         monthYearText.text = monthYearFromDate(selectedDate)
@@ -82,5 +92,10 @@ class CalendarFragment : Fragment(), CalendarAdapter.OnItemListener {
             Toast.makeText(context, message, Toast.LENGTH_LONG).show()
         }
     }
+
+    /*override fun onItemClick(position: Int, date: LocalDate?) {
+        CalendarUtils.selectedDate = date
+        setMonthView()
+    }*/
 
 }

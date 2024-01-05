@@ -2,10 +2,9 @@ package hr.foi.air.fitfusion.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import hr.foi.air.fitfusion.R
 import androidx.recyclerview.widget.RecyclerView
+import hr.foi.air.fitfusion.R
 import hr.foi.air.fitfusion.views.CalendarViewHolder
-import java.util.ArrayList
 
 
 class CalendarAdapter (private val daysOfMonth: ArrayList<String>, private val onItemListener: OnItemListener) : RecyclerView.Adapter<CalendarViewHolder>() {

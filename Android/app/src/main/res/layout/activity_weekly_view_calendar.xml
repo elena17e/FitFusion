@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".MainActivity">
+    tools:context=".WeekViewActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -22,15 +22,26 @@
             android:layout_marginStart="10dp"
             android:layout_marginTop="3dp"
             android:layout_marginBottom="3dp"
-            android:layout_weight="0.5"
+            android:layout_weight="0"
             android:background="@null"
             android:contentDescription="@string/back"
-            android:onClick="backToMonthly"
+            android:onClick="backToMonthView"
             android:padding="3dp"
             android:scaleType="centerCrop"
             android:src="@drawable/baseline_arrow_back_ios_24" />
 
-        <Button
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/name_logo"
+            android:layout_weight="1"
+            android:scaleType="centerCrop"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:contentDescription="" />
+
+        <!--<Button
             android:layout_width="306dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -40,12 +51,11 @@
             android:text="@string/weekly"
             android:textColor="@color/color_primary"
             android:textSize="20sp"
-            android:textStyle="bold" />
+            android:textStyle="bold" />-->
 
         <TextView
             android:layout_width="56dp"
             android:layout_height="wrap_content"
-            android:layout_weight="0.5"
             android:background="@null"/>
     </LinearLayout>
 
@@ -65,7 +75,7 @@
             android:textColor="@color/white"
             android:background="@null"
             android:textStyle="bold"
-            android:onClick="previousMonthAction"
+            android:onClick="previousWeekAction"
             android:textSize="13sp"/>
 
         <TextView
@@ -87,7 +97,7 @@
             android:textColor="@color/white"
             android:background="@null"
             android:textStyle="bold"
-            android:onClick="nextMonthAction"
+            android:onClick="nextWeekAction"
             android:textSize="13sp"/>
 
     </LinearLayout>
@@ -167,6 +177,13 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/calendarRecyclerView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
+
+    <ListView
+        android:id="@+id/eventListView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="5"/>
 
 </LinearLayout>
