@@ -25,7 +25,6 @@
             android:layout_weight="0"
             android:background="@null"
             android:contentDescription="@string/back"
-            android:onClick="backToMonthView"
             android:padding="3dp"
             android:scaleType="centerCrop"
             android:src="@drawable/baseline_arrow_back_ios_24" />

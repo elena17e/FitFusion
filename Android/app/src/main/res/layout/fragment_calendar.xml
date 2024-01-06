@@ -7,6 +7,17 @@
     android:orientation="vertical"
     tools:context=".fragments.CalendarFragment">
 
+    <Button
+        android:id="@+id/btnWeekly"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="@string/WeeklyButton"
+        android:textColor="@color/white"
+        android:background="@null"
+        android:textStyle="bold"
+        android:textSize="20sp"/>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -117,7 +128,6 @@
 
 
     </LinearLayout>
-
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/calendarRecyclerView"

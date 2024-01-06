@@ -1,29 +1,49 @@
 package hr.foi.air.fitfusion
 
+import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
+import android.widget.Button
+import android.widget.ImageButton
 import android.widget.ListView
 import android.widget.TextView
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import hr.foi.air.fitfusion.adapters.CalendarAdapter2
-import hr.foi.air.fitfusion.adapters.CalendarAdapter2.OnItemListener
+import hr.foi.air.fitfusion.adapters.CalendarAdapter
 import hr.foi.air.fitfusion.adapters.CalendarUtils
-import hr.foi.air.fitfusion.adapters.CalendarUtils.daysInWeekArray
-import hr.foi.air.fitfusion.adapters.CalendarUtils.monthYearFromDate
 import java.time.LocalDate
 
 
-class WeekViewActivity : AppCompatActivity(), OnItemListener {
+class WeekViewActivity : AppCompatActivity(), CalendarAdapter.OnItemListener {
     private var monthYearText: TextView? = null
     private var calendarRecyclerView: RecyclerView? = null
     private var eventListView: ListView? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_weekly_view_calendar)
         initWidgets()
         setWeekView()
+
+        val callback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                val intent = Intent(this@WeekViewActivity, WelcomeActivity::class.java)
+                intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
+                startActivity(intent)
+                finish()
+            }
+        }
+        onBackPressedDispatcher.addCallback(this, callback)
+
+        // If you have a custom back button in your layout
+        val backButton = findViewById<ImageButton>(R.id.imageButtonMonthlyCal)
+        backButton.setOnClickListener {
+            // Delegate to the OnBackPressedDispatcher
+            onBackPressedDispatcher.onBackPressed()
+        }
     }
 
     private fun initWidgets() {
@@ -33,10 +53,11 @@ class WeekViewActivity : AppCompatActivity(), OnItemListener {
     }
 
     private fun setWeekView() {
-        monthYearText!!.text = monthYearFromDate(CalendarUtils.selectedDate)
-        val days : ArrayList<LocalDate?> = daysInWeekArray(CalendarUtils.selectedDate)
-        val calendarAdapter = CalendarAdapter2(days, this)
-        val layoutManager: RecyclerView.LayoutManager = GridLayoutManager(applicationContext, 7)
+        Log.d("WeekViewActivity", "Accessing selectedDate")
+        monthYearText!!.text = CalendarUtils.monthYearFromDate(CalendarUtils.selectedDate)
+        val days = CalendarUtils.daysInWeekArray(CalendarUtils.selectedDate)
+        val calendarAdapter = CalendarAdapter(days, this)
+        val layoutManager = GridLayoutManager(applicationContext, 7)
         calendarRecyclerView!!.layoutManager = layoutManager
         calendarRecyclerView!!.adapter = calendarAdapter
         //setEventAdpater()
@@ -72,5 +93,9 @@ class WeekViewActivity : AppCompatActivity(), OnItemListener {
         startActivity(Intent(this, EventEditActivity::class.java))
     }*/
 
-    fun backToMonthView(view: View) {}
+    /*fun backToMonthView() {
+        backButton.setOnClickListener {
+            finish() // Finish this activity and go back to the previous one
+        }
+    }*/
 }

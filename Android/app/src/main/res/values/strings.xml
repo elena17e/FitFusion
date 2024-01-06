@@ -126,4 +126,5 @@
     <string name="weekly">WEEKLY</string>
     <string name="title_activity_week_view_calendar">WeekViewCalendarActivity</string>
     <string name="new_session">New Session</string>
+    <string name="WeeklyButton">Weekly</string>
 </resources>
