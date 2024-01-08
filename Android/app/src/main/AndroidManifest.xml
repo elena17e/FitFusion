@@ -16,10 +16,19 @@
             android:name=".WeekViewActivity"
             android:exported="false" />
         <activity
+            android:name=".ReplyActivity"
+            android:exported="false" />
+        <activity
+            android:name=".UserProfile"
+            android:exported="false" />
+        <activity
             android:name=".WelcomeTrainerActivity"
             android:exported="false" />
         <activity
             android:name=".LoginActivity2"
+            android:exported="false" />
+        <activity
+            android:name=".TrainingSessionDetailsActivity"
             android:exported="false" />
         <activity
             android:name=".SignUpActivity"
@@ -31,6 +40,7 @@
             android:theme="@style/Theme.FitFusion">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -46,7 +56,9 @@
         <activity
             android:name=".WelcomeAdminActivity"
             android:exported="false" />
-
+        <activity
+            android:name=".TrainerDetailsActivity"
+            android:exported="false" />
     </application>
 
 </manifest>

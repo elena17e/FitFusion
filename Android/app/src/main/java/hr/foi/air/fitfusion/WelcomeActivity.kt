@@ -2,6 +2,10 @@ package hr.foi.air.fitfusion
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
+import android.view.MenuInflater
+import android.widget.ImageButton
+import android.widget.PopupMenu
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayout
@@ -9,6 +13,7 @@ import com.google.android.material.tabs.TabLayoutMediator
 import hr.foi.air.fitfusion.adapters.MainPagerAdapter
 import hr.foi.air.fitfusion.data_classes.LoggedInUser
 import hr.foi.air.fitfusion.databinding.ActivityWelcomeBinding
+import hr.foi.air.fitfusion.entities.ProfileMenu
 import hr.foi.air.fitfusion.fragments.CalendarFragment
 import hr.foi.air.fitfusion.fragments.ForumFragment
 import hr.foi.air.fitfusion.fragments.HomeFragment
@@ -27,6 +32,29 @@ class WelcomeActivity : AppCompatActivity() {
         loggedInUser = LoggedInUser(this)
         tabLayout = findViewById(R.id.tabs)
         viewPager2 = findViewById(R.id.viewpager)
+
+        val imgButton = findViewById<ImageButton>(R.id.imageButtonUser)
+
+        imgButton.setOnClickListener(){ button ->
+            ProfileMenu.showMenu(
+                context = this,
+                anchor = button,
+                menuRes = R.menu.account_menu,
+                actionHandler = { itemId ->
+                    when (itemId) {
+                        R.id.settings_option -> {
+                            val intent = Intent(this, UserProfile::class.java)
+                            startActivity(intent)
+                        }
+                        R.id.logout_option -> {
+                            ProfileMenu.handleLogout(this, loggedInUser)
+                        }
+                        else -> {
+                        }
+                    }
+                }
+            )
+        }
 
         val mainPagerAdapter = MainPagerAdapter(supportFragmentManager, lifecycle)
 
@@ -63,13 +91,13 @@ class WelcomeActivity : AppCompatActivity() {
 
         binding.welcomeMessageTextView.text = welcomeMessage
 
-        binding.logoutButton.setOnClickListener {
+        /*binding.logoutButton.setOnClickListener {
             loggedInUser.clearUserData()
             val intent = Intent(this, LoginActivity2::class.java)
             intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
             startActivity(intent)
             finish()
-        }
+        }*/
     }
 }
 

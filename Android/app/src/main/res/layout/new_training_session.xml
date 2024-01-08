@@ -41,42 +41,6 @@
         android:inputType="number" />
 
     <TextView
-        android:id="@+id/time"
-        android:layout_width="100dp"
-        android:layout_height="30dp"
-        android:layout_marginStart="40dp"
-        android:text="@string/Time" />
-
-    <LinearLayout
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <EditText
-            android:id="@+id/Time"
-            android:layout_width="0dp"
-            android:layout_height="50dp"
-            android:layout_marginStart="40dp"
-            android:layout_marginBottom="40dp"
-            android:layout_weight="1"
-            android:clickable="false"
-            android:ems="10"
-            android:focusable="false"
-            android:autofillHints="time"
-            android:hint="@string/time2"
-            android:inputType="none" />
-
-        <Button
-            android:id="@+id/SelectTime"
-            android:layout_width="100dp"
-            android:layout_height="60dp"
-            android:layout_marginStart="10dp"
-            android:backgroundTint="#D3D3D3"
-            android:text="@string/SelectTime"
-            android:textColor="#111111" />
-    </LinearLayout>
-
-    <TextView
         android:id="@+id/date"
         android:layout_width="100dp"
         android:layout_height="30dp"
@@ -109,6 +73,42 @@
             android:text="@string/SelectDate"
             android:layout_marginStart="10dp"
             android:backgroundTint="#D3D3D3"
+            android:textColor="#111111" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/time"
+        android:layout_width="100dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="40dp"
+        android:text="@string/Time" />
+
+    <LinearLayout
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/Time"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="40dp"
+            android:layout_marginBottom="40dp"
+            android:layout_weight="1"
+            android:clickable="false"
+            android:ems="10"
+            android:focusable="false"
+            android:autofillHints="time"
+            android:hint="@string/time2"
+            android:inputType="none" />
+
+        <Button
+            android:id="@+id/SelectTime"
+            android:layout_width="100dp"
+            android:layout_height="60dp"
+            android:layout_marginStart="10dp"
+            android:backgroundTint="#D3D3D3"
+            android:text="@string/SelectTime"
             android:textColor="#111111" />
     </LinearLayout>
 

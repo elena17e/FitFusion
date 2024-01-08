@@ -9,7 +9,10 @@ import hr.foi.air.fitfusion.entities.ClassesYoga
 
 
 
-class ClassAdapterYoga (private val classList : ArrayList<ClassesYoga>) : RecyclerView.Adapter<ClassAdapterYoga.MyViewHolder>(){
+class ClassAdapterYoga (
+    private val classList : ArrayList<ClassesYoga>,
+    private val listener: RecyclerViewEvent3
+) : RecyclerView.Adapter<ClassAdapterYoga.MyViewHolder>(){
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
 
         val itemView = LayoutInflater.from(parent.context).inflate(R.layout.class_list_item,
@@ -35,11 +38,26 @@ class ClassAdapterYoga (private val classList : ArrayList<ClassesYoga>) : Recycl
     }
 
 
-    class MyViewHolder(itemView : View) : RecyclerView.ViewHolder(itemView){
+    inner class MyViewHolder(itemView : View) : RecyclerView.ViewHolder(itemView), View.OnClickListener{
 
         val date : TextView = itemView.findViewById(R.id.tvDate)
         val time : TextView = itemView.findViewById(R.id.tvTime)
         val type : TextView = itemView.findViewById(R.id.tvType)
         val participants : TextView = itemView.findViewById(R.id.tvParticipants)
+
+
+        init {
+            itemView.setOnClickListener(this)
+        }
+        override fun onClick(p0: View?) {
+            val position = adapterPosition
+            if (position != RecyclerView.NO_POSITION) {
+                listener.onItemClick3(position)
+            }
+        }
+    }
+
+    interface RecyclerViewEvent3 {
+        fun onItemClick3(position: Int)
     }
 }
