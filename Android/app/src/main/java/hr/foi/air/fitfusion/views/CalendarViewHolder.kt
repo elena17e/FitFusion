@@ -9,10 +9,10 @@ import java.time.LocalDate
 class CalendarViewHolder(
     itemView: View,
     private var onItemListener: CalendarAdapter.OnItemListener,
-    days: ArrayList<LocalDate>
+    days: ArrayList<LocalDate?>
 ) : RecyclerView.ViewHolder(itemView),
     View.OnClickListener {
-    private val days: ArrayList<LocalDate>
+    private val days: ArrayList<LocalDate?>
     var dayOfMonth: TextView = itemView.findViewById(R.id.cellDayText)
     var parentView : View = itemView.findViewById(R.id.parentView)
 

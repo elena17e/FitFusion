@@ -11,7 +11,7 @@ import java.time.LocalDate
 
 
 class CalendarAdapter(
-    private var days: ArrayList<LocalDate>,
+    private var days: ArrayList<LocalDate?>,
     private var onItemListener: OnItemListener
 ) : RecyclerView.Adapter<CalendarViewHolder>() {
     /*override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CalendarViewHolder {

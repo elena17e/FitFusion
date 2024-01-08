@@ -7,7 +7,6 @@ import java.time.YearMonth
 import java.time.format.DateTimeFormatter
 
 object CalendarUtils {
-    //lateinit var selectedDate: LocalDate
     var selectedDate: LocalDate? = null
     fun formattedDate(date: LocalDate?): String {
         val formatter = DateTimeFormatter.ofPattern("dd MMMM yyyy")
@@ -24,24 +23,8 @@ object CalendarUtils {
         return date?.format(formatter) ?: "Unknown Date"
     }
 
-    /*fun daysInMonthArray(date: LocalDate): ArrayList<LocalDate?> {
+    fun daysInMonthArray(date: LocalDate?): ArrayList<LocalDate?> {
         val daysInMonthArray = ArrayList<LocalDate?>()
-        val yearMonth = YearMonth.from(date)
-        val daysInMonth = yearMonth.lengthOfMonth()
-        val firstOfMonth = selectedDate!!.withDayOfMonth(1)
-        val dayOfWeek = firstOfMonth.dayOfWeek.value
-        for (i in 1..42) {
-            if (i <= dayOfWeek || i > daysInMonth + dayOfWeek) daysInMonthArray.add(null) else daysInMonthArray.add(
-                LocalDate.of(
-                    selectedDate!!.year, selectedDate!!.month, i - dayOfWeek
-                )
-            )
-        }
-        return daysInMonthArray
-    }*/
-
-    fun daysInMonthArray(date: LocalDate?): ArrayList<LocalDate> {
-        val daysInMonthArray = ArrayList<LocalDate>()
         val yearMonth = YearMonth.from(date)
 
         val daysInMonth = yearMonth.lengthOfMonth()
@@ -51,7 +34,7 @@ object CalendarUtils {
 
         for (i in 1..42) {
             if (i <= dayOfWeek || i > daysInMonth + dayOfWeek) {
-                daysInMonthArray.add(LocalDate.MIN)
+                daysInMonthArray.add(null)
             } else {
                 daysInMonthArray.add(LocalDate.of(selectedDate!!.year, selectedDate!!.month, i - dayOfWeek))
             }
@@ -59,8 +42,8 @@ object CalendarUtils {
         return daysInMonthArray
     }
 
-    fun daysInWeekArray(date: LocalDate?): ArrayList<LocalDate> {
-        val days = ArrayList<LocalDate>()
+    fun daysInWeekArray(date: LocalDate?): ArrayList<LocalDate?> {
+        val days = ArrayList<LocalDate?>()
         var current = mondayForDate(date!!)
         val endDate = current!!.plusWeeks(1)
         while (current != null && current.isBefore(endDate)) {

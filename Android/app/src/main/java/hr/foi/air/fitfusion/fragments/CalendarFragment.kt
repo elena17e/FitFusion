@@ -37,7 +37,8 @@ class CalendarFragment : Fragment(), CalendarAdapter.OnItemListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         monthYearText = view.findViewById(R.id.monthYearTV)
         calendarRecyclerView = view.findViewById(R.id.calendarRecyclerView)
-        CalendarUtils.selectedDate = LocalDate.now()
+        if (CalendarUtils.selectedDate == null) {CalendarUtils.selectedDate = LocalDate.now()}
+        //CalendarUtils.selectedDate = LocalDate.now()
         setMonthView()
         btnBackCl = view.findViewById(R.id.btnBackCl)
         btnForwardCl = view.findViewById(R.id.btnForwardCl)
@@ -64,12 +65,19 @@ class CalendarFragment : Fragment(), CalendarAdapter.OnItemListener {
     }
     private fun setMonthView() {
         monthYearText!!.text = CalendarUtils.monthYearFromDate(CalendarUtils.selectedDate)
-        val daysInMonth : ArrayList<LocalDate> = CalendarUtils.daysInMonthArray(CalendarUtils.selectedDate)
+        val daysInMonth : ArrayList<LocalDate?> = CalendarUtils.daysInMonthArray(CalendarUtils.selectedDate)
         val calendarAdapter = CalendarAdapter(daysInMonth, this)
         val layoutManager: RecyclerView.LayoutManager =
             GridLayoutManager(context, 7)
         calendarRecyclerView!!.layoutManager = layoutManager
         calendarRecyclerView!!.adapter = calendarAdapter
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if (CalendarUtils.selectedDate != null) {
+            setMonthView() // This will refresh the month view with the updated date
+        }
     }
 
     /*private fun daysInMonthArray(date: LocalDate): ArrayList<String> {
