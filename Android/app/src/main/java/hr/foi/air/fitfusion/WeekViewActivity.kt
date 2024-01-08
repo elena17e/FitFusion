@@ -4,9 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.Button
 import android.widget.ImageButton
-import android.widget.ListView
 import android.widget.TextView
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
@@ -20,7 +18,7 @@ import java.time.LocalDate
 class WeekViewActivity : AppCompatActivity(), CalendarAdapter.OnItemListener {
     private var monthYearText: TextView? = null
     private var calendarRecyclerView: RecyclerView? = null
-    private var eventListView: ListView? = null
+    //private var eventListView: ListView? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -60,7 +58,7 @@ class WeekViewActivity : AppCompatActivity(), CalendarAdapter.OnItemListener {
         val layoutManager = GridLayoutManager(applicationContext, 7)
         calendarRecyclerView!!.layoutManager = layoutManager
         calendarRecyclerView!!.adapter = calendarAdapter
-        //setEventAdpater()
+        //setEventAdapter()
     }
 
     fun previousWeekAction(view: View?) {
@@ -80,10 +78,10 @@ class WeekViewActivity : AppCompatActivity(), CalendarAdapter.OnItemListener {
 
     override fun onResume() {
         super.onResume()
-        //setEventAdpater()
+        //setEventAdapter()
     }
 
-    /*private fun setEventAdpater() {
+    /*private fun setEventAdapter() {
         val dailyEvents: ArrayList<Event> = Event.eventsForDate(CalendarUtils.selectedDate)
         val eventAdapter = EventAdapter(applicationContext, dailyEvents)
         eventListView!!.adapter = eventAdapter

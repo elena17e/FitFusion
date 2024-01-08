@@ -30,7 +30,7 @@ object CalendarUtils {
         val daysInMonth = yearMonth.lengthOfMonth()
 
         val firstOfMonth = selectedDate!!.withDayOfMonth(1)
-        val dayOfWeek = firstOfMonth.dayOfWeek.value ?: 0
+        val dayOfWeek = firstOfMonth.dayOfWeek.value
 
         for (i in 1..42) {
             if (i <= dayOfWeek || i > daysInMonth + dayOfWeek) {

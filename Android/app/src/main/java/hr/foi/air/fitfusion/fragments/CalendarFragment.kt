@@ -18,11 +18,9 @@ import java.time.LocalDate
 
 
 class CalendarFragment : Fragment(), CalendarAdapter.OnItemListener {
-    //private lateinit var monthYearText: TextView
-    //private lateinit var calendarRecyclerView: RecyclerView
+
     private var monthYearText: TextView? = null
     private var calendarRecyclerView: RecyclerView? = null
-    private lateinit var selectedDate: LocalDate
     private lateinit var btnBackCl : Button
     private lateinit var btnForwardCl : Button
     private lateinit var btnWeeklyCl : Button
