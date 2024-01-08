@@ -1,22 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".fragments.CalendarFragment">
+    tools:context=".WeekViewActivity">
 
-    <Button
-        android:id="@+id/btnWeekly"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="@string/WeeklyButton"
-        android:textColor="@color/white"
-        android:background="@null"
-        android:textStyle="bold"
-        android:textSize="20sp"/>
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
+
+        <ImageButton
+            android:id="@+id/imageButtonMonthlyCal"
+            android:layout_width="48dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="3dp"
+            android:layout_marginBottom="3dp"
+            android:layout_weight="0"
+            android:background="@null"
+            android:contentDescription="@string/back"
+            android:padding="3dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/baseline_arrow_back_ios_24" />
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/name_logo"
+            android:layout_weight="1"
+            android:scaleType="centerCrop"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:contentDescription="" />
+
+        <!--<Button
+            android:layout_width="306dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="15"
+            android:background="@null"
+            android:onClick="weeklyAction"
+            android:text="@string/weekly"
+            android:textColor="@color/color_primary"
+            android:textSize="20sp"
+            android:textStyle="bold" />-->
+
+        <TextView
+            android:layout_width="56dp"
+            android:layout_height="wrap_content"
+            android:background="@null"/>
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -24,37 +64,40 @@
         android:orientation="horizontal"
         android:layout_marginBottom="20dp"
         android:layout_marginTop="20dp">
+
         <Button
-            android:id="@+id/btnBackCl"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
             android:layout_weight="1"
             android:text="@string/back"
             android:textColor="@color/white"
             android:background="@null"
-            android:textSize="13sp"
-            tools:ignore="VisualLintButtonSize" />
+            android:textStyle="bold"
+            android:onClick="previousWeekAction"
+            android:textSize="13sp"/>
 
         <TextView
             android:id="@+id/monthYearTV"
             android:layout_width="0dp"
             android:layout_weight="2"
             android:layout_height="wrap_content"
-            android:text="@string/feb_2021"
+            android:text="Feb 2021"
             android:textSize="20sp"
             android:textAlignment="center"
             android:textColor="@color/black"/>
 
         <Button
-            android:id="@+id/btnForwardCl"
-            android:layout_width="0dp"
+            android:layout_width="4dp"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="5dp"
             android:layout_weight="1"
             android:text="@string/forward"
             android:textColor="@color/white"
             android:background="@null"
-            android:textSize="13sp"
-            tools:ignore="VisualLintButtonSize" />
+            android:textStyle="bold"
+            android:onClick="nextWeekAction"
+            android:textSize="13sp"/>
 
     </LinearLayout>
 
@@ -67,7 +110,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/mon"
+            android:text="@string/monday"
             android:textColor="@color/black"
             android:textAlignment="center"
             android:textSize="16sp"/>
@@ -76,7 +119,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/tue"
+            android:text="@string/tuesday"
             android:textColor="@color/black"
             android:textAlignment="center"
             android:textSize="16sp"/>
@@ -85,7 +128,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/wed"
+            android:text="@string/wednesday"
             android:textColor="@color/black"
             android:textAlignment="center"
             android:textSize="16sp"/>
@@ -94,7 +137,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/thur"
+            android:text="@string/thursday"
             android:textColor="@color/black"
             android:textAlignment="center"
             android:textSize="16sp"/>
@@ -103,7 +146,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/fri"
+            android:text="@string/friday"
             android:textColor="@color/black"
             android:textAlignment="center"
             android:textSize="16sp"/>
@@ -112,7 +155,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/sat"
+            android:text="@string/saturday"
             android:textColor="@color/black"
             android:textAlignment="center"
             android:textSize="16sp"/>
@@ -121,7 +164,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/sun"
+            android:text="@string/sunday"
             android:textColor="@color/black"
             android:textAlignment="center"
             android:textSize="16sp"/>
@@ -129,9 +172,17 @@
 
     </LinearLayout>
 
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/calendarRecyclerView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
+
+    <ListView
+        android:id="@+id/eventListView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="5"/>
 
 </LinearLayout>

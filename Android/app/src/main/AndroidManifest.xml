@@ -13,10 +13,13 @@
         android:theme="@style/Theme.FitFusion"
         tools:targetApi="31">
         <activity
-            android:name=".UserProfile"
+            android:name=".WeekViewActivity"
             android:exported="false" />
-         <activity
+        <activity
             android:name=".ReplyActivity"
+            android:exported="false" />
+        <activity
+            android:name=".UserProfile"
             android:exported="false" />
         <activity
             android:name=".WelcomeTrainerActivity"
