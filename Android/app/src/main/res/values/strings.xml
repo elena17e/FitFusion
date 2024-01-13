@@ -151,4 +151,6 @@
     <string name="content">Content</string>
     <string name="title">Title</string>
     <string name="replies">Replies</string>
+    <string name="event">Event</string>
+    <string name="feb2_2021">Feb 2021</string>
 </resources>

@@ -13,9 +13,9 @@ object CalendarUtils {
         return date!!.format(formatter)
     }
 
-    fun formattedTime(time: LocalTime): String {
+    fun formattedTime(time: LocalTime?): String {
         val formatter = DateTimeFormatter.ofPattern("hh:mm:ss a")
-        return time.format(formatter)
+        return time!!.format(formatter)
     }
 
     fun monthYearFromDate(date: LocalDate?): String {

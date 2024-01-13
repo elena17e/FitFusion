@@ -1,32 +1,27 @@
 package hr.foi.air.fitfusion.data_classes
 import android.content.Context
-import android.content.Intent
 import android.os.Build
 import android.util.Log
 import android.widget.Toast
 import androidx.annotation.RequiresApi
-import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.database.*
-import hr.foi.air.fitfusion.adapters.ClassAdapter
-import hr.foi.air.fitfusion.adapters.ClassAdapterCardio
-import hr.foi.air.fitfusion.adapters.ClassAdapterYoga
+import hr.foi.air.fitfusion.adapters.ReplyAdapter
 import hr.foi.air.fitfusion.entities.ClassesCardio
 import hr.foi.air.fitfusion.entities.ClassesStrength
 import hr.foi.air.fitfusion.entities.ClassesYoga
-import com.google.firebase.auth.FirebaseAuth
-import hr.foi.air.fitfusion.UserProfile
-import hr.foi.air.fitfusion.WelcomeActivity
-import hr.foi.air.fitfusion.adapters.ReplyAdapter
-import hr.foi.air.fitfusion.adapters.TaskAdapter
+import hr.foi.air.fitfusion.entities.Event
 import hr.foi.air.fitfusion.entities.Post
 import hr.foi.air.fitfusion.entities.Reply
 import hr.foi.air.fitfusion.fragments.CardioDataListener
-import hr.foi.air.fitfusion.fragments.HomeTrainerFragment
 import hr.foi.air.fitfusion.fragments.StrengthDataListener
 import hr.foi.air.fitfusion.fragments.YogaDataListener
 import java.security.MessageDigest
 import java.security.SecureRandom
+import java.time.LocalDate
+import java.time.LocalTime
+import java.time.format.DateTimeFormatter
+
 
 class FirebaseManager {
 
@@ -407,6 +402,33 @@ class FirebaseManager {
     fun updateTrainingSession( date : String, participants : String, time : String,  type : String,  state:String,  sessionId:String,trainerId: String){
         val updatedData = TrainingModel(sessionId,date,participants,state,time,type,trainerId,type+"_"+trainerId)
         databaseRf.child(sessionId).setValue(updatedData)
+    }
+    fun fetchTrainingFromFirebase() {
+            firebaseDatabase = FirebaseDatabase.getInstance()
+            databaseReference = firebaseDatabase.reference.child("Training")
+            //val query = databaseReference.orderByChild("date").equalTo(date)
+            databaseReference.addValueEventListener(object : ValueEventListener {
+                override fun onDataChange(dataSnapshot: DataSnapshot) {
+                    Event.eventsList.clear()
+                    for (trainingSnapshot in dataSnapshot.children) {
+
+                        val trainingType =
+                            trainingSnapshot.child("type").getValue(String::class.java) ?: ""
+                        val trainingDate =
+                            trainingSnapshot.child("date").getValue(String::class.java) ?: ""
+                        val trainingTime =
+                            trainingSnapshot.child("time").getValue(String::class.java) ?: ""
+                        val formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy")
+                        val mydate = LocalDate.parse(trainingDate, formatter)
+                        val mytime = LocalTime.parse(trainingTime)
+                        val newEvent = Event(trainingType, mydate, mytime)
+                        Event.eventsList.add(newEvent)
+                    }
+                }
+                override fun onCancelled(databaseError: DatabaseError) {
+                    Log.d("EventActivity", "onCancelled: ${databaseError.message}")
+                }
+            })
     }
 
 }
