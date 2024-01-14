@@ -4,7 +4,7 @@ import java.time.LocalDate
 import java.time.LocalTime
 
 
-class Event(var name: String, var date: LocalDate?, var time: LocalTime) {
+class Event(var name: String, var date: LocalDate?, var time: LocalTime, var id: String, var participants: String) {
     companion object {
         var eventsList = ArrayList<Event>()
 

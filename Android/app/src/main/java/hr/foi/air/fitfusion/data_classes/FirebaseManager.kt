@@ -411,7 +411,10 @@ class FirebaseManager {
                 override fun onDataChange(dataSnapshot: DataSnapshot) {
                     Event.eventsList.clear()
                     for (trainingSnapshot in dataSnapshot.children) {
-
+                        val trainingId =
+                            trainingSnapshot.child("id").getValue(String::class.java) ?: ""
+                        val trainingParticipants =
+                            trainingSnapshot.child("participants").getValue(String::class.java) ?: ""
                         val trainingType =
                             trainingSnapshot.child("type").getValue(String::class.java) ?: ""
                         val trainingDate =
@@ -421,7 +424,7 @@ class FirebaseManager {
                         val formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy")
                         val mydate = LocalDate.parse(trainingDate, formatter)
                         val mytime = LocalTime.parse(trainingTime)
-                        val newEvent = Event(trainingType, mydate, mytime)
+                        val newEvent = Event(trainingType, mydate, mytime, trainingId, trainingParticipants)
                         Event.eventsList.add(newEvent)
                     }
                 }
@@ -429,6 +432,32 @@ class FirebaseManager {
                     Log.d("EventActivity", "onCancelled: ${databaseError.message}")
                 }
             })
+    }
+
+    fun applyForTraining(context: Context, trainingId: String?) {
+        val firebaseDatabase = FirebaseDatabase.getInstance()
+        val databaseReference = firebaseDatabase.getReference("Training")
+
+        val query = databaseReference.orderByChild("id").equalTo(trainingId)
+        query.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                for (trainingSnapshot in dataSnapshot.children) {
+                    val participantsIdReference = trainingSnapshot.child("participantsId").ref
+                    val loggedInUser = LoggedInUser(context)
+                    val usId = loggedInUser.getUserId()
+                    participantsIdReference.child(usId!!).setValue(usId)
+                    var currentParticipantsCount = trainingSnapshot.child("participants").getValue(String::class.java)?.toInt() ?: 0
+                    currentParticipantsCount--
+                    currentParticipantsCount = maxOf(0, currentParticipantsCount)
+                    trainingSnapshot.child("participants").ref.setValue(currentParticipantsCount.toString())
+
+                    Toast.makeText(context, "Successfully applied for training!", Toast.LENGTH_SHORT).show()
+                }
+            }
+            override fun onCancelled(databaseError: DatabaseError) {
+                Log.e("applyForTraining", "Error querying Training: ${databaseError.message}")
+            }
+        })
     }
 
 }
