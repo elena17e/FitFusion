@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.ImageButton
+import android.widget.ListView
 import android.widget.TextView
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
@@ -12,23 +13,35 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import hr.foi.air.fitfusion.adapters.CalendarAdapter
 import hr.foi.air.fitfusion.adapters.CalendarUtils
+import hr.foi.air.fitfusion.adapters.EventAdapter
+import hr.foi.air.fitfusion.data_classes.FirebaseManager
+import hr.foi.air.fitfusion.data_classes.LoggedInUser
+import hr.foi.air.fitfusion.entities.Event
 import java.time.LocalDate
 
 
 class WeekViewActivity : AppCompatActivity(), CalendarAdapter.OnItemListener {
     private var monthYearText: TextView? = null
     private var calendarRecyclerView: RecyclerView? = null
-    //private var eventListView: ListView? = null
+    private var eventListView: ListView? = null
+    private val firebaseManager = FirebaseManager()
+    private lateinit var loggedInUser: LoggedInUser
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_weekly_view_calendar)
         initWidgets()
         setWeekView()
-
+        loggedInUser = LoggedInUser(this)
+        val type = loggedInUser.getType()
         val callback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
-                val intent = Intent(this@WeekViewActivity, WelcomeActivity::class.java)
+                if (type == "user") {
+                    val intent = Intent(this@WeekViewActivity, WelcomeActivity::class.java)
+                }
+                if (type == "trainer") {
+                    val intent = Intent(this@WeekViewActivity, WelcomeTrainerActivity::class.java)
+                }
                 intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
                 startActivity(intent)
                 finish()
@@ -42,12 +55,13 @@ class WeekViewActivity : AppCompatActivity(), CalendarAdapter.OnItemListener {
             // Delegate to the OnBackPressedDispatcher
             onBackPressedDispatcher.onBackPressed()
         }
+        firebaseManager.fetchTrainingFromFirebase()
     }
 
     private fun initWidgets() {
         calendarRecyclerView = findViewById(R.id.calendarRecyclerView)
         monthYearText = findViewById(R.id.monthYearTV)
-        //eventListView = findViewById<ListView>(R.id.eventListView)
+        eventListView = findViewById<ListView>(R.id.eventListView)
     }
 
     private fun setWeekView() {
@@ -58,7 +72,7 @@ class WeekViewActivity : AppCompatActivity(), CalendarAdapter.OnItemListener {
         val layoutManager = GridLayoutManager(applicationContext, 7)
         calendarRecyclerView!!.layoutManager = layoutManager
         calendarRecyclerView!!.adapter = calendarAdapter
-        //setEventAdapter()
+        setEventAdapter()
     }
 
     fun previousWeekAction(view: View?) {
@@ -78,18 +92,15 @@ class WeekViewActivity : AppCompatActivity(), CalendarAdapter.OnItemListener {
 
     override fun onResume() {
         super.onResume()
-        //setEventAdapter()
+        setEventAdapter()
     }
 
-    /*private fun setEventAdapter() {
+    private fun setEventAdapter() {
+
         val dailyEvents: ArrayList<Event> = Event.eventsForDate(CalendarUtils.selectedDate)
         val eventAdapter = EventAdapter(applicationContext, dailyEvents)
-        eventListView!!.adapter = eventAdapter
-    }*/
-
-    /*fun newEventAction(view: View?) {
-        startActivity(Intent(this, EventEditActivity::class.java))
-    }*/
+        eventListView?.adapter = eventAdapter
+    }
 
     /*fun backToMonthView() {
         backButton.setOnClickListener {

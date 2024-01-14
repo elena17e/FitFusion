@@ -151,4 +151,18 @@
     <string name="content">Content</string>
     <string name="title">Title</string>
     <string name="replies">Replies</string>
+    <string name="event">Event</string>
+    <string name="feb2_2021">Feb 2021</string>
+    <string name="apply">Apply</string>
+    <string name="cancel12">Cancel</string>
+    <string name="date55">Date:</string>
+    <string name="date222">Date</string>
+    <string name="training_id">Training Id</string>
+    <string name="participants2">Participants</string>
+    <string name="time11">Time</string>
+    <string name="type5">Type</string>
+    <string name="training_id44">Training Id:</string>
+    <string name="participants4">Participants:</string>
+    <string name="time9">Time:</string>
+    <string name="type9">Type:</string>
 </resources>
