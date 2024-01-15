@@ -445,15 +445,21 @@ class FirebaseManager {
                     val participantsIdReference = trainingSnapshot.child("participantsId").ref
                     val loggedInUser = LoggedInUser(context)
                     val usId = loggedInUser.getUserId()
-                    participantsIdReference.child(usId!!).setValue(usId)
-                    var currentParticipantsCount = trainingSnapshot.child("participants").getValue(String::class.java)?.toInt() ?: 0
-                    currentParticipantsCount--
-                    currentParticipantsCount = maxOf(0, currentParticipantsCount)
-                    trainingSnapshot.child("participants").ref.setValue(currentParticipantsCount.toString())
+                    if (!trainingSnapshot.child("participantsId").hasChild(usId!!)) {
+                        participantsIdReference.child(usId).setValue(usId)
 
-                    Toast.makeText(context, "Successfully applied for training!", Toast.LENGTH_SHORT).show()
+                        var currentParticipantsCount = trainingSnapshot.child("participants").getValue(String::class.java)?.toInt() ?: 0
+                        currentParticipantsCount--
+                        currentParticipantsCount = maxOf(0, currentParticipantsCount)
+                        trainingSnapshot.child("participants").ref.setValue(currentParticipantsCount.toString())
+
+                        Toast.makeText(context, "Successfully applied for training!", Toast.LENGTH_SHORT).show()
+                    } else {
+                        Toast.makeText(context, "You have already applied for this training!", Toast.LENGTH_SHORT).show()
+                    }
                 }
             }
+
             override fun onCancelled(databaseError: DatabaseError) {
                 Log.e("applyForTraining", "Error querying Training: ${databaseError.message}")
             }
