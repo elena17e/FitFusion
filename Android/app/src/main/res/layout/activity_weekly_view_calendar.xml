@@ -41,18 +41,6 @@
             android:contentDescription=""
             tools:ignore="ContentDescription" />
 
-        <!--<Button
-            android:layout_width="306dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_weight="15"
-            android:background="@null"
-            android:onClick="weeklyAction"
-            android:text="@string/weekly"
-            android:textColor="@color/color_primary"
-            android:textSize="20sp"
-            android:textStyle="bold" />-->
-
         <TextView
             android:layout_width="56dp"
             android:layout_height="wrap_content"
