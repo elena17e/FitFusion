@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -12,8 +13,10 @@
         android:layout_height="69dp"
         android:layout_marginStart="120dp"
         android:layout_marginTop="150dp"
-        android:background="@color/color_primary_dark"
-        android:text="@string/sign_up1" />
+        android:backgroundTint="#5d89ba  "
+        android:text="@string/sign_up1"
+        tools:ignore="TextContrastCheck"
+        />
 
     <Button
         android:id="@+id/LogIn"
@@ -21,8 +24,9 @@
         android:layout_height="71dp"
         android:layout_marginStart="120dp"
         android:layout_marginTop="30dp"
-        android:background="@color/color_primary_dark"
-        android:text="@string/log_in" />
+        android:backgroundTint="#5d89ba"
+        android:text="@string/log_in"
+        tools:ignore="TextContrastCheck" />
 
 
 </LinearLayout>
