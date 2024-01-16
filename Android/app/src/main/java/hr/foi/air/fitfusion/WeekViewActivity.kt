@@ -37,10 +37,10 @@ class WeekViewActivity : AppCompatActivity(), CalendarAdapter.OnItemListener {
         val callback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
                 if (type == "user") {
-                    val intent = Intent(this@WeekViewActivity, WelcomeActivity::class.java)
+                    Intent(this@WeekViewActivity, WelcomeActivity::class.java)
                 }
                 if (type == "trainer") {
-                    val intent = Intent(this@WeekViewActivity, WelcomeTrainerActivity::class.java)
+                    Intent(this@WeekViewActivity, WelcomeTrainerActivity::class.java)
                 }
                 intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
                 startActivity(intent)
@@ -49,10 +49,10 @@ class WeekViewActivity : AppCompatActivity(), CalendarAdapter.OnItemListener {
         }
         onBackPressedDispatcher.addCallback(this, callback)
 
-        // If you have a custom back button in your layout
+
         val backButton = findViewById<ImageButton>(R.id.imageButtonMonthlyCal)
         backButton.setOnClickListener {
-            // Delegate to the OnBackPressedDispatcher
+
             onBackPressedDispatcher.onBackPressed()
         }
         firebaseManager.fetchTrainingFromFirebase()
@@ -61,7 +61,7 @@ class WeekViewActivity : AppCompatActivity(), CalendarAdapter.OnItemListener {
     private fun initWidgets() {
         calendarRecyclerView = findViewById(R.id.calendarRecyclerView)
         monthYearText = findViewById(R.id.monthYearTV)
-        eventListView = findViewById<ListView>(R.id.eventListView)
+        eventListView = findViewById(R.id.eventListView)
     }
 
     private fun setWeekView() {
@@ -75,11 +75,13 @@ class WeekViewActivity : AppCompatActivity(), CalendarAdapter.OnItemListener {
         setEventAdapter()
     }
 
+    @Suppress("UNUSED_PARAMETER")
     fun previousWeekAction(view: View?) {
         CalendarUtils.selectedDate = CalendarUtils.selectedDate!!.minusWeeks(1)
         setWeekView()
     }
 
+    @Suppress("UNUSED_PARAMETER")
     fun nextWeekAction(view: View?) {
         CalendarUtils.selectedDate = CalendarUtils.selectedDate!!.plusWeeks(1)
         setWeekView()
@@ -102,9 +104,4 @@ class WeekViewActivity : AppCompatActivity(), CalendarAdapter.OnItemListener {
         eventListView?.adapter = eventAdapter
     }
 
-    /*fun backToMonthView() {
-        backButton.setOnClickListener {
-            finish() // Finish this activity and go back to the previous one
-        }
-    }*/
 }

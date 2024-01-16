@@ -8,10 +8,6 @@ import java.time.format.DateTimeFormatter
 
 object CalendarUtils {
     var selectedDate: LocalDate? = null
-    fun formattedDate(date: LocalDate?): String {
-        val formatter = DateTimeFormatter.ofPattern("dd MMMM yyyy")
-        return date!!.format(formatter)
-    }
 
     fun formattedTime(time: LocalTime?): String {
         val formatter = DateTimeFormatter.ofPattern("hh:mm:ss a")
@@ -53,6 +49,7 @@ object CalendarUtils {
         return days
     }
 
+    @Suppress("NAME_SHADOWING")
     private fun mondayForDate(current: LocalDate): LocalDate? {
         var current = current
         val oneWeekAgo = current.minusWeeks(1)
