@@ -1,11 +1,14 @@
 package hr.foi.air.fitfusion
 
+import android.app.NotificationManager
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
 import android.widget.TextView
+import androidx.core.app.NotificationCompat
+import androidx.core.content.ContextCompat
 import hr.foi.air.fitfusion.data_classes.FirebaseManager
 import hr.foi.air.fitfusion.data_classes.LoggedInUser
 
@@ -60,6 +63,21 @@ class TrainingDetails : AppCompatActivity() {
                 firebaseManager.applyForTraining(this, id)
                 val intent = Intent(this, WeekViewActivity::class.java)
                 startActivity(intent)
+
+                val notificationId = (System.currentTimeMillis() % 10000).toInt()
+
+                val notificationManager = ContextCompat.getSystemService(
+                    this,
+                    NotificationManager::class.java
+                ) as NotificationManager
+
+                val notificationBuilder = NotificationCompat.Builder(this, "trainingSignUp")
+                    .setSmallIcon(R.drawable.baseline_assignment_turned_in_24)
+                    .setContentTitle("Training session")
+                    .setContentText("You have successfully applied for training!")
+                    .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+
+                notificationManager.notify(notificationId, notificationBuilder.build())
             }
         }
     }
