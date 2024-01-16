@@ -37,13 +37,16 @@ class WeekViewActivity : AppCompatActivity(), CalendarAdapter.OnItemListener {
         val callback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
                 if (type == "user") {
-                    Intent(this@WeekViewActivity, WelcomeActivity::class.java)
+                    val intent = Intent(this@WeekViewActivity, WelcomeActivity::class.java)
+                    intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
+                    startActivity(intent)
                 }
                 if (type == "trainer") {
-                    Intent(this@WeekViewActivity, WelcomeTrainerActivity::class.java)
+                    val intent = Intent(this@WeekViewActivity, WelcomeTrainerActivity::class.java)
+                    intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
+                    startActivity(intent)
                 }
-                intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
-                startActivity(intent)
+
                 finish()
             }
         }
