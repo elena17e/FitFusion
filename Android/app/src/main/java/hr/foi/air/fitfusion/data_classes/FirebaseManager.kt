@@ -1,4 +1,5 @@
 package hr.foi.air.fitfusion.data_classes
+import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Build
 import android.util.Log
@@ -125,6 +126,7 @@ class FirebaseManager {
         databaseReference = firebaseDatabase.reference.child("user")
 
         databaseReference.orderByChild("email").equalTo(email).addListenerForSingleValueEvent(object : ValueEventListener {
+            @SuppressLint("ObsoleteSdkInt")
             @RequiresApi(Build.VERSION_CODES.P)
             override fun onDataChange(snapshot: DataSnapshot) {
                 if(snapshot.exists()) {
@@ -433,6 +435,30 @@ class FirebaseManager {
                 }
             })
     }
+    fun checkIfUserIsAlreadyApplied(context: Context, trainingId: String?, callback: (Boolean) -> Unit) {
+        val firebaseDatabase = FirebaseDatabase.getInstance()
+        val databaseReference = firebaseDatabase.getReference("Training")
+
+        val query = databaseReference.orderByChild("id").equalTo(trainingId)
+        query.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                for (trainingSnapshot in dataSnapshot.children) {
+                    val loggedInUser = LoggedInUser(context)
+                    val usId = loggedInUser.getUserId()
+                    if (trainingSnapshot.child("participantsId").hasChild(usId!!)) {
+                        callback.invoke(true)
+                        return
+                    }
+                }
+                callback.invoke(false)
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {
+                Log.e("checkApplyForTraining", "Error querying Training: ${databaseError.message}")
+                callback.invoke(false)
+            }
+        })
+    }
 
     fun applyForTraining(context: Context, trainingId: String?) {
         val firebaseDatabase = FirebaseDatabase.getInstance()
@@ -445,18 +471,14 @@ class FirebaseManager {
                     val participantsIdReference = trainingSnapshot.child("participantsId").ref
                     val loggedInUser = LoggedInUser(context)
                     val usId = loggedInUser.getUserId()
-                    if (!trainingSnapshot.child("participantsId").hasChild(usId!!)) {
-                        participantsIdReference.child(usId).setValue(usId)
+                    participantsIdReference.child(usId!!).setValue(usId)
 
-                        var currentParticipantsCount = trainingSnapshot.child("participants").getValue(String::class.java)?.toInt() ?: 0
-                        currentParticipantsCount--
-                        currentParticipantsCount = maxOf(0, currentParticipantsCount)
-                        trainingSnapshot.child("participants").ref.setValue(currentParticipantsCount.toString())
+                    var currentParticipantsCount = trainingSnapshot.child("participants").getValue(String::class.java)?.toInt() ?: 0
+                    currentParticipantsCount--
+                    currentParticipantsCount = maxOf(0, currentParticipantsCount)
+                    trainingSnapshot.child("participants").ref.setValue(currentParticipantsCount.toString())
 
-                        Toast.makeText(context, "Successfully applied for training!", Toast.LENGTH_SHORT).show()
-                    } else {
-                        Toast.makeText(context, "You have already applied for this training!", Toast.LENGTH_SHORT).show()
-                    }
+                    Toast.makeText(context, "Successfully applied for training!", Toast.LENGTH_SHORT).show()
                 }
             }
 

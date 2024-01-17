@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Button
 import android.widget.TextView
+import android.widget.Toast
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
 import hr.foi.air.fitfusion.data_classes.FirebaseManager
@@ -58,27 +59,36 @@ class TrainingDetails : AppCompatActivity() {
         if (loggedUsertype == "trainer" || participants == "0") {
             applyButton.visibility = View.GONE
         }
-        if (loggedUsertype == "user" && participants != "0") {
-            applyButton.setOnClickListener {
-                firebaseManager.applyForTraining(this, id)
-                val intent = Intent(this, WeekViewActivity::class.java)
-                startActivity(intent)
+        firebaseManager.checkIfUserIsAlreadyApplied(this, id) { hasApplied ->
+            if (hasApplied) {
+                Toast.makeText(this, "You have already applied for this training!", Toast.LENGTH_SHORT).show()
+                applyButton.visibility = View.GONE
+            } else {
+                if (loggedUsertype == "user" && participants != "0") {
+                    applyButton.setOnClickListener {
+                        firebaseManager.applyForTraining(this, id)
+                        val intent = Intent(this, WeekViewActivity::class.java)
+                        startActivity(intent)
 
-                val notificationId = (System.currentTimeMillis() % 10000).toInt()
+                        val notificationId = (System.currentTimeMillis() % 10000).toInt()
 
-                val notificationManager = ContextCompat.getSystemService(
-                    this,
-                    NotificationManager::class.java
-                ) as NotificationManager
+                        val notificationManager = ContextCompat.getSystemService(
+                            this,
+                            NotificationManager::class.java
+                        ) as NotificationManager
 
-                val notificationBuilder = NotificationCompat.Builder(this, "trainingSignUp")
-                    .setSmallIcon(R.drawable.baseline_assignment_turned_in_24)
-                    .setContentTitle("Training session")
-                    .setContentText("You have successfully applied for training!")
-                    .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                        val notificationBuilder = NotificationCompat.Builder(this, "trainingSignUp")
+                            .setSmallIcon(R.drawable.baseline_assignment_turned_in_24)
+                            .setContentTitle("Training session")
+                            .setContentText("You have successfully applied for training!")
+                            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
 
-                notificationManager.notify(notificationId, notificationBuilder.build())
+                        notificationManager.notify(notificationId, notificationBuilder.build())
+                    }
+                }
+
             }
         }
+
     }
 }
