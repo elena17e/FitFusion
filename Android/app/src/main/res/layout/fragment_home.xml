@@ -3,11 +3,26 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
     tools:context=".fragments.HomeFragment">
 
+    <LinearLayout
+        android:id="@+id/user_homepage"
+        android:layout_width="380dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:orientation="vertical">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/trainers_homepage"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        <include layout="@layout/activity_booked_classes"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/trainers_homepage"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:padding="8dp"/>
+
+    </LinearLayout>
+
 </FrameLayout>
