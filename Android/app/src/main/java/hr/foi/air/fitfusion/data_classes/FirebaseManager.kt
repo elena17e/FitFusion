@@ -39,27 +39,40 @@ class FirebaseManager {
     fun saveTrainingSession(time: String, date: String, participants: String, type: String, trainerId: String?, callback: (Boolean) -> Unit) {
 
         if (type.isNotEmpty() && participants.isNotEmpty() && time.isNotEmpty() && date.isNotEmpty()) {
-            val sessionId: String = databaseRf.push().key ?: ""
+            val query = databaseRf.orderByChild("date_time").equalTo(date +"_"+ time)
+            query.addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onDataChange(dataSnapshot: DataSnapshot) {
+                    if (dataSnapshot.exists()) {
+                        callback(false)
+                    } else {
+                        val sessionId: String = databaseRf.push().key ?: ""
 
-            val trainingSession = TrainingModel(
-                id = sessionId,
-                date = date,
-                participants = participants,
-                state = "active",
-                time = time,
-                //userId = FirebaseAuth.getInstance().currentUser?.uid ?: "",
-                type = type,
-                trainerId = trainerId,
-                type_trainerId = type + "_" + trainerId
-            )
+                        val trainingSession = TrainingModel(
+                            id = sessionId,
+                            date = date,
+                            participants = participants,
+                            state = "active",
+                            time = time,
+                            type = type,
+                            trainerId = trainerId,
+                            type_trainerId = type + "_" + trainerId,
+                            date_time = date + "_" + time
+                        )
 
-            databaseRf.child(sessionId).setValue(trainingSession)
-                .addOnSuccessListener {
-                    callback(true)
+                        databaseRf.child(sessionId).setValue(trainingSession)
+                            .addOnSuccessListener {
+                                callback(true)
+                            }
+                            .addOnFailureListener {
+                                callback(false)
+                            }
+                    }
                 }
-                .addOnFailureListener {
+
+                override fun onCancelled(databaseError: DatabaseError) {
                     callback(false)
                 }
+            })
         } else {
             callback(false)
         }
@@ -408,7 +421,6 @@ class FirebaseManager {
     fun fetchTrainingFromFirebase() {
             firebaseDatabase = FirebaseDatabase.getInstance()
             databaseReference = firebaseDatabase.reference.child("Training")
-            //val query = databaseReference.orderByChild("date").equalTo(date)
             databaseReference.addValueEventListener(object : ValueEventListener {
                 override fun onDataChange(dataSnapshot: DataSnapshot) {
                     Event.eventsList.clear()
