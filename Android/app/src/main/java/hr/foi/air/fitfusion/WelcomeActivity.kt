@@ -90,14 +90,9 @@ class WelcomeActivity : AppCompatActivity() {
         val welcomeMessage = "Welcome $firstName!"
 
         binding.welcomeMessageTextView.text = welcomeMessage
-
-        /*binding.logoutButton.setOnClickListener {
-            loggedInUser.clearUserData()
-            val intent = Intent(this, LoginActivity2::class.java)
-            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
-            startActivity(intent)
-            finish()
-        }*/
+    }
+    fun navigateToCalendarTab(){
+        viewPager2.currentItem = 1
     }
 }
 
