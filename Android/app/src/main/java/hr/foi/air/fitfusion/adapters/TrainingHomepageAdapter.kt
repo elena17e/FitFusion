@@ -30,6 +30,7 @@ class TrainingHomepageAdapter(private val trainingsList: ArrayList<Training>, pr
             type.text = training.type
             date.text = training.date
             time.text = training.time
+
         }
     }
 }
