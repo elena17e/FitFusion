@@ -26,6 +26,7 @@ class ClassAdapter (
 
      holder.date.text = currentitem.date
      holder.time.text = currentitem.time
+        holder.timeEnd.text = currentitem.time_end
      holder.type.text = currentitem.type
      holder.participants.text = currentitem.participants
     }
@@ -38,6 +39,7 @@ class ClassAdapter (
 
         val date : TextView = itemView.findViewById(R.id.tvDate)
         val time : TextView = itemView.findViewById(R.id.tvTime)
+        val timeEnd : TextView = itemView.findViewById(R.id.tvTimeEnd)
         val type : TextView = itemView.findViewById(R.id.tvType)
         val participants : TextView = itemView.findViewById(R.id.tvParticipants)
 
