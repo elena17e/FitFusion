@@ -29,11 +29,13 @@ class EventAdapter(context: Context, events: List<Event>) : ArrayAdapter<Event>(
 
         val stringDate = event.date.toString()
         val stringTime = event.time.toString()
+        val stringTimeEnd = event.timeEnd.toString()
         view.setOnClickListener {
             val intent = Intent(context, TrainingDetails::class.java).apply {
                 putExtra("eventType", event.name)
                 putExtra("eventDate", stringDate)
                 putExtra("eventTime", stringTime)
+                putExtra("eventTimeEnd", stringTimeEnd)
                 putExtra("eventParticipants", event.participants)
                 putExtra("eventId", event.id)
             }

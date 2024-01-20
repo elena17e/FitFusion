@@ -36,10 +36,13 @@ class FirebaseManager {
         databaseRf = FirebaseDatabase.getInstance().getReference("Training")
     }
 
-    fun saveTrainingSession(time: String, date: String, participants: String, type: String, trainerId: String?, callback: (Boolean) -> Unit) {
+    fun saveTrainingSession(time: String, timeEnd:String, date: String, participants: String, type: String, trainerId: String?, callback: (Boolean) -> Unit) {
 
         if (type.isNotEmpty() && participants.isNotEmpty() && time.isNotEmpty() && date.isNotEmpty()) {
-            val query = databaseRf.orderByChild("date_time").equalTo(date +"_"+ time)
+            val query = databaseRf.orderByChild("date_time")
+                .startAt(date + "_" + time)
+                .endAt(date + "_" + timeEnd)
+
             query.addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onDataChange(dataSnapshot: DataSnapshot) {
                     if (dataSnapshot.exists()) {
@@ -56,7 +59,8 @@ class FirebaseManager {
                             type = type,
                             trainerId = trainerId,
                             type_trainerId = type + "_" + trainerId,
-                            date_time = date + "_" + time
+                            date_time = date + "_" + time + "_" + timeEnd,
+                            time_end = timeEnd
                         )
 
                         databaseRf.child(sessionId).setValue(trainingSession)
@@ -414,8 +418,8 @@ class FirebaseManager {
         }
     }
 
-    fun updateTrainingSession( date : String, participants : String, time : String,  type : String,  state:String,  sessionId:String,trainerId: String){
-        val updatedData = TrainingModel(sessionId,date,participants,state,time,type,trainerId,type+"_"+trainerId)
+    fun updateTrainingSession( date : String, participants : String, time : String, timeEnd : String,  type : String,  state:String,  sessionId:String,trainerId: String){
+        val updatedData = TrainingModel(sessionId,date,participants,state,time, timeEnd, type,trainerId,type+"_"+trainerId)
         databaseRf.child(sessionId).setValue(updatedData)
     }
     fun fetchTrainingFromFirebase() {
@@ -435,10 +439,13 @@ class FirebaseManager {
                             trainingSnapshot.child("date").getValue(String::class.java) ?: ""
                         val trainingTime =
                             trainingSnapshot.child("time").getValue(String::class.java) ?: ""
+                        val trainingTimeEnd =
+                            trainingSnapshot.child("time_end").getValue(String::class.java) ?: ""
                         val formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy")
                         val mydate = LocalDate.parse(trainingDate, formatter)
                         val mytime = LocalTime.parse(trainingTime)
-                        val newEvent = Event(trainingType, mydate, mytime, trainingId, trainingParticipants)
+                        val mytimeEnd = LocalTime.parse(trainingTimeEnd)
+                        val newEvent = Event(trainingType, mydate, mytime,mytimeEnd, trainingId, trainingParticipants)
                         Event.eventsList.add(newEvent)
                     }
                 }

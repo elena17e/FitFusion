@@ -18,6 +18,7 @@ import java.util.Locale
 class TrainingSessionActivity : AppCompatActivity() {
 
     private lateinit var etTime: EditText
+    private lateinit var etTimeEnd: EditText
     private lateinit var etDate: EditText
     private lateinit var etNumber: EditText
     private lateinit var sspinner: Spinner
@@ -31,6 +32,7 @@ class TrainingSessionActivity : AppCompatActivity() {
         setContentView(R.layout.new_training_session)
         loggedInUser = LoggedInUser(this)
         etTime = findViewById(R.id.Time)
+        etTimeEnd = findViewById(R.id.TimeEnd)
         etDate = findViewById(R.id.Date)
         etNumber = findViewById(R.id.Number)
         sspinner = findViewById(R.id.spinner)
@@ -54,10 +56,15 @@ class TrainingSessionActivity : AppCompatActivity() {
         }
 
         val btnSelectTime: Button = findViewById(R.id.SelectTime)
+        val btnSelectTimeEnd: Button = findViewById(R.id.SelectTimeEnd)
         val btnSelectDate: Button = findViewById(R.id.SelectDate)
 
         btnSelectTime.setOnClickListener {
             showTimePickerDialog()
+        }
+
+        btnSelectTimeEnd.setOnClickListener {
+            showTimeEndPickerDialog()
         }
 
         btnSelectDate.setOnClickListener {
@@ -72,12 +79,13 @@ class TrainingSessionActivity : AppCompatActivity() {
 
     private fun saveTrainingSession() {
         val time = etTime.text.toString()
+        val timeEnd = etTimeEnd.text.toString()
         val date = etDate.text.toString()
         val participants = etNumber.text.toString()
         val type = sspinner.selectedItem.toString()
         val trainerId = loggedInUser.getUserId()
 
-        firebaseManager.saveTrainingSession(time, date, participants, type, trainerId) { success ->
+        firebaseManager.saveTrainingSession(time,timeEnd, date, participants, type, trainerId) { success ->
             if (success) {
                 Toast.makeText(this, "Training session added successfully", Toast.LENGTH_SHORT)
                     .show()
@@ -106,6 +114,31 @@ class TrainingSessionActivity : AppCompatActivity() {
                         selectedMinute
                     )
                 etTime.setText(selectedTime)
+            },
+            hour,
+            minute,
+            true
+        )
+
+        timePickerDialog.show()
+    }
+
+    private fun showTimeEndPickerDialog() {
+        val calendar = Calendar.getInstance()
+        val hour = calendar.get(Calendar.HOUR_OF_DAY)
+        val minute = calendar.get(Calendar.MINUTE)
+
+        val timePickerDialog = TimePickerDialog(
+            this,
+            { _, selectedHour, selectedMinute ->
+                val selectedTime =
+                    String.format(
+                        Locale.getDefault(),
+                        "%02d:%02d",
+                        selectedHour,
+                        selectedMinute
+                    )
+                etTimeEnd.setText(selectedTime)
             },
             hour,
             minute,

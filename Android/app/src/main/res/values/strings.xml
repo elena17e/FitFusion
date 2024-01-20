@@ -165,4 +165,7 @@
     <string name="participants4">Participants:</string>
     <string name="time9">Time:</string>
     <string name="type9">Type:</string>
+    <string name="select_end">select end</string>
+    <string name="time_end">Time end</string>
+    <string name="time_end1">Time end:</string>
 </resources>

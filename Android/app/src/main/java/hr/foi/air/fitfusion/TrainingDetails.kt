@@ -17,6 +17,7 @@ class TrainingDetails : AppCompatActivity() {
     private lateinit var textViewDisplayId: TextView
     private lateinit var textViewDisplayDate: TextView
     private lateinit var textViewDisplayTime: TextView
+    private lateinit var textViewDisplayTimeEnd: TextView
     private lateinit var textViewDisplayType: TextView
     private lateinit var textViewDisplayParticipants: TextView
     private lateinit var cancelButton: Button
@@ -32,6 +33,7 @@ class TrainingDetails : AppCompatActivity() {
         textViewDisplayId = findViewById(R.id.textViewDisplayId)
         textViewDisplayDate = findViewById(R.id.textViewDisplayDate)
         textViewDisplayTime = findViewById(R.id.textViewDisplayTime)
+        textViewDisplayTimeEnd = findViewById(R.id.textViewDisplayTimeEnd)
         textViewDisplayType = findViewById(R.id.textViewDisplayType)
         textViewDisplayParticipants = findViewById(R.id.textViewDisplayParticipants)
         cancelButton = findViewById(R.id.Cancel)
@@ -40,6 +42,7 @@ class TrainingDetails : AppCompatActivity() {
         val id = intent.getStringExtra("eventId")
         val date = intent.getStringExtra("eventDate")
         val time = intent.getStringExtra("eventTime")
+        val timeEnd = intent.getStringExtra("eventTimeEnd")
         val type = intent.getStringExtra("eventType")
         val participants = intent.getStringExtra("eventParticipants")
 
@@ -47,6 +50,7 @@ class TrainingDetails : AppCompatActivity() {
         textViewDisplayId.text = id
         textViewDisplayDate.text = date
         textViewDisplayTime.text = time
+        textViewDisplayTimeEnd.text = timeEnd
         textViewDisplayType.text = type
         textViewDisplayParticipants.text = participants
 
