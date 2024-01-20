@@ -168,4 +168,6 @@
     <string name="select_end">select end</string>
     <string name="time_end">Time end</string>
     <string name="time_end1">Time end:</string>
+    <string name="time_end3">Time end</string>
+    <string name="end_time4">End time:</string>
 </resources>
