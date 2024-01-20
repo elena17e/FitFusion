@@ -60,7 +60,8 @@ class FirebaseManager {
                             trainerId = trainerId,
                             type_trainerId = type + "_" + trainerId,
                             date_time = date + "_" + time + "_" + timeEnd,
-                            time_end = timeEnd
+                            time_end = timeEnd,
+                            participantsId = emptyMap()
                         )
 
                         databaseRf.child(sessionId).setValue(trainingSession)

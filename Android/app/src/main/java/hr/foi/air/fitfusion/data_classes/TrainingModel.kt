@@ -11,5 +11,6 @@ data class TrainingModel(
     var type: String?=null,
     var trainerId: String?=null,
     var type_trainerId: String?=null,
-    var date_time: String?=null
+    var date_time: String?=null,
+    var participantsId: Map<String, Any>? = null
 )
