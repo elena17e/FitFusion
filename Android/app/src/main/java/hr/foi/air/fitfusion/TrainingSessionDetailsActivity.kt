@@ -20,6 +20,7 @@ class TrainingSessionDetailsActivity : AppCompatActivity() {
     private lateinit var sspinner: Spinner
     private lateinit var dateEditText: EditText
     private lateinit var timeEditText: EditText
+    private lateinit var timeEndEditText: EditText
     private lateinit var participantsEditText: EditText
     private lateinit var switchCanceled: SwitchCompat
     private lateinit var editButton: Button
@@ -32,6 +33,7 @@ class TrainingSessionDetailsActivity : AppCompatActivity() {
         sspinner = findViewById(R.id.spinner)
         dateEditText = findViewById(R.id.dateEditText)
         timeEditText = findViewById(R.id.timeEditText)
+        timeEndEditText = findViewById(R.id.timeEndEditText)
         participantsEditText = findViewById(R.id.participantsEditText)
         switchCanceled = findViewById(R.id.switch1)
         editButton = findViewById(R.id.Edit)
@@ -49,21 +51,27 @@ class TrainingSessionDetailsActivity : AppCompatActivity() {
         val type = intent.getStringExtra("type")
         val date = intent.getStringExtra("date")
         val time = intent.getStringExtra("time")
+        val timeEnd = intent.getStringExtra("time_end")
         val participants = intent.getStringExtra("participants")
 
         sspinner.setSelection(classNames.indexOf(type as String))
         dateEditText.setText(date)
         timeEditText.setText(time)
+        timeEndEditText.setText(timeEnd)
         participantsEditText.setText(participants)
         switchCanceled.isChecked = intent.getStringExtra("state").equals("active")
 
 
 
         val btnSelectTime: Button = findViewById(R.id.SelectTime)
+        val btnSelectTimeEnd: Button = findViewById(R.id.SelectTimeEnd)
         val btnSelectDate: Button = findViewById(R.id.SelectDate)
 
         btnSelectTime.setOnClickListener {
             showTimePickerDialog()
+        }
+        btnSelectTimeEnd.setOnClickListener {
+            showTimeEndPickerDialog()
         }
 
         btnSelectDate.setOnClickListener {
@@ -75,6 +83,7 @@ class TrainingSessionDetailsActivity : AppCompatActivity() {
             var type: String = sspinner.selectedItem.toString()
             var date: String = dateEditText.text.toString()
             var time: String = timeEditText.text.toString()
+            var timeEnd:String = timeEndEditText.text.toString()
             var participants: String = participantsEditText.text.toString()
             var state: String = if (switchCanceled.isChecked) "active" else "inactive"
             var firebaseManager: FirebaseManager = FirebaseManager()
@@ -82,6 +91,7 @@ class TrainingSessionDetailsActivity : AppCompatActivity() {
                 date,
                 participants,
                 time,
+                timeEnd,
                 type,
                 state,
                 intent.getStringExtra("sessionId").toString(),
@@ -125,6 +135,30 @@ class TrainingSessionDetailsActivity : AppCompatActivity() {
 
             timePickerDialog.show()
         }
+    private fun showTimeEndPickerDialog() {
+        val calendar = Calendar.getInstance()
+        val hour = calendar.get(Calendar.HOUR_OF_DAY)
+        val minute = calendar.get(Calendar.MINUTE)
+
+        val timePickerDialog = TimePickerDialog(
+            this,
+            { _, selectedHour, selectedMinute ->
+                val selectedTime =
+                    String.format(
+                        Locale.getDefault(),
+                        "%02d:%02d",
+                        selectedHour,
+                        selectedMinute
+                    )
+                timeEndEditText.setText(selectedTime)
+            },
+            hour,
+            minute,
+            true
+        )
+
+        timePickerDialog.show()
+    }
 
         private fun showDatePickerDialog() {
             val calendar = Calendar.getInstance()

@@ -7,6 +7,7 @@ data class TrainingModel(
     var participants: String?=null,
     var state: String?=null,
     var time: String?=null,
+    var time_end: String?=null,
     var type: String?=null,
     var trainerId: String?=null,
     var type_trainerId: String?=null,
