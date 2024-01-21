@@ -16,6 +16,7 @@ import java.util.Calendar
 import java.util.Locale
 
 
+@Suppress("NAME_SHADOWING")
 class TrainingSessionDetailsActivity : AppCompatActivity() {
     private lateinit var sspinner: Spinner
     private lateinit var dateEditText: EditText
@@ -80,13 +81,13 @@ class TrainingSessionDetailsActivity : AppCompatActivity() {
 
 
         editButton.setOnClickListener {
-            var type: String = sspinner.selectedItem.toString()
-            var date: String = dateEditText.text.toString()
-            var time: String = timeEditText.text.toString()
-            var timeEnd:String = timeEndEditText.text.toString()
-            var participants: String = participantsEditText.text.toString()
-            var state: String = if (switchCanceled.isChecked) "active" else "inactive"
-            var firebaseManager: FirebaseManager = FirebaseManager()
+            val type: String = sspinner.selectedItem.toString()
+            val date: String = dateEditText.text.toString()
+            val time: String = timeEditText.text.toString()
+            val timeEnd:String = timeEndEditText.text.toString()
+            val participants: String = participantsEditText.text.toString()
+            val state: String = if (switchCanceled.isChecked) "active" else "inactive"
+            val firebaseManager = FirebaseManager()
             firebaseManager.updateTrainingSession(
                 date,
                 participants,

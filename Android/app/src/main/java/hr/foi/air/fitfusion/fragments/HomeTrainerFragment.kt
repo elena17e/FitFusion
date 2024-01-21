@@ -3,7 +3,6 @@ package hr.foi.air.fitfusion.fragments
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -117,7 +116,7 @@ class HomeTrainerFragment : Fragment(),
         intent.putExtra("type", strength.type)
         intent.putExtra("date", strength.date)
         intent.putExtra("time", strength.time)
-        intent.putExtra("time_end", strength.timeEnd)
+        intent.putExtra("time_end", strength.time_end)
         intent.putExtra("participants", strength.participants)
         intent.putExtra("sessionId",strength.sessionId)
         intent.putExtra("state",strength.state)
@@ -132,7 +131,7 @@ class HomeTrainerFragment : Fragment(),
         intent.putExtra("type", cardio.type)
         intent.putExtra("date", cardio.date)
         intent.putExtra("time", cardio.time)
-        intent.putExtra("time_end", cardio.timeEnd)
+        intent.putExtra("time_end", cardio.time_end)
         intent.putExtra("participants", cardio.participants)
         intent.putExtra("sessionId",cardio.sessionId)
         intent.putExtra("state",cardio.state)
@@ -147,7 +146,7 @@ class HomeTrainerFragment : Fragment(),
         intent.putExtra("type", yoga.type)
         intent.putExtra("date", yoga.date)
         intent.putExtra("time", yoga.time)
-        intent.putExtra("time_end", yoga.timeEnd)
+        intent.putExtra("time_end", yoga.time_end)
         intent.putExtra("participants", yoga.participants)
         intent.putExtra("sessionId",yoga.sessionId)
         intent.putExtra("state",yoga.state)
