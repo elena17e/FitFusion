@@ -4,6 +4,8 @@ import android.content.Intent
 import android.os.Bundle
 import android.text.method.HideReturnsTransformationMethod
 import android.text.method.PasswordTransformationMethod
+import android.view.View
+import android.widget.TextView
 import android.widget.Toast
 import hr.foi.air.fitfusion.data_classes.FirebaseManager
 import hr.foi.air.fitfusion.data_classes.LoggedInUser
@@ -15,12 +17,13 @@ class LoginActivity2 : androidx.activity.ComponentActivity() {
     private lateinit var binding: ActivityLoginBinding
     private lateinit var userRepository: UserRepository
     private lateinit var loggedInUser: LoggedInUser
+    private lateinit var googleLogin: TextView
 
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
+        googleLogin = findViewById(R.id.textViewGoogle)
         userRepository = UserRepository(FirebaseManager())
 
         binding.loginButton.setOnClickListener {
@@ -78,4 +81,10 @@ class LoginActivity2 : androidx.activity.ComponentActivity() {
             }
         }
     }
+
+    fun googleLogin(view: View) {
+        //val intent = Intent(this, GoogleLoginActivity::class.java)
+        //startActivity(intent)
+    }
+
 }
