@@ -6,11 +6,11 @@ plugins {
 
 android {
     namespace = "hr.foi.air.fitfusion"
-    compileSdk = 33
+    compileSdk = 34
 
     defaultConfig {
         applicationId = "hr.foi.air.fitfusion"
-        minSdk = 28
+        minSdk = 34
         targetSdk = 33
         versionCode = 1
         versionName = "1.0"
@@ -72,4 +72,5 @@ dependencies {
     androidTestImplementation("androidx.compose.ui:ui-test-junit4")
     debugImplementation("androidx.compose.ui:ui-tooling")
     debugImplementation("androidx.compose.ui:ui-test-manifest")
+    implementation(project(":google_login"))
 }

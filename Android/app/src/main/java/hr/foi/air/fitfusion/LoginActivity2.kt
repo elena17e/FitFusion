@@ -12,6 +12,7 @@ import hr.foi.air.fitfusion.data_classes.LoggedInUser
 
 import hr.foi.air.fitfusion.databinding.ActivityLoginBinding
 import hr.foi.air.fitfusion.repositories.UserRepository
+import hr.foi.air.google_login.GoogleLoginActivity
 
 class LoginActivity2 : androidx.activity.ComponentActivity() {
     private lateinit var binding: ActivityLoginBinding
@@ -83,8 +84,8 @@ class LoginActivity2 : androidx.activity.ComponentActivity() {
     }
 
     fun googleLogin(view: View) {
-        //val intent = Intent(this, GoogleLoginActivity::class.java)
-        //startActivity(intent)
+        val intent = Intent(this, GoogleLoginActivity::class.java)
+        startActivity(intent)
     }
 
 }
