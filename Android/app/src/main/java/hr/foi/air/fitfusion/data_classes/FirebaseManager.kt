@@ -7,13 +7,16 @@ import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.database.*
+import hr.foi.air.fitfusion.WelcomeActivity
 import hr.foi.air.fitfusion.adapters.ReplyAdapter
+import hr.foi.air.fitfusion.adapters.TrainingHomepageAdapter
 import hr.foi.air.fitfusion.entities.ClassesCardio
 import hr.foi.air.fitfusion.entities.ClassesStrength
 import hr.foi.air.fitfusion.entities.ClassesYoga
 import hr.foi.air.fitfusion.entities.Event
 import hr.foi.air.fitfusion.entities.Post
 import hr.foi.air.fitfusion.entities.Reply
+import hr.foi.air.fitfusion.entities.Training
 import hr.foi.air.fitfusion.fragments.CardioDataListener
 import hr.foi.air.fitfusion.fragments.StrengthDataListener
 import hr.foi.air.fitfusion.fragments.YogaDataListener
@@ -22,6 +25,7 @@ import java.security.SecureRandom
 import java.time.LocalDate
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
+
 
 
 class FirebaseManager {
@@ -36,7 +40,15 @@ class FirebaseManager {
         databaseRf = FirebaseDatabase.getInstance().getReference("Training")
     }
 
-    fun saveTrainingSession(time: String, timeEnd:String, date: String, participants: String, type: String, trainerId: String?, callback: (Boolean) -> Unit) {
+    fun saveTrainingSession(
+        time: String,
+        timeEnd: String,
+        date: String,
+        participants: String,
+        type: String,
+        trainerId: String?,
+        callback: (Boolean) -> Unit
+    ) {
 
         if (type.isNotEmpty() && participants.isNotEmpty() && time.isNotEmpty() && date.isNotEmpty()) {
             val query = databaseRf.orderByChild("date_time")
@@ -91,38 +103,39 @@ class FirebaseManager {
         description: String,
         callback: (Boolean, String?) -> Unit
     ) {
-        databaseReference.orderByChild("email").equalTo(email).addListenerForSingleValueEvent(object :
-            ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                if (snapshot.exists()) {
-                    callback(false, "User with this email already exists")
-                } else {
-                    val usId = databaseReference.push().key!!
+        databaseReference.orderByChild("email").equalTo(email)
+            .addListenerForSingleValueEvent(object :
+                ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    if (snapshot.exists()) {
+                        callback(false, "User with this email already exists")
+                    } else {
+                        val usId = databaseReference.push().key!!
 
-                    val salt = generateSalt()
-                    val hashedPassword = hashPassword(password, salt)
+                        val salt = generateSalt()
+                        val hashedPassword = hashPassword(password, salt)
 
-                    val trainer = TrainerModel()
-                    trainer.firstName = firstName
-                    trainer.lastName = lastName
-                    trainer.email = email
-                    trainer.password = password
-                    trainer.hashedPassword = hashedPassword
-                    trainer.salt = salt
-                    trainer.type = "trainer"
-                    trainer.description = description
-                    trainer.usId = usId
+                        val trainer = TrainerModel()
+                        trainer.firstName = firstName
+                        trainer.lastName = lastName
+                        trainer.email = email
+                        trainer.password = password
+                        trainer.hashedPassword = hashedPassword
+                        trainer.salt = salt
+                        trainer.type = "trainer"
+                        trainer.description = description
+                        trainer.usId = usId
 
-                    databaseReference.child(usId).setValue(trainer)
+                        databaseReference.child(usId).setValue(trainer)
 
-                    callback(true, "Trainer added successfully")
+                        callback(true, "Trainer added successfully")
+                    }
                 }
-            }
 
-            override fun onCancelled(databaseError: DatabaseError) {
-                callback(false, "Error checking existing user")
-            }
-        })
+                override fun onCancelled(databaseError: DatabaseError) {
+                    callback(false, "Error checking existing user")
+                }
+            })
     }
 
     private fun generateSalt(): String {
@@ -143,31 +156,42 @@ class FirebaseManager {
         firebaseDatabase = FirebaseDatabase.getInstance()
         databaseReference = firebaseDatabase.reference.child("user")
 
-        databaseReference.orderByChild("email").equalTo(email).addListenerForSingleValueEvent(object : ValueEventListener {
-            @SuppressLint("ObsoleteSdkInt")
-            @RequiresApi(Build.VERSION_CODES.P)
-            override fun onDataChange(snapshot: DataSnapshot) {
-                if(snapshot.exists()) {
-                    for (userSnapshot in snapshot.children){
-                        val userData = userSnapshot.getValue(UserModel::class.java)
-                        if (userData != null && verifyPassword(password, userData.hashedPassword, userData.salt)) {
-                            callback(userData, null)
-                        } else {
-                            callback(null, "Invalid email or password")
+        databaseReference.orderByChild("email").equalTo(email)
+            .addListenerForSingleValueEvent(object : ValueEventListener {
+                @SuppressLint("ObsoleteSdkInt")
+                @RequiresApi(Build.VERSION_CODES.P)
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    if (snapshot.exists()) {
+                        for (userSnapshot in snapshot.children) {
+                            val userData = userSnapshot.getValue(UserModel::class.java)
+                            if (userData != null && verifyPassword(
+                                    password,
+                                    userData.hashedPassword,
+                                    userData.salt
+                                )
+                            ) {
+                                callback(userData, null)
+                            } else {
+                                callback(null, "Invalid email or password")
+                            }
+                            return
                         }
-                        return
+                    } else {
+                        callback(null, "Invalid email or password")
                     }
-                } else {
-                    callback(null, "Invalid email or password")
                 }
-            }
 
-            override fun onCancelled(databaseError: DatabaseError) {
-                callback(null, databaseError.message)
-            }
-        })
+                override fun onCancelled(databaseError: DatabaseError) {
+                    callback(null, databaseError.message)
+                }
+            })
     }
-    private fun verifyPassword(enteredPassword: String, hashedPassword: String?, salt: String?): Boolean {
+
+    private fun verifyPassword(
+        enteredPassword: String,
+        hashedPassword: String?,
+        salt: String?
+    ): Boolean {
         if (hashedPassword == null || salt == null) {
             return false
         }
@@ -199,28 +223,33 @@ class FirebaseManager {
             }
         })
     }
-    fun showTrainingsList (
-        classArrayListStrength: ArrayList<ClassesStrength>, classArrayListCardio: ArrayList<ClassesCardio>,
-        classArrayListYoga: ArrayList<ClassesYoga>, context: Context,
-        strengthDataListener: StrengthDataListener, cardioDataListener: CardioDataListener,
+
+    fun showTrainingsList(
+        classArrayListStrength: ArrayList<ClassesStrength>,
+        classArrayListCardio: ArrayList<ClassesCardio>,
+        classArrayListYoga: ArrayList<ClassesYoga>,
+        context: Context,
+        strengthDataListener: StrengthDataListener,
+        cardioDataListener: CardioDataListener,
         yogaDataListener: YogaDataListener
-    )
-    {
+    ) {
         firebaseDatabase = FirebaseDatabase.getInstance()
         val loggedInUser = LoggedInUser(context)
         val trainerId = loggedInUser.getUserId()
         databaseReference = firebaseDatabase.reference.child("Training")
         if (trainerId != null) {
-            val query = databaseReference.orderByChild("type_trainerId").equalTo("Strength_$trainerId")
+            val query =
+                databaseReference.orderByChild("type_trainerId").equalTo("Strength_$trainerId")
 
             query.addValueEventListener(object : ValueEventListener {
 
                 override fun onDataChange(snapshot: DataSnapshot) {
-                    if (snapshot.exists()){
-                        for (classSnapshot in snapshot.children){
-                            val classesStrength = classSnapshot.getValue(ClassesStrength::class.java)
+                    if (snapshot.exists()) {
+                        for (classSnapshot in snapshot.children) {
+                            val classesStrength =
+                                classSnapshot.getValue(ClassesStrength::class.java)
                             if (classesStrength != null) {
-                                classesStrength.sessionId=classSnapshot.key
+                                classesStrength.sessionId = classSnapshot.key
                             }
                             classArrayListStrength.add(classesStrength!!)
                         }
@@ -229,20 +258,21 @@ class FirebaseManager {
                 }
 
                 override fun onCancelled(error: DatabaseError) {
-                   error.message
+                    error.message
                 }
             })
 
 
-            val query2 = databaseReference.orderByChild("type_trainerId").equalTo("Cardio_$trainerId")
+            val query2 =
+                databaseReference.orderByChild("type_trainerId").equalTo("Cardio_$trainerId")
             query2.addValueEventListener(object : ValueEventListener {
 
                 override fun onDataChange(snapshot: DataSnapshot) {
-                    if (snapshot.exists()){
-                        for (classSnapshot in snapshot.children){
+                    if (snapshot.exists()) {
+                        for (classSnapshot in snapshot.children) {
                             val classesCardio = classSnapshot.getValue(ClassesCardio::class.java)
                             if (classesCardio != null) {
-                                classesCardio.sessionId=classSnapshot.key
+                                classesCardio.sessionId = classSnapshot.key
                             }
                             classArrayListCardio.add(classesCardio!!)
                         }
@@ -258,12 +288,12 @@ class FirebaseManager {
             val query3 = databaseReference.orderByChild("type_trainerId").equalTo("Yoga_$trainerId")
             query3.addValueEventListener(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
-                    if (snapshot.exists()){
-                        for (classSnapshot in snapshot.children){
+                    if (snapshot.exists()) {
+                        for (classSnapshot in snapshot.children) {
                             val classesYoga = classSnapshot.getValue(ClassesYoga::class.java)
 
                             if (classesYoga != null) {
-                                classesYoga.sessionId=classSnapshot.key
+                                classesYoga.sessionId = classSnapshot.key
                             }
                             classArrayListYoga.add(classesYoga!!)
                         }
@@ -278,7 +308,15 @@ class FirebaseManager {
         }
     }
 
-    fun saveChangedPassword(email: String?, password: String,firstName: String?, lastName: String?, type: String?, userId: String?, context: Context){
+    fun saveChangedPassword(
+        email: String?,
+        password: String,
+        firstName: String?,
+        lastName: String?,
+        type: String?,
+        userId: String?,
+        context: Context
+    ) {
         if (userId != null) {
             val referenca = firebaseDatabase.getReference("user").child(userId)
 
@@ -309,7 +347,13 @@ class FirebaseManager {
 
     private val database = FirebaseDatabase.getInstance()
     private val postRef = database.getReference("Posts")
-    fun savePost(title: String, content: String, timestamp: Long, authorFirstName: String, authorLastName: String){
+    fun savePost(
+        title: String,
+        content: String,
+        timestamp: Long,
+        authorFirstName: String,
+        authorLastName: String
+    ) {
         val postId = postRef.push().key
         val newPost =
             mapOf(
@@ -321,12 +365,13 @@ class FirebaseManager {
                 "authorLastName" to authorLastName
             )
 
-        if (postId != null){
+        if (postId != null) {
             postRef.child(postId).setValue(newPost)
                 .addOnSuccessListener {}
                 .addOnFailureListener {}
         }
     }
+
     fun fetchPosts(completion: (List<Post>) -> Unit) {
         postRef.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
@@ -337,8 +382,10 @@ class FirebaseManager {
                     val title = postSnapshot.child("title").getValue(String::class.java) ?: ""
                     val content = postSnapshot.child("content").getValue(String::class.java) ?: ""
                     val timestamp = postSnapshot.child("timestamp").getValue(Long::class.java) ?: 0
-                    val authorFirstName = postSnapshot.child("authorFirstName").getValue(String::class.java) ?: ""
-                    val authorLastName = postSnapshot.child("authorLastName").getValue(String::class.java) ?: ""
+                    val authorFirstName =
+                        postSnapshot.child("authorFirstName").getValue(String::class.java) ?: ""
+                    val authorLastName =
+                        postSnapshot.child("authorLastName").getValue(String::class.java) ?: ""
 
 
                     val post = Post(id, title, content, timestamp, authorFirstName, authorLastName)
@@ -412,6 +459,7 @@ class FirebaseManager {
                     val replyAdapter = ReplyAdapter(replies)
                     recyclerView.adapter = replyAdapter
                 }
+
                 override fun onCancelled(databaseError: DatabaseError) {
                     Log.d("ReplyActivity", "onCancelled: ${databaseError.message}")
                 }
@@ -419,43 +467,76 @@ class FirebaseManager {
         }
     }
 
-    fun updateTrainingSession( date : String, participants : String, time : String, timeEnd : String,  type : String,  state:String,  sessionId:String,trainerId: String){
-        val updatedData = TrainingModel(sessionId,date,participants,state,time, timeEnd, type,trainerId,type+"_"+trainerId)
+    fun updateTrainingSession(
+        date: String,
+        participants: String,
+        time: String,
+        timeEnd: String,
+        type: String,
+        state: String,
+        sessionId: String,
+        trainerId: String
+    ) {
+        val updatedData = TrainingModel(
+            sessionId,
+            date,
+            participants,
+            state,
+            time,
+            timeEnd,
+            type,
+            trainerId,
+            type + "_" + trainerId
+        )
         databaseRf.child(sessionId).setValue(updatedData)
     }
+
     fun fetchTrainingFromFirebase() {
-            firebaseDatabase = FirebaseDatabase.getInstance()
-            databaseReference = firebaseDatabase.reference.child("Training")
-            databaseReference.addValueEventListener(object : ValueEventListener {
-                override fun onDataChange(dataSnapshot: DataSnapshot) {
-                    Event.eventsList.clear()
-                    for (trainingSnapshot in dataSnapshot.children) {
-                        val trainingId =
-                            trainingSnapshot.child("id").getValue(String::class.java) ?: ""
-                        val trainingParticipants =
-                            trainingSnapshot.child("participants").getValue(String::class.java) ?: ""
-                        val trainingType =
-                            trainingSnapshot.child("type").getValue(String::class.java) ?: ""
-                        val trainingDate =
-                            trainingSnapshot.child("date").getValue(String::class.java) ?: ""
-                        val trainingTime =
-                            trainingSnapshot.child("time").getValue(String::class.java) ?: ""
-                        val trainingTimeEnd =
-                            trainingSnapshot.child("time_end").getValue(String::class.java) ?: ""
-                        val formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy")
-                        val mydate = LocalDate.parse(trainingDate, formatter)
-                        val mytime = LocalTime.parse(trainingTime)
-                        val mytimeEnd = LocalTime.parse(trainingTimeEnd)
-                        val newEvent = Event(trainingType, mydate, mytime,mytimeEnd, trainingId, trainingParticipants)
-                        Event.eventsList.add(newEvent)
-                    }
+        firebaseDatabase = FirebaseDatabase.getInstance()
+        databaseReference = firebaseDatabase.reference.child("Training")
+        databaseReference.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                Event.eventsList.clear()
+                for (trainingSnapshot in dataSnapshot.children) {
+                    val trainingId =
+                        trainingSnapshot.child("id").getValue(String::class.java) ?: ""
+                    val trainingParticipants =
+                        trainingSnapshot.child("participants").getValue(String::class.java) ?: ""
+                    val trainingType =
+                        trainingSnapshot.child("type").getValue(String::class.java) ?: ""
+                    val trainingDate =
+                        trainingSnapshot.child("date").getValue(String::class.java) ?: ""
+                    val trainingTime =
+                        trainingSnapshot.child("time").getValue(String::class.java) ?: ""
+                    val trainingTimeEnd =
+                        trainingSnapshot.child("time_end").getValue(String::class.java) ?: ""
+                    val formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy")
+                    val mydate = LocalDate.parse(trainingDate, formatter)
+                    val mytime = LocalTime.parse(trainingTime)
+                    val mytimeEnd = LocalTime.parse(trainingTimeEnd)
+                    val newEvent = Event(
+                        trainingType,
+                        mydate,
+                        mytime,
+                        mytimeEnd,
+                        trainingId,
+                        trainingParticipants
+                    )
+                    Event.eventsList.add(newEvent)
                 }
-                override fun onCancelled(databaseError: DatabaseError) {
-                    Log.d("EventActivity", "onCancelled: ${databaseError.message}")
-                }
-            })
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {
+                Log.d("EventActivity", "onCancelled: ${databaseError.message}")
+            }
+        })
     }
-    fun checkIfUserIsAlreadyApplied(context: Context, trainingId: String?, callback: (Boolean) -> Unit) {
+
+    fun checkIfUserIsAlreadyApplied(
+        context: Context,
+        trainingId: String?,
+        callback: (Boolean) -> Unit
+    ) {
         val firebaseDatabase = FirebaseDatabase.getInstance()
         val databaseReference = firebaseDatabase.getReference("Training")
 
@@ -493,12 +574,18 @@ class FirebaseManager {
                     val usId = loggedInUser.getUserId()
                     participantsIdReference.child(usId!!).setValue(usId)
 
-                    var currentParticipantsCount = trainingSnapshot.child("participants").getValue(String::class.java)?.toInt() ?: 0
+                    var currentParticipantsCount =
+                        trainingSnapshot.child("participants").getValue(String::class.java)?.toInt()
+                            ?: 0
                     currentParticipantsCount--
                     currentParticipantsCount = maxOf(0, currentParticipantsCount)
                     trainingSnapshot.child("participants").ref.setValue(currentParticipantsCount.toString())
 
-                    Toast.makeText(context, "Successfully applied for training!", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        context,
+                        "Successfully applied for training!",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
             }
 
@@ -506,6 +593,37 @@ class FirebaseManager {
                 Log.e("applyForTraining", "Error querying Training: ${databaseError.message}")
             }
         })
+    }
+
+    fun getTrainings(context: Context, trainingsRecycleView: RecyclerView) {
+        val trainingsList = ArrayList<Training>()
+        val loggedInUser = LoggedInUser(context)
+        val userId = loggedInUser.getUserId()
+
+        val dataQuery1 = FirebaseDatabase.getInstance().getReference("Training")
+        dataQuery1.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                trainingsList.clear()
+                for (trainingSnapshot in snapshot.children) {
+                    val training = trainingSnapshot.getValue(Training::class.java)
+                    if (training != null && userId in training.participantsId.orEmpty()) {
+                        trainingsList.add(training)
+                    }
+                }
+                trainingsRecycleView.adapter = TrainingHomepageAdapter(trainingsList) {
+                    navigateToCalendarTab()
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+        })
+    }
+
+    private fun navigateToCalendarTab() {
+        val activity = WelcomeActivity()
+        (activity as? WelcomeActivity)?.navigateToCalendarTab()
     }
 
 }

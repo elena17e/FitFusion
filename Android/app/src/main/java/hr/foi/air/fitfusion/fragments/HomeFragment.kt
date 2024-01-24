@@ -19,10 +19,7 @@ import android.content.Intent
 import android.widget.ImageButton
 import hr.foi.air.fitfusion.TrainerDetailsActivity
 import hr.foi.air.fitfusion.WelcomeActivity
-import hr.foi.air.fitfusion.adapters.TrainingHomepageAdapter
-import hr.foi.air.fitfusion.data_classes.LoggedInUser
-import hr.foi.air.fitfusion.entities.Training
-
+import hr.foi.air.fitfusion.data_classes.FirebaseManager
 
 class HomeFragment : Fragment() {
 
@@ -31,7 +28,7 @@ class HomeFragment : Fragment() {
     private lateinit var trainersArrayList: ArrayList<Trainer>
 
     private lateinit var trainingsRecycleView: RecyclerView
-    private lateinit var trainingsList: ArrayList<Training>
+    private val firebaseManager = FirebaseManager()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -41,7 +38,6 @@ class HomeFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
 
         recyclerView = view.findViewById(R.id.trainers_homepage)
         recyclerView.layoutManager = LinearLayoutManager(view.context)
@@ -80,39 +76,14 @@ class HomeFragment : Fragment() {
 
         trainingsRecycleView = view.findViewById(R.id.trainings_homepage)
         trainingsRecycleView.layoutManager = LinearLayoutManager(context)
-        trainingsList = arrayListOf<Training>()
 
-        getTrainings()
+        firebaseManager.getTrainings(requireContext(), trainingsRecycleView)
 
 
         val addButton = view.findViewById<ImageButton>(R.id.addTraining)
         addButton.setOnClickListener{
             navigateToCalendarTab()
         }
-    }
-
-    private fun getTrainings(){
-        val loggedInUser = LoggedInUser(requireContext())
-        val userId = loggedInUser.getUserId()
-
-        val dataQuery1 = FirebaseDatabase.getInstance().getReference("Training")
-        dataQuery1.addListenerForSingleValueEvent(object : ValueEventListener{
-            override fun onDataChange(snapshot: DataSnapshot){
-                trainingsList.clear()
-                for (trainingSnapshot in snapshot.children){
-                    val training = trainingSnapshot.getValue(Training::class.java)
-                    if (training != null && userId in training.participantsId.orEmpty()){
-                        trainingsList.add(training)
-                    }
-                }
-                trainingsRecycleView.adapter = TrainingHomepageAdapter(trainingsList){
-                    navigateToCalendarTab()
-                }
-            }
-            override fun onCancelled(error: DatabaseError) {
-                TODO("Not yet implemented")
-            }
-        })
     }
 
     private fun navigateToCalendarTab(){
