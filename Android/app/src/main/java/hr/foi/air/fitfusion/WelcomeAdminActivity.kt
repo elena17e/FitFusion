@@ -2,9 +2,7 @@ package hr.foi.air.fitfusion
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.MenuInflater
 import android.widget.ImageButton
-import android.widget.PopupMenu
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayout
@@ -33,13 +31,6 @@ class WelcomeAdminActivity : AppCompatActivity() {
 
         val imgButton = findViewById<ImageButton>(R.id.imageButtonUser)
 
-        /*imgButton.setOnClickListener(){
-            val popup = PopupMenu(this, it)
-            val inflater: MenuInflater = popup.menuInflater
-            inflater.inflate(R.menu.account_menu, popup.menu)
-            popup.show()
-        }*/
-
         imgButton.setOnClickListener(){ button ->
             ProfileMenu.showMenu(
                 context = this,
@@ -52,11 +43,9 @@ class WelcomeAdminActivity : AppCompatActivity() {
                             startActivity(intent)
                         }
                         R.id.logout_option -> {
-                            //handle logout action
                             ProfileMenu.handleLogout(this, loggedInUser)
                         }
                         else -> {
-                            //something else
                         }
                     }
                 }
@@ -84,13 +73,5 @@ class WelcomeAdminActivity : AppCompatActivity() {
         val welcomeMessage = "Welcome $firstName!"
 
         binding.txtWelcomeMessage.text = welcomeMessage
-
-        /*binding.btnLogout.setOnClickListener {
-            loggedInUser.clearUserData()
-            val intent = Intent(this, LoginActivity2::class.java)
-            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
-            startActivity(intent)
-            finish()
-        }*/
     }
 }

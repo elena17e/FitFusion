@@ -2,10 +2,7 @@ package hr.foi.air.fitfusion
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
-import android.view.MenuInflater
 import android.widget.ImageButton
-import android.widget.PopupMenu
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayout

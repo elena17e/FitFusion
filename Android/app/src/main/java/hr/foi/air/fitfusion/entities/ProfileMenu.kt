@@ -8,7 +8,6 @@ import android.view.View
 import android.widget.PopupMenu
 import androidx.appcompat.app.AppCompatActivity
 import hr.foi.air.fitfusion.LoginActivity2
-import hr.foi.air.fitfusion.R
 import hr.foi.air.fitfusion.data_classes.LoggedInUser
 
 object ProfileMenu {
