@@ -33,8 +33,8 @@ class TrainerHomepageAdapter(
         private val lastName: TextView = itemView.findViewById(R.id.trainerLastName)
 
         fun bind(trainer: Trainer, itemClickListener: (Trainer) -> Unit) {
-            firstName.text = trainer.FirstName
-            lastName.text = trainer.LastName
+            firstName.text = trainer.firstName
+            lastName.text = trainer.lastName
 
             itemView.setOnClickListener {
                 itemClickListener.invoke(trainer)

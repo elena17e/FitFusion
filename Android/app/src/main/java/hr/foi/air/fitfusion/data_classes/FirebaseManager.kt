@@ -600,8 +600,8 @@ class FirebaseManager {
         val loggedInUser = LoggedInUser(context)
         val userId = loggedInUser.getUserId()
 
-        val dataQuery1 = FirebaseDatabase.getInstance().getReference("Training")
-        dataQuery1.addListenerForSingleValueEvent(object : ValueEventListener {
+        val dataQuery = database.getReference("Training")
+        dataQuery.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 trainingsList.clear()
                 for (trainingSnapshot in snapshot.children) {
@@ -624,6 +624,11 @@ class FirebaseManager {
     private fun navigateToCalendarTab() {
         val activity = WelcomeActivity()
         (activity as? WelcomeActivity)?.navigateToCalendarTab()
+    }
+
+    fun deleteTrainer(usId: String, callback: (Boolean) -> Unit){
+        val dataQuery = database.getReference("user").child(usId)
+        dataQuery.removeValue().addOnSuccessListener { callback(true) }.addOnFailureListener { callback(false) }
     }
 
 }
