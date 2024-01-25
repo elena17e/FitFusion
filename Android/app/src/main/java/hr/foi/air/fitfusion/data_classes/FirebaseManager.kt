@@ -16,7 +16,6 @@ import hr.foi.air.fitfusion.entities.ClassesYoga
 import hr.foi.air.fitfusion.entities.Event
 import hr.foi.air.fitfusion.entities.Post
 import hr.foi.air.fitfusion.entities.Reply
-import hr.foi.air.fitfusion.entities.Training
 import hr.foi.air.fitfusion.fragments.CardioDataListener
 import hr.foi.air.fitfusion.fragments.StrengthDataListener
 import hr.foi.air.fitfusion.fragments.YogaDataListener
@@ -616,12 +615,6 @@ class FirebaseManager {
                 }, { trainingModel ->
 
                     removeParticipant(trainingModel, context)
-                    var currentParticipantsCount =
-                        snapshot.child("participants").getValue(String::class.java)?.toInt()
-                            ?: 0
-                    currentParticipantsCount--
-                    currentParticipantsCount = maxOf(0, currentParticipantsCount)
-                    snapshot.child("participants").ref.setValue(currentParticipantsCount.toString())
                 })
             }
 
@@ -644,22 +637,15 @@ class FirebaseManager {
     fun removeParticipant(trainingModel: TrainingModel, context: Context) {
         val loggedInUser = LoggedInUser(context)
         val participantIdToRemove = loggedInUser.getUserId()
-        if (participantIdToRemove != null) {
-            val trainingRef = trainingModel.id?.let {
+        if (participantIdToRemove != null && trainingModel.id != null) {
+            val trainingRef = FirebaseDatabase.getInstance().getReference("Training").child(trainingModel.id).child("participantsId").child(participantIdToRemove)
 
-                FirebaseDatabase.getInstance().getReference("Training")
-                    .child(it)
-                    .child("participantsId")
-                    .child(participantIdToRemove)
-            }
-
-
-            trainingRef!!.removeValue().addOnCompleteListener { task ->
+            trainingRef.removeValue().addOnCompleteListener { task ->
                 if (task.isSuccessful) {
-                    Toast.makeText(context, "Participant removed successfully", Toast.LENGTH_SHORT)
+                    Toast.makeText(context, "You have successfully canceled your participation on training session!", Toast.LENGTH_SHORT)
                         .show()
                 } else {
-                    Toast.makeText(context, "Failed to remove participant", Toast.LENGTH_SHORT)
+                    Toast.makeText(context, "Failed to cancel training!", Toast.LENGTH_SHORT)
                         .show()
                 }
             }
