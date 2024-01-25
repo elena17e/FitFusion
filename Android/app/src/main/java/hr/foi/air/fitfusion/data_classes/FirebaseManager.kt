@@ -596,7 +596,7 @@ class FirebaseManager {
     }
 
     fun getTrainings(context: Context, trainingsRecycleView: RecyclerView) {
-        val trainingsList = ArrayList<Training>()
+        val trainingsList = ArrayList<TrainingModel>()
         val loggedInUser = LoggedInUser(context)
         val userId = loggedInUser.getUserId()
 
@@ -605,14 +605,24 @@ class FirebaseManager {
             override fun onDataChange(snapshot: DataSnapshot) {
                 trainingsList.clear()
                 for (trainingSnapshot in snapshot.children) {
-                    val training = trainingSnapshot.getValue(Training::class.java)
+                    val training = trainingSnapshot.getValue(TrainingModel::class.java)
                     if (training != null && userId in training.participantsId.orEmpty()) {
                         trainingsList.add(training)
                     }
                 }
-                trainingsRecycleView.adapter = TrainingHomepageAdapter(trainingsList) {
+                trainingsRecycleView.adapter = TrainingHomepageAdapter(trainingsList, {
+
                     navigateToCalendarTab()
-                }
+                }, { trainingModel ->
+
+                    removeParticipant(trainingModel, context)
+                    var currentParticipantsCount =
+                        snapshot.child("participants").getValue(String::class.java)?.toInt()
+                            ?: 0
+                    currentParticipantsCount--
+                    currentParticipantsCount = maxOf(0, currentParticipantsCount)
+                    snapshot.child("participants").ref.setValue(currentParticipantsCount.toString())
+                })
             }
 
             override fun onCancelled(error: DatabaseError) {
@@ -629,6 +639,31 @@ class FirebaseManager {
     fun deleteTrainer(usId: String, callback: (Boolean) -> Unit){
         val dataQuery = database.getReference("user").child(usId)
         dataQuery.removeValue().addOnSuccessListener { callback(true) }.addOnFailureListener { callback(false) }
+    }
+
+    fun removeParticipant(trainingModel: TrainingModel, context: Context) {
+        val loggedInUser = LoggedInUser(context)
+        val participantIdToRemove = loggedInUser.getUserId()
+        if (participantIdToRemove != null) {
+            val trainingRef = trainingModel.id?.let {
+
+                FirebaseDatabase.getInstance().getReference("Training")
+                    .child(it)
+                    .child("participantsId")
+                    .child(participantIdToRemove)
+            }
+
+
+            trainingRef!!.removeValue().addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    Toast.makeText(context, "Participant removed successfully", Toast.LENGTH_SHORT)
+                        .show()
+                } else {
+                    Toast.makeText(context, "Failed to remove participant", Toast.LENGTH_SHORT)
+                        .show()
+                }
+            }
+        }
     }
 
 }

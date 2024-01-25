@@ -1,5 +1,6 @@
 package hr.foi.air.fitfusion.fragments
 
+import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -17,9 +18,15 @@ import hr.foi.air.fitfusion.adapters.TrainerHomepageAdapter
 import hr.foi.air.fitfusion.entities.Trainer
 import android.content.Intent
 import android.widget.ImageButton
+import android.widget.Toast
 import hr.foi.air.fitfusion.TrainerDetailsActivity
 import hr.foi.air.fitfusion.WelcomeActivity
+import hr.foi.air.fitfusion.adapters.TrainerAdapter
+import hr.foi.air.fitfusion.adapters.TrainingHomepageAdapter
 import hr.foi.air.fitfusion.data_classes.FirebaseManager
+import hr.foi.air.fitfusion.data_classes.LoggedInUser
+import hr.foi.air.fitfusion.data_classes.TrainingModel
+import hr.foi.air.fitfusion.data_classes.UserModel
 
 @Suppress("RemoveExplicitTypeArguments")
 class HomeFragment : Fragment() {
@@ -27,9 +34,11 @@ class HomeFragment : Fragment() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var database: DatabaseReference
     private lateinit var trainersArrayList: ArrayList<Trainer>
+    private lateinit var trainingsArrayListModel: ArrayList<TrainingModel>
 
     private lateinit var trainingsRecycleView: RecyclerView
     private val firebaseManager = FirebaseManager()
+    private lateinit var loggedInUser: LoggedInUser
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -40,7 +49,7 @@ class HomeFragment : Fragment() {
 
     @Suppress("CanBeVal")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-
+        loggedInUser = LoggedInUser(requireContext())
         recyclerView = view.findViewById(R.id.trainers_homepage)
         recyclerView.layoutManager = LinearLayoutManager(view.context)
 
@@ -76,10 +85,22 @@ class HomeFragment : Fragment() {
             }
         })
 
+
+
         trainingsRecycleView = view.findViewById(R.id.trainings_homepage)
         trainingsRecycleView.layoutManager = LinearLayoutManager(context)
 
+        trainingsArrayListModel = arrayListOf()
         firebaseManager.getTrainings(requireContext(), trainingsRecycleView)
+        trainingsRecycleView.adapter = TrainingHomepageAdapter(trainingsArrayListModel, {
+
+        }) { trainingModel ->
+            firebaseManager.removeParticipant(trainingModel, requireContext())
+        }
+
+
+
+
 
 
         val addButton = view.findViewById<ImageButton>(R.id.addTraining)
