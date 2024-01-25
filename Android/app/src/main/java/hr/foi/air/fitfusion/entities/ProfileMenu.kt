@@ -7,11 +7,13 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.PopupMenu
 import androidx.appcompat.app.AppCompatActivity
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
+import com.google.firebase.auth.FirebaseAuth
 import hr.foi.air.fitfusion.LoginActivity2
 import hr.foi.air.fitfusion.data_classes.LoggedInUser
 
 object ProfileMenu {
-    fun showMenu(context: Context, anchor: View, menuRes: Int, actionHandler: (Int) -> Unit){
+    fun showMenu(context: Context, anchor: View, menuRes: Int, actionHandler: (Int) -> Unit) {
         val popup = PopupMenu(context, anchor)
         popup.menuInflater.inflate(menuRes, popup.menu)
 
@@ -22,7 +24,10 @@ object ProfileMenu {
                     field.isAccessible = true
                     val menuPopupHelper = field.get(popup)
                     val classPopupHelper = Class.forName(menuPopupHelper.javaClass.name)
-                    val setForceIcons = classPopupHelper.getMethod("setForceShowIcon", Boolean::class.javaPrimitiveType)
+                    val setForceIcons = classPopupHelper.getMethod(
+                        "setForceShowIcon",
+                        Boolean::class.javaPrimitiveType
+                    )
                     setForceIcons.invoke(menuPopupHelper, true)
                     break
                 }
@@ -38,11 +43,15 @@ object ProfileMenu {
         popup.show()
     }
 
-    fun handleLogout(activity: AppCompatActivity, loggedInUser: LoggedInUser) {
-        loggedInUser.clearUserData()
-        val intent = Intent(activity, LoginActivity2::class.java)
-        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
-        activity.startActivity(intent)
-        activity.finish()
+    fun handleLogout(activity: AppCompatActivity, loggedInUser: LoggedInUser, googleSignInClient: GoogleSignInClient) {
+        FirebaseAuth.getInstance().signOut()
+
+        googleSignInClient.signOut().addOnCompleteListener(activity) {
+            loggedInUser.clearUserData()
+            val intent = Intent(activity, LoginActivity2::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+            activity.startActivity(intent)
+            activity.finish()
+        }
     }
 }

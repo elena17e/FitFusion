@@ -15,3 +15,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "FitFusion"
 include(":app")
+include(":google_login")

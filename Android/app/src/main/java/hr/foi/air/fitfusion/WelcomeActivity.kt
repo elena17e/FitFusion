@@ -5,6 +5,9 @@ import android.os.Bundle
 import android.widget.ImageButton
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager2.widget.ViewPager2
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import hr.foi.air.fitfusion.adapters.MainPagerAdapter
@@ -20,6 +23,8 @@ class WelcomeActivity : AppCompatActivity() {
     private lateinit var loggedInUser: LoggedInUser
     private lateinit var tabLayout: TabLayout
     private lateinit var viewPager2: ViewPager2
+    private lateinit var googleSignInClient: GoogleSignInClient
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         supportActionBar?.hide()
@@ -30,9 +35,18 @@ class WelcomeActivity : AppCompatActivity() {
         tabLayout = findViewById(R.id.tabs)
         viewPager2 = findViewById(R.id.viewpager)
 
+
+        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+            .requestIdToken(getString(R.string.default_web_client_id))
+            .requestEmail()
+            .build()
+
+        googleSignInClient = GoogleSignIn.getClient(this, gso)
+
+
         val imgButton = findViewById<ImageButton>(R.id.imageButtonUser)
 
-        imgButton.setOnClickListener(){ button ->
+        imgButton.setOnClickListener { button ->
             ProfileMenu.showMenu(
                 context = this,
                 anchor = button,
@@ -44,7 +58,8 @@ class WelcomeActivity : AppCompatActivity() {
                             startActivity(intent)
                         }
                         R.id.logout_option -> {
-                            ProfileMenu.handleLogout(this, loggedInUser)
+                            ProfileMenu.handleLogout(this, loggedInUser, googleSignInClient)
+
                         }
                         else -> {
                         }
