@@ -2,11 +2,12 @@ package hr.foi.air.fitfusion
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.MenuInflater
 import android.widget.ImageButton
-import android.widget.PopupMenu
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager2.widget.ViewPager2
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import hr.foi.air.fitfusion.adapters.MainPagerAdapter
@@ -21,6 +22,7 @@ class WelcomeAdminActivity : AppCompatActivity() {
     private lateinit var tabLayout: TabLayout
     private lateinit var loggedInUser: LoggedInUser
     private lateinit var viewPager2: ViewPager2
+    private lateinit var googleSignInClient: GoogleSignInClient
 
     override fun onCreate(savedInstanceState: Bundle?) {
         supportActionBar?.hide()
@@ -31,14 +33,14 @@ class WelcomeAdminActivity : AppCompatActivity() {
         tabLayout = findViewById(R.id.tabs2)
         viewPager2 = findViewById(R.id.viewpager3)
 
-        val imgButton = findViewById<ImageButton>(R.id.imageButtonUser)
+        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+            .requestIdToken(getString(R.string.default_web_client_id))
+            .requestEmail()
+            .build()
 
-        /*imgButton.setOnClickListener(){
-            val popup = PopupMenu(this, it)
-            val inflater: MenuInflater = popup.menuInflater
-            inflater.inflate(R.menu.account_menu, popup.menu)
-            popup.show()
-        }*/
+        googleSignInClient = GoogleSignIn.getClient(this, gso)
+
+        val imgButton = findViewById<ImageButton>(R.id.imageButtonUser)
 
         imgButton.setOnClickListener(){ button ->
             ProfileMenu.showMenu(
@@ -52,11 +54,10 @@ class WelcomeAdminActivity : AppCompatActivity() {
                             startActivity(intent)
                         }
                         R.id.logout_option -> {
-                            //handle logout action
-                            ProfileMenu.handleLogout(this, loggedInUser)
+
+                            ProfileMenu.handleLogout(this, loggedInUser, googleSignInClient)
                         }
                         else -> {
-                            //something else
                         }
                     }
                 }
@@ -85,12 +86,5 @@ class WelcomeAdminActivity : AppCompatActivity() {
 
         binding.txtWelcomeMessage.text = welcomeMessage
 
-        /*binding.btnLogout.setOnClickListener {
-            loggedInUser.clearUserData()
-            val intent = Intent(this, LoginActivity2::class.java)
-            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
-            startActivity(intent)
-            finish()
-        }*/
     }
 }

@@ -2,6 +2,7 @@ package hr.foi.air.fitfusion.data_classes
 import android.content.Context
 import android.content.SharedPreferences
 
+
 class LoggedInUser(context: Context) {
     private val sharedPreferences: SharedPreferences = context.getSharedPreferences("LoggedInUser", Context.MODE_PRIVATE)
     private val editor: SharedPreferences.Editor = sharedPreferences.edit()
