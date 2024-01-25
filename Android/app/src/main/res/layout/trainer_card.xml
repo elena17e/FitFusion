@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -8,9 +9,14 @@
     android:layout_margin="16dp">
 
     <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="10dp"
         android:orientation="vertical">
 
         <LinearLayout
@@ -24,7 +30,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/first_name"
                 android:textColor="@color/black"
-                android:textSize="26sp"
+                android:textSize="20sp"
                 android:textStyle="bold"/>
 
             <TextView
@@ -46,7 +52,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/last_name"
                 android:textColor="@color/black"
-                android:textSize="26sp"
+                android:textSize="20sp"
                 android:textStyle="bold"/>
 
             <TextView
@@ -68,7 +74,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/email"
                 android:textColor="@color/black"
-                android:textSize="26sp"
+                android:textSize="20sp"
                 android:textStyle="bold"/>
 
             <TextView
@@ -79,5 +85,24 @@
                 android:textColor="@color/black"
                 android:textSize="20sp"/>
         </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent">
+
+        <ImageButton
+            android:id="@+id/deleteTrainer"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="17dp"
+            android:layout_weight="1"
+            android:background="@drawable/roundcorner"
+            android:contentDescription="@string/todo"
+            app:srcCompat="@drawable/x_white"
+            tools:ignore="InefficientWeight" />
+
+    </LinearLayout>
     </LinearLayout>
 </androidx.cardview.widget.CardView>

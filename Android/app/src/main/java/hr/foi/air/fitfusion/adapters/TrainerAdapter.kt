@@ -6,12 +6,11 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import hr.foi.air.fitfusion.R
-import hr.foi.air.fitfusion.entities.Trainer
+import hr.foi.air.fitfusion.data_classes.UserModel
 
-class TrainerAdapter(private val trainerList: ArrayList<Trainer>): RecyclerView.Adapter<TrainerAdapter.TrainerViewHolder>() {
+class TrainerAdapter(private val trainerList: ArrayList<UserModel>, private val onDeleteClick: (UserModel) -> Unit): RecyclerView.Adapter<TrainerAdapter.TrainerViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TrainerViewHolder {
-
         val itemView = LayoutInflater
             .from(parent.context)
             .inflate(R.layout.trainer_card, parent, false)
@@ -21,16 +20,20 @@ class TrainerAdapter(private val trainerList: ArrayList<Trainer>): RecyclerView.
         return trainerList.size
     }
     override fun onBindViewHolder(holder: TrainerViewHolder, position: Int) {
-        holder.bind(trainerList[position])
+        val trainer = trainerList[position]
+        holder.bind(trainer)
+        holder.itemView.findViewById<View>(R.id.deleteTrainer).setOnClickListener{
+            onDeleteClick(trainer)
+        }
     }
     class TrainerViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
         private val firstName: TextView = itemView.findViewById(R.id.trainerName)
         private val lastName: TextView = itemView.findViewById(R.id.trainerLastName)
         private val email: TextView = itemView.findViewById(R.id.trainerEmail)
-        fun bind(trainer: Trainer) {
-            firstName.text = trainer.FirstName
-            lastName.text = trainer.LastName
-            email.text = trainer.Email
+        fun bind(trainer: UserModel) {
+            firstName.text = trainer.firstName
+            lastName.text = trainer.lastName
+            email.text = trainer.email
         }
     }
 }

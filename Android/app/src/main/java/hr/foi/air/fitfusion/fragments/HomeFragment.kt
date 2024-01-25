@@ -20,18 +20,21 @@ import android.widget.ImageButton
 import hr.foi.air.fitfusion.TrainerDetailsActivity
 import hr.foi.air.fitfusion.WelcomeActivity
 import hr.foi.air.fitfusion.adapters.TrainingHomepageAdapter
+import hr.foi.air.fitfusion.data_classes.FirebaseManager
 import hr.foi.air.fitfusion.data_classes.LoggedInUser
-import hr.foi.air.fitfusion.entities.Training
+import hr.foi.air.fitfusion.data_classes.TrainingModel
 
-
+@Suppress("RemoveExplicitTypeArguments")
 class HomeFragment : Fragment() {
 
     private lateinit var recyclerView: RecyclerView
     private lateinit var database: DatabaseReference
     private lateinit var trainersArrayList: ArrayList<Trainer>
+    private lateinit var trainingsArrayListModel: ArrayList<TrainingModel>
 
     private lateinit var trainingsRecycleView: RecyclerView
-    private lateinit var trainingsList: ArrayList<Training>
+    private val firebaseManager = FirebaseManager()
+    private lateinit var loggedInUser: LoggedInUser
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -40,9 +43,9 @@ class HomeFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_home, container, false)
     }
 
+    @Suppress("CanBeVal")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
+        loggedInUser = LoggedInUser(requireContext())
         recyclerView = view.findViewById(R.id.trainers_homepage)
         recyclerView.layoutManager = LinearLayoutManager(view.context)
 
@@ -64,10 +67,10 @@ class HomeFragment : Fragment() {
                     recyclerView.adapter = TrainerHomepageAdapter(trainersArrayList) { clickedTrainer ->
                         val intent =
                             Intent(requireContext(), TrainerDetailsActivity::class.java).apply {
-                                putExtra("firstName", clickedTrainer.FirstName)
-                                putExtra("lastName", clickedTrainer.LastName)
-                                putExtra("email", clickedTrainer.Email)
-                                putExtra("description", clickedTrainer.Description)
+                                putExtra("firstName", clickedTrainer.firstName)
+                                putExtra("lastName", clickedTrainer.lastName)
+                                putExtra("email", clickedTrainer.email)
+                                putExtra("description", clickedTrainer.description)
                             }
                         startActivity(intent)
                     }
@@ -80,39 +83,19 @@ class HomeFragment : Fragment() {
 
         trainingsRecycleView = view.findViewById(R.id.trainings_homepage)
         trainingsRecycleView.layoutManager = LinearLayoutManager(context)
-        trainingsList = arrayListOf<Training>()
 
-        getTrainings()
+        trainingsArrayListModel = arrayListOf()
+        firebaseManager.getTrainings(requireContext(), trainingsRecycleView)
+        trainingsRecycleView.adapter = TrainingHomepageAdapter(trainingsArrayListModel, {
 
+        }) { trainingModel ->
+            firebaseManager.removeParticipant(trainingModel, requireContext())
+        }
 
         val addButton = view.findViewById<ImageButton>(R.id.addTraining)
         addButton.setOnClickListener{
             navigateToCalendarTab()
         }
-    }
-
-    private fun getTrainings(){
-        val loggedInUser = LoggedInUser(requireContext())
-        val userId = loggedInUser.getUserId()
-
-        val dataQuery1 = FirebaseDatabase.getInstance().getReference("Training")
-        dataQuery1.addListenerForSingleValueEvent(object : ValueEventListener{
-            override fun onDataChange(snapshot: DataSnapshot){
-                trainingsList.clear()
-                for (trainingSnapshot in snapshot.children){
-                    val training = trainingSnapshot.getValue(Training::class.java)
-                    if (training != null && userId in training.participantsId.orEmpty()){
-                        trainingsList.add(training)
-                    }
-                }
-                trainingsRecycleView.adapter = TrainingHomepageAdapter(trainingsList){
-                    navigateToCalendarTab()
-                }
-            }
-            override fun onCancelled(error: DatabaseError) {
-                TODO("Not yet implemented")
-            }
-        })
     }
 
     private fun navigateToCalendarTab(){

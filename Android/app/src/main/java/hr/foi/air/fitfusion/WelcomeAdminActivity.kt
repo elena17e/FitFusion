@@ -85,6 +85,5 @@ class WelcomeAdminActivity : AppCompatActivity() {
         val welcomeMessage = "Welcome $firstName!"
 
         binding.txtWelcomeMessage.text = welcomeMessage
-
     }
 }

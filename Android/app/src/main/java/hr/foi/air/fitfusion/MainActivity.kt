@@ -51,7 +51,7 @@ class MainActivity : ComponentActivity() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
             val channel = NotificationChannel(
                 "trainingSignUp",
-                "Sign up for Traiing",
+                "Sign up for Training",
                 NotificationManager.IMPORTANCE_DEFAULT
             ).apply {
                 description = "Notification for training applications"
