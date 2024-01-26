@@ -642,6 +642,26 @@ class FirebaseManager {
 
             trainingRef.removeValue().addOnCompleteListener { task ->
                 if (task.isSuccessful) {
+                    val firebaseDatabase = FirebaseDatabase.getInstance()
+                    val databaseReference = firebaseDatabase.getReference("Training")
+
+                    val query = databaseReference.orderByChild("id").equalTo(trainingModel.id)
+                    query.addListenerForSingleValueEvent(object : ValueEventListener {
+                        override fun onDataChange(dataSnapshot: DataSnapshot) {
+                            for (trainingSnapshot in dataSnapshot.children) {
+                                var currentParticipantsCount =
+                                    trainingSnapshot.child("participants").getValue(String::class.java)?.toInt()
+                                        ?: 0
+                                currentParticipantsCount++
+                                currentParticipantsCount = maxOf(0, currentParticipantsCount)
+                                trainingSnapshot.child("participants").ref.setValue(currentParticipantsCount.toString())
+                            }
+                        }
+
+                        override fun onCancelled(databaseError: DatabaseError) {
+                            Log.e("cancelTraining", "Error querying Training: ${databaseError.message}")
+                        }
+                    })
                     Toast.makeText(context, "You have successfully canceled your participation on training session!", Toast.LENGTH_SHORT)
                         .show()
                 } else {
