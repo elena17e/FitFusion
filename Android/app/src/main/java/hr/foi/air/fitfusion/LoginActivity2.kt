@@ -6,6 +6,10 @@ import android.text.method.HideReturnsTransformationMethod
 import android.text.method.PasswordTransformationMethod
 import android.widget.TextView
 import android.widget.Toast
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.firebase.auth.FirebaseAuth
 import hr.foi.air.fitfusion.data_classes.FirebaseManager
 import hr.foi.air.fitfusion.data_classes.LoggedInUser
 
@@ -23,6 +27,7 @@ class LoginActivity2 : androidx.activity.ComponentActivity() {
     private lateinit var loggedInUser: LoggedInUser
     private lateinit var googleLogin: TextView
     private lateinit var googleSignInHandler: GoogleLogin
+    private lateinit var googleSignInClient: GoogleSignInClient
 
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,6 +35,10 @@ class LoginActivity2 : androidx.activity.ComponentActivity() {
         setContentView(binding.root)
         googleLogin = findViewById(R.id.textViewGoogle)
 
+        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+            .requestEmail()
+            .build()
+        googleSignInClient = GoogleSignIn.getClient(this, gso)
 
         userRepository = UserRepository(FirebaseManager())
         userRepositoryGoogle = UserRepositoryGoogle(FirebaseManagerGoogle())
@@ -80,6 +89,14 @@ class LoginActivity2 : androidx.activity.ComponentActivity() {
                         startActivity(intent)
                         finish()
                     }
+                    else{
+                        FirebaseAuth.getInstance().signOut()
+                        googleSignInClient.signOut().addOnCompleteListener(this@LoginActivity2) {
+                            Toast.makeText(this@LoginActivity2, "Email is not registered in our app!", Toast.LENGTH_SHORT).show()
+                        }
+
+                    }
+
                 }
             }
         }
