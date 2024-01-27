@@ -594,10 +594,14 @@ class FirebaseManager {
         })
     }
 
+    @Suppress("SENSELESS_COMPARISON")
     fun getTrainings(context: Context, trainingsRecycleView: RecyclerView) {
         val trainingsList = ArrayList<TrainingModel>()
         val loggedInUser = LoggedInUser(context)
         val userId = loggedInUser.getUserId()
+        val current = LocalDate.now()
+        val formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy")
+
 
         val dataQuery = database.getReference("Training")
         dataQuery.addListenerForSingleValueEvent(object : ValueEventListener {
@@ -605,7 +609,8 @@ class FirebaseManager {
                 trainingsList.clear()
                 for (trainingSnapshot in snapshot.children) {
                     val training = trainingSnapshot.getValue(TrainingModel::class.java)
-                    if (training != null && userId in training.participantsId.orEmpty()) {
+                    val dateToString = LocalDate.parse(training!!.date, formatter)
+                    if (training != null && userId in training.participantsId.orEmpty() && dateToString.isAfter(current)) {
                         trainingsList.add(training)
                     }
                 }
