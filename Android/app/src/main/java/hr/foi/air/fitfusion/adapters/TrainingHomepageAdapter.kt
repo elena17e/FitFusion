@@ -6,7 +6,6 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import hr.foi.air.fitfusion.R
-import hr.foi.air.fitfusion.entities.Training
 import hr.foi.air.fitfusion.data_classes.TrainingModel
 
 
