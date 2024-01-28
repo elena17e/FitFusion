@@ -25,6 +25,7 @@ import java.security.SecureRandom
 import java.time.LocalDate
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
+import hr.foi.air.fitfusion.entities.Trainer
 
 
 
@@ -186,6 +187,32 @@ class FirebaseManager {
                 }
             })
     }
+
+    fun fetchTrainers(context: Context, callback: (List<UserModel>) -> Unit) {
+        val trainersList = mutableListOf<UserModel>()
+
+        val database = FirebaseDatabase.getInstance()
+        val trainersRef = database.getReference("user")
+
+        val trainersQuery = trainersRef.orderByChild("type").equalTo("trainer")
+
+        trainersQuery.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                snapshot.children.forEach { trainerSnapshot ->
+                    val trainer = trainerSnapshot.getValue(UserModel::class.java)
+                    trainer?.let {
+                        trainersList.add(it)
+                    }
+                }
+                callback(trainersList)
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                Toast.makeText(context, "Failed to fetch trainers: ${error.message}", Toast.LENGTH_SHORT).show()
+            }
+        })
+    }
+
 
     private fun verifyPassword(
         enteredPassword: String,
@@ -595,10 +622,14 @@ class FirebaseManager {
         })
     }
 
+    @Suppress("SENSELESS_COMPARISON")
     fun getTrainings(context: Context, trainingsRecycleView: RecyclerView?) {
         val trainingsList = ArrayList<TrainingModel>()
         val loggedInUser = LoggedInUser(context)
         val userId = loggedInUser.getUserId()
+        val current = LocalDate.now()
+        val formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy")
+
 
         val dataQuery = database.getReference("Training")
         dataQuery.addListenerForSingleValueEvent(object : ValueEventListener {
@@ -606,16 +637,18 @@ class FirebaseManager {
                 trainingsList.clear()
                 for (trainingSnapshot in snapshot.children) {
                     val training = trainingSnapshot.getValue(TrainingModel::class.java)
-                    if (training != null && userId in training.participantsId.orEmpty()) {
+                    val dateToString = LocalDate.parse(training!!.date, formatter)
+                    if (training != null && userId in training.participantsId.orEmpty() && dateToString.isAfter(current)) {
                         trainingsList.add(training)
                     }
                 }
                 trainingsRecycleView?.adapter = TrainingHomepageAdapter(trainingsList, {
 
                     navigateToCalendarTab()
-                }) { trainingModel ->
+                }, { trainingModel ->
+
                     removeParticipant(trainingModel, context)
-                }
+                })
             }
 
             override fun onCancelled(error: DatabaseError) {
@@ -623,6 +656,32 @@ class FirebaseManager {
             }
         })
     }
+
+    fun getTrainers(callback: (ArrayList<Trainer>) -> Unit) {
+        val trainersList = ArrayList<Trainer>()
+
+        val database = FirebaseDatabase.getInstance()
+        val trainersRef = database.getReference("user")
+
+        val trainersQuery = trainersRef.orderByChild("type").equalTo("trainer")
+
+        trainersQuery.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                snapshot.children.forEach { trainerSnapshot ->
+                    val trainer = trainerSnapshot.getValue(Trainer::class.java)
+                    trainer?.let {
+                        trainersList.add(it)
+                    }
+                }
+                callback(trainersList)
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+        })
+    }
+
 
     private fun navigateToCalendarTab() {
         val activity = WelcomeActivity()
@@ -674,13 +733,11 @@ class FirebaseManager {
         val trainingRecycleView = getVariableFromHomeFragment(context)
         getTrainings(context, trainingRecycleView)
         trainingRecycleView?.adapter?.notifyDataSetChanged()
-
     }
-
     private fun getVariableFromHomeFragment(context: Context): RecyclerView? {
         val activity = context as? WelcomeActivity
-        val fragment = activity?.supportFragmentManager?.findFragmentByTag("HomeFragment") as? HomeFragment
+        val fragment =
+            activity?.supportFragmentManager?.findFragmentByTag("HomeFragment") as? HomeFragment
         return fragment?.trainingsRecycleView
     }
-
 }
