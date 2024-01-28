@@ -22,7 +22,7 @@ class HomeFragment : Fragment() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var trainingsArrayListModel: ArrayList<TrainingModel>
 
-    public lateinit var trainingsRecycleView: RecyclerView
+    lateinit var trainingsRecycleView: RecyclerView
     private val firebaseManager = FirebaseManager()
 
     override fun onCreateView(
