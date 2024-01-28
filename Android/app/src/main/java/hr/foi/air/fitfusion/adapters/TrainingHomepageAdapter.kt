@@ -9,6 +9,7 @@ import hr.foi.air.fitfusion.R
 import hr.foi.air.fitfusion.data_classes.TrainingModel
 
 
+@Suppress("UNUSED_PARAMETER")
 class TrainingHomepageAdapter(private val trainingsList: ArrayList<TrainingModel>, private val onCalendarClick: () -> Unit, private val onCancelClick: (TrainingModel) -> Unit) : RecyclerView.Adapter<TrainingHomepageAdapter.TrainingViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TrainingViewHolder {

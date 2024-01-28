@@ -6,6 +6,7 @@ import android.widget.TextView
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 
+@Suppress("LocalVariableName")
 class TrainerDetailsActivity : AppCompatActivity() {
     private lateinit var textViewDisplayFirstName:  TextView
     private lateinit var textViewDisplayLastName: TextView
