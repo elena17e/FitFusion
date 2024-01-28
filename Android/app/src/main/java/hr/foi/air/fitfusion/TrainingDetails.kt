@@ -60,21 +60,6 @@ class TrainingDetails : AppCompatActivity() {
         cancelButton.setOnClickListener {
             val intent = Intent(this, WeekViewActivity::class.java)
             startActivity(intent)
-
-            val notificationId = (System.currentTimeMillis()%1000).toInt()
-
-            val notificationManager = ContextCompat.getSystemService(
-                this,
-                NotificationManager::class.java
-            ) as NotificationManager
-
-            val notificationBuilder = NotificationCompat.Builder(this, "trainingSignUp")
-                .setSmallIcon(R.drawable.baseline_assignment_turned_in_24)
-                .setContentTitle("Training session")
-                .setContentText("You have successfully canceled your training!")
-                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-
-            notificationManager.notify(notificationId, notificationBuilder.build())
         }
 
         val current = LocalDate.now()
