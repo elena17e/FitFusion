@@ -44,7 +44,7 @@ class WelcomeTrainerActivity : AppCompatActivity() {
 
         val imgButton = findViewById<ImageButton>(R.id.imageButtonUser)
 
-        imgButton.setOnClickListener(){ button ->
+        imgButton.setOnClickListener{ button ->
             ProfileMenu.showMenu(
                 context = this,
                 anchor = button,

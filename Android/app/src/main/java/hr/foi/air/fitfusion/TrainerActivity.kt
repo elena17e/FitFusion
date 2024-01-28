@@ -1,11 +1,14 @@
 package hr.foi.air.fitfusion
 
+import android.app.NotificationManager
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
 import android.widget.Toast
+import androidx.core.app.NotificationCompat
+import androidx.core.content.ContextCompat
 import java.util.regex.Pattern
 import hr.foi.air.fitfusion.data_classes.FirebaseManager
 
@@ -64,6 +67,21 @@ class TrainerActivity : AppCompatActivity() {
                     Toast.makeText(this@TrainerActivity, message ?: "Error adding trainer", Toast.LENGTH_SHORT).show()
                 }
             }
+
+            val notificationId = (System.currentTimeMillis()%1000).toInt()
+
+            val notificationManager = ContextCompat.getSystemService(
+                this,
+                NotificationManager::class.java
+            ) as NotificationManager
+
+            val notificationBuilder = NotificationCompat.Builder(this, "trainingSignUp")
+                .setSmallIcon(R.drawable.baseline_assignment_turned_in_24)
+                .setContentTitle("Training session")
+                .setContentText("You have successfully added a new trainer!")
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+
+            notificationManager.notify(notificationId, notificationBuilder.build())
         }
 
         btnCancel.setOnClickListener {

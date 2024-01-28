@@ -12,6 +12,8 @@ import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
 import hr.foi.air.fitfusion.data_classes.FirebaseManager
 import hr.foi.air.fitfusion.data_classes.LoggedInUser
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
 class TrainingDetails : AppCompatActivity() {
     private lateinit var textViewDisplayId: TextView
@@ -60,7 +62,11 @@ class TrainingDetails : AppCompatActivity() {
             startActivity(intent)
         }
 
-        if (loggedUsertype == "trainer" || participants == "0") {
+        val current = LocalDate.now()
+        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+        val dateToString = LocalDate.parse(date, formatter)
+
+        if (loggedUsertype == "trainer" || participants == "0" || dateToString.isBefore(current)) {
             applyButton.visibility = View.GONE
         }
         firebaseManager.checkIfUserIsAlreadyApplied(this, id) { hasApplied ->
@@ -68,7 +74,7 @@ class TrainingDetails : AppCompatActivity() {
                 Toast.makeText(this, "You have already applied for this training!", Toast.LENGTH_SHORT).show()
                 applyButton.visibility = View.GONE
             } else {
-                if (loggedUsertype == "user" && participants != "0") {
+                if (loggedUsertype == "user" && participants != "0" && (dateToString.equals(current) || dateToString.isAfter(current))) {
                     applyButton.setOnClickListener {
                         firebaseManager.applyForTraining(this, id)
                         val intent = Intent(this, WeekViewActivity::class.java)

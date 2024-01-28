@@ -1,6 +1,7 @@
 package hr.foi.air.fitfusion
 
 import android.app.DatePickerDialog
+import android.app.NotificationManager
 import android.app.TimePickerDialog
 import android.content.Intent
 import android.os.Bundle
@@ -10,6 +11,8 @@ import android.widget.EditText
 import android.widget.Spinner
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.NotificationCompat
+import androidx.core.content.ContextCompat
 import hr.foi.air.fitfusion.data_classes.FirebaseManager
 import hr.foi.air.fitfusion.data_classes.LoggedInUser
 import java.util.Calendar
@@ -53,6 +56,21 @@ class TrainingSessionActivity : AppCompatActivity() {
 
         btnDone.setOnClickListener {
             saveTrainingSession()
+
+            val notificationId = (System.currentTimeMillis()%1000).toInt()
+
+            val notificationManager = ContextCompat.getSystemService(
+                this,
+                NotificationManager::class.java
+            ) as NotificationManager
+
+            val notificationBuilder = NotificationCompat.Builder(this, "trainingSignUp")
+                .setSmallIcon(R.drawable.baseline_assignment_turned_in_24)
+                .setContentTitle("Training session")
+                .setContentText("You have successfully added your training to the calendar!")
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+
+            notificationManager.notify(notificationId, notificationBuilder.build())
         }
 
         val btnSelectTime: Button = findViewById(R.id.SelectTime)
