@@ -50,7 +50,7 @@ class MainActivity : ComponentActivity() {
             "Sign up for Training",
             NotificationManager.IMPORTANCE_DEFAULT
         ).apply {
-            description = "Notification for training applications"
+            description = "Notifications"
         }
         val notificationManager: NotificationManager =
             getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
