@@ -27,7 +27,7 @@ class ClassAdapterYoga (
 
         holder.date.text = currentitem.date
         holder.time.text = currentitem.time
-        holder.timeEnd.text = currentitem.time_end
+        holder.timeEnd.text = currentitem.timeend
         holder.type.text = currentitem.type
         holder.participants.text = currentitem.participants
 

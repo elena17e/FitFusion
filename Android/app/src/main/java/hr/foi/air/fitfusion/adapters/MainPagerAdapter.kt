@@ -20,6 +20,7 @@ class MainPagerAdapter(fragmentManager : FragmentManager, lifecycle : Lifecycle)
     override fun getItemCount(): Int = fragmentItems.size
 
     override fun createFragment(position: Int): Fragment {
-        return fragmentItems[position].fragmentClass.java.newInstance() as Fragment
+        val constructor = fragmentItems[position].fragmentClass.java.getConstructor()
+        return constructor.newInstance() as Fragment
         }
     }
