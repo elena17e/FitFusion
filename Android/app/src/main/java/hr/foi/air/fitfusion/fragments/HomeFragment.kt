@@ -7,24 +7,16 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
 import hr.foi.air.fitfusion.R
 import hr.foi.air.fitfusion.adapters.TrainerHomepageAdapter
-import hr.foi.air.fitfusion.entities.Trainer
 import android.content.Intent
 import android.widget.ImageButton
 import hr.foi.air.fitfusion.TrainerDetailsActivity
 import hr.foi.air.fitfusion.WelcomeActivity
 import hr.foi.air.fitfusion.adapters.TrainingHomepageAdapter
 import hr.foi.air.fitfusion.data_classes.FirebaseManager
-import hr.foi.air.fitfusion.data_classes.LoggedInUser
 import hr.foi.air.fitfusion.data_classes.TrainingModel
 
-@Suppress("RemoveExplicitTypeArguments")
 class HomeFragment : Fragment() {
 
     private lateinit var recyclerView: RecyclerView
