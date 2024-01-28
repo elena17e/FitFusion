@@ -24,7 +24,10 @@ import java.security.SecureRandom
 import java.time.LocalDate
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
-
+import hr.foi.air.fitfusion.adapters.TrainerHomepageAdapter
+import hr.foi.air.fitfusion.entities.Trainer
+import android.content.Intent
+import hr.foi.air.fitfusion.TrainerDetailsActivity
 
 
 class FirebaseManager {
@@ -185,6 +188,32 @@ class FirebaseManager {
                 }
             })
     }
+
+    fun fetchTrainers(context: Context, callback: (List<UserModel>) -> Unit) {
+        val trainersList = mutableListOf<UserModel>()
+
+        val database = FirebaseDatabase.getInstance()
+        val trainersRef = database.getReference("user")
+
+        val trainersQuery = trainersRef.orderByChild("type").equalTo("trainer")
+
+        trainersQuery.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                snapshot.children.forEach { trainerSnapshot ->
+                    val trainer = trainerSnapshot.getValue(UserModel::class.java)
+                    trainer?.let {
+                        trainersList.add(it)
+                    }
+                }
+                callback(trainersList)
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                Toast.makeText(context, "Failed to fetch trainers: ${error.message}", Toast.LENGTH_SHORT).show()
+            }
+        })
+    }
+
 
     private fun verifyPassword(
         enteredPassword: String,
@@ -628,6 +657,32 @@ class FirebaseManager {
             }
         })
     }
+
+    fun getTrainers(context: Context, callback: (ArrayList<Trainer>) -> Unit) {
+        val trainersList = ArrayList<Trainer>()
+
+        val database = FirebaseDatabase.getInstance()
+        val trainersRef = database.getReference("user")
+
+        val trainersQuery = trainersRef.orderByChild("type").equalTo("trainer")
+
+        trainersQuery.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                snapshot.children.forEach { trainerSnapshot ->
+                    val trainer = trainerSnapshot.getValue(Trainer::class.java)
+                    trainer?.let {
+                        trainersList.add(it)
+                    }
+                }
+                callback(trainersList)
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+        })
+    }
+
 
     private fun navigateToCalendarTab() {
         val activity = WelcomeActivity()
