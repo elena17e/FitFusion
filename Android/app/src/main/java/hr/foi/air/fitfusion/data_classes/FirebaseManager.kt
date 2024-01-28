@@ -17,6 +17,7 @@ import hr.foi.air.fitfusion.entities.Event
 import hr.foi.air.fitfusion.entities.Post
 import hr.foi.air.fitfusion.entities.Reply
 import hr.foi.air.fitfusion.fragments.CardioDataListener
+import hr.foi.air.fitfusion.fragments.HomeFragment
 import hr.foi.air.fitfusion.fragments.StrengthDataListener
 import hr.foi.air.fitfusion.fragments.YogaDataListener
 import java.security.MessageDigest
@@ -594,7 +595,7 @@ class FirebaseManager {
         })
     }
 
-    fun getTrainings(context: Context, trainingsRecycleView: RecyclerView) {
+    fun getTrainings(context: Context, trainingsRecycleView: RecyclerView?) {
         val trainingsList = ArrayList<TrainingModel>()
         val loggedInUser = LoggedInUser(context)
         val userId = loggedInUser.getUserId()
@@ -609,13 +610,12 @@ class FirebaseManager {
                         trainingsList.add(training)
                     }
                 }
-                trainingsRecycleView.adapter = TrainingHomepageAdapter(trainingsList, {
+                trainingsRecycleView?.adapter = TrainingHomepageAdapter(trainingsList, {
 
                     navigateToCalendarTab()
-                }, { trainingModel ->
-
+                }) { trainingModel ->
                     removeParticipant(trainingModel, context)
-                })
+                }
             }
 
             override fun onCancelled(error: DatabaseError) {
@@ -634,6 +634,7 @@ class FirebaseManager {
         dataQuery.removeValue().addOnSuccessListener { callback(true) }.addOnFailureListener { callback(false) }
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     fun removeParticipant(trainingModel: TrainingModel, context: Context) {
         val loggedInUser = LoggedInUser(context)
         val participantIdToRemove = loggedInUser.getUserId()
@@ -670,6 +671,16 @@ class FirebaseManager {
                 }
             }
         }
+        val trainingRecycleView = getVariableFromHomeFragment(context)
+        getTrainings(context, trainingRecycleView)
+        trainingRecycleView?.adapter?.notifyDataSetChanged()
+
+    }
+
+    private fun getVariableFromHomeFragment(context: Context): RecyclerView? {
+        val activity = context as? WelcomeActivity
+        val fragment = activity?.supportFragmentManager?.findFragmentByTag("HomeFragment") as? HomeFragment
+        return fragment?.trainingsRecycleView
     }
 
 }
