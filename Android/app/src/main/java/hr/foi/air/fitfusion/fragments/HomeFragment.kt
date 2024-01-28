@@ -22,7 +22,7 @@ class HomeFragment : Fragment() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var trainingsArrayListModel: ArrayList<TrainingModel>
 
-    private lateinit var trainingsRecycleView: RecyclerView
+    lateinit var trainingsRecycleView: RecyclerView
     private val firebaseManager = FirebaseManager()
 
     override fun onCreateView(
@@ -34,6 +34,7 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        view.tag = this
         recyclerView = view.findViewById(R.id.trainers_homepage)
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
