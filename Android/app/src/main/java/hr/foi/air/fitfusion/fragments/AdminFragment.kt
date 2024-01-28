@@ -1,5 +1,6 @@
 package hr.foi.air.fitfusion.fragments
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -29,6 +30,8 @@ class AdminFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_admin, container, false)
     }
 
+
+    @SuppressLint("NotifyDataSetChanged")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 

@@ -17,7 +17,6 @@ import hr.foi.air.fitfusion.adapters.TrainingHomepageAdapter
 import hr.foi.air.fitfusion.data_classes.FirebaseManager
 import hr.foi.air.fitfusion.data_classes.TrainingModel
 
-@Suppress("RemoveExplicitTypeArguments")
 class HomeFragment : Fragment() {
 
     private lateinit var recyclerView: RecyclerView
@@ -33,13 +32,12 @@ class HomeFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_home, container, false)
     }
 
-    @Suppress("CanBeVal")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         recyclerView = view.findViewById(R.id.trainers_homepage)
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
-        firebaseManager.getTrainers(requireContext()) { trainers ->
+        firebaseManager.getTrainers { trainers ->
             recyclerView.adapter = TrainerHomepageAdapter(trainers) { clickedTrainer ->
                 val intent = Intent(requireContext(), TrainerDetailsActivity::class.java).apply {
                     putExtra("firstName", clickedTrainer.firstName)

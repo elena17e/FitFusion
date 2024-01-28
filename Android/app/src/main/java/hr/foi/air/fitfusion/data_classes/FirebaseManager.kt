@@ -24,10 +24,8 @@ import java.security.SecureRandom
 import java.time.LocalDate
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
-import hr.foi.air.fitfusion.adapters.TrainerHomepageAdapter
 import hr.foi.air.fitfusion.entities.Trainer
-import android.content.Intent
-import hr.foi.air.fitfusion.TrainerDetailsActivity
+
 
 
 class FirebaseManager {
@@ -658,7 +656,7 @@ class FirebaseManager {
         })
     }
 
-    fun getTrainers(context: Context, callback: (ArrayList<Trainer>) -> Unit) {
+    fun getTrainers(callback: (ArrayList<Trainer>) -> Unit) {
         val trainersList = ArrayList<Trainer>()
 
         val database = FirebaseDatabase.getInstance()
