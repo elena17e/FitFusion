@@ -1,9 +1,12 @@
 package hr.foi.air.fitfusion.adapters
 
+import android.app.NotificationManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.core.app.NotificationCompat
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import hr.foi.air.fitfusion.R
 import hr.foi.air.fitfusion.data_classes.TrainingModel
@@ -24,6 +27,22 @@ class TrainingHomepageAdapter(private val trainingsList: ArrayList<TrainingModel
         holder.bind(training, onCalendarClick)
         holder.itemView.findViewById<View>(R.id.cancelTraining).setOnClickListener {
             onCancelClick(training)
+
+            val notificationId = (System.currentTimeMillis()%1000).toInt()
+
+            val context = holder.itemView.context
+            val notificationManager = ContextCompat.getSystemService(
+                context,
+                NotificationManager::class.java
+            ) as NotificationManager
+
+            val notificationBuilder = NotificationCompat.Builder(context, "trainingSignUp")
+                .setSmallIcon(R.drawable.baseline_assignment_turned_in_24)
+                .setContentTitle("Training session")
+                .setContentText("You have successfully canceled your training!")
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+
+            notificationManager.notify(notificationId, notificationBuilder.build())
         }
     }
 

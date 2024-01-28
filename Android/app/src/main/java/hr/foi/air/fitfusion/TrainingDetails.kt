@@ -61,6 +61,7 @@ class TrainingDetails : AppCompatActivity() {
             val intent = Intent(this, WeekViewActivity::class.java)
             startActivity(intent)
         }
+
         val current = LocalDate.now()
         val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
         val dateToString = LocalDate.parse(date, formatter)
