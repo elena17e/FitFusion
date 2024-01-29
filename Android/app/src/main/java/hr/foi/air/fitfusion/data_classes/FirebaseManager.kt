@@ -10,7 +10,6 @@ import com.google.firebase.database.*
 import hr.foi.air.fitfusion.WelcomeActivity
 import hr.foi.air.fitfusion.adapters.PassedClassesHomepageAdapter
 import hr.foi.air.fitfusion.adapters.ReplyAdapter
-import hr.foi.air.fitfusion.adapters.TrainingHomepageAdapter
 import hr.foi.air.fitfusion.entities.ClassesCardio
 import hr.foi.air.fitfusion.entities.ClassesStrength
 import hr.foi.air.fitfusion.entities.ClassesYoga
@@ -623,13 +622,12 @@ class FirebaseManager {
     }
 
     @Suppress("SENSELESS_COMPARISON")
-    fun getTrainings(context: Context, trainingsRecycleView: RecyclerView) {
+    fun getTrainings(context: Context, trainingsRecycleView: RecyclerView, callback: (ArrayList<TrainingModel>) -> Unit) {
         val trainingsList = ArrayList<TrainingModel>()
         val loggedInUser = LoggedInUser(context)
         val userId = loggedInUser.getUserId()
         val current = LocalDate.now()
         val formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy")
-
 
         val dataQuery = database.getReference("Training")
         dataQuery.addListenerForSingleValueEvent(object : ValueEventListener {
@@ -642,17 +640,11 @@ class FirebaseManager {
                         trainingsList.add(training)
                     }
                 }
-                trainingsRecycleView.adapter = TrainingHomepageAdapter(trainingsList, {
-
-                    navigateToCalendarTab()
-                }, { trainingModel ->
-
-                    removeParticipant(trainingModel, context)
-                })
+                callback(trainingsList)
             }
 
             override fun onCancelled(error: DatabaseError) {
-                TODO("Not yet implemented")
+                Toast.makeText(context, "Failed to fetch trainings: ${error.message}", Toast.LENGTH_SHORT).show()
             }
         })
     }
@@ -721,7 +713,7 @@ class FirebaseManager {
         dataQuery.removeValue().addOnSuccessListener { callback(true) }.addOnFailureListener { callback(false) }
     }
 
-    fun removeParticipant(trainingModel: TrainingModel, context: Context) {
+    fun removeParticipant(trainingModel: TrainingModel, context: Context, callback: (Boolean) -> Unit) {
         val loggedInUser = LoggedInUser(context)
         val participantIdToRemove = loggedInUser.getUserId()
         if (participantIdToRemove != null && trainingModel.id != null) {
@@ -751,9 +743,11 @@ class FirebaseManager {
                     })
                     Toast.makeText(context, "You have successfully canceled your participation on training session!", Toast.LENGTH_SHORT)
                         .show()
+                    callback(true)
                 } else {
                     Toast.makeText(context, "Failed to cancel training!", Toast.LENGTH_SHORT)
                         .show()
+                    callback(false)
                 }
             }
         }

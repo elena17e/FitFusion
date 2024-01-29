@@ -1,5 +1,6 @@
 package hr.foi.air.fitfusion.fragments
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -23,7 +24,8 @@ class HomeFragment : Fragment() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var trainingsArrayListModel: ArrayList<TrainingModel>
     private lateinit var passedTrainingsList: ArrayList<TrainingModel>
-    //private lateinit var adapterPassed: PassedClassesHomepageAdapter
+    private lateinit var adapterPassed: PassedClassesHomepageAdapter
+    private lateinit var adapter: TrainingHomepageAdapter
 
     private lateinit var trainingsRecycleView: RecyclerView
     private lateinit var passedTrainingsRecycleView: RecyclerView
@@ -36,6 +38,7 @@ class HomeFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_home, container, false)
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         recyclerView = view.findViewById(R.id.trainers_homepage)
@@ -58,11 +61,22 @@ class HomeFragment : Fragment() {
         trainingsRecycleView.layoutManager = LinearLayoutManager(context)
 
         trainingsArrayListModel = arrayListOf()
-        firebaseManager.getTrainings(requireContext(), trainingsRecycleView)
-        trainingsRecycleView.adapter = TrainingHomepageAdapter(trainingsArrayListModel, {
+        adapter = TrainingHomepageAdapter(trainingsArrayListModel, {
+            navigateToCalendarTab()
+        }) {trainingModel ->
+            firebaseManager.removeParticipant(trainingModel, requireContext()) { success ->
+                if (success) {
+                    trainingsArrayListModel.remove(trainingModel)
+                    adapter.notifyDataSetChanged()
+                }
+            }
+        }
+        trainingsRecycleView.adapter = adapter
 
-        }) { trainingModel ->
-            firebaseManager.removeParticipant(trainingModel, requireContext())
+        firebaseManager.getTrainings(requireContext(), trainingsRecycleView) {trainings ->
+            trainingsArrayListModel.clear()
+            trainingsArrayListModel.addAll(trainings)
+            adapter.notifyDataSetChanged()
         }
 
         val addButton = view.findViewById<ImageButton>(R.id.addTraining)
@@ -75,11 +89,6 @@ class HomeFragment : Fragment() {
 
         passedTrainingsList = ArrayList()
         firebaseManager.getPassedTrainings(requireContext(), passedTrainingsRecycleView)
-        //adapterPassed = PassedClassesHomepageAdapter(passedTrainingsList) {}
-
-        //passedTrainingsRecycleView.adapter = adapterPassed
-
-
     }
 
     private fun navigateToCalendarTab(){

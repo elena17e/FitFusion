@@ -24,13 +24,22 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="7dp"
         android:text="@string/my_strength_classes"
-        android:textSize="25sp"
+        android:textSize="24sp"
         android:textColor="@color/black"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/rvClassListStrength"
         app:layout_constraintEnd_toEndOf="@+id/btnNewClass"
         app:layout_constraintStart_toStartOf="@+id/btnNewClass"
         app:layout_constraintTop_toBottomOf="@+id/btnNewClass" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_margin="10dp"
+        android:background="@android:color/darker_gray"
+        app:layout_constraintBottom_toTopOf="@id/rvClassListStrength"
+        app:layout_constraintTop_toBottomOf="@id/txtMyClasses"
+        />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvClassListStrength"
@@ -50,12 +59,21 @@
         android:layout_marginBottom="7dp"
         android:text="@string/my_cardio_classes"
         android:textColor="@color/black"
-        android:textSize="25sp"
+        android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/rvClassListCardio"
         app:layout_constraintStart_toStartOf="@+id/rvClassListStrength"
         app:layout_constraintEnd_toEndOf="@id/rvClassListStrength"
         app:layout_constraintTop_toBottomOf="@+id/rvClassListStrength" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_margin="10dp"
+        android:background="@android:color/darker_gray"
+        app:layout_constraintBottom_toTopOf="@id/rvClassListCardio"
+        app:layout_constraintTop_toBottomOf="@id/txtMyClasses2"
+        />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvClassListCardio"
@@ -77,12 +95,21 @@
         android:layout_marginBottom="7dp"
         android:text="@string/my_yoga_classes"
         android:textColor="@color/black"
-        android:textSize="25sp"
+        android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/rvClassListYoga"
         app:layout_constraintStart_toStartOf="@+id/rvClassListCardio"
         app:layout_constraintEnd_toEndOf="@id/rvClassListCardio"
         app:layout_constraintTop_toBottomOf="@+id/rvClassListCardio" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_margin="10dp"
+        android:background="@android:color/darker_gray"
+        app:layout_constraintBottom_toTopOf="@id/rvClassListYoga"
+        app:layout_constraintTop_toBottomOf="@id/txtMyClasses3"
+        />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvClassListYoga"
