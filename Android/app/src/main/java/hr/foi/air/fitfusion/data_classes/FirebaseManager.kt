@@ -8,6 +8,7 @@ import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.database.*
 import hr.foi.air.fitfusion.WelcomeActivity
+import hr.foi.air.fitfusion.adapters.PassedClassesHomepageAdapter
 import hr.foi.air.fitfusion.adapters.ReplyAdapter
 import hr.foi.air.fitfusion.adapters.TrainingHomepageAdapter
 import hr.foi.air.fitfusion.entities.ClassesCardio
@@ -650,6 +651,32 @@ class FirebaseManager {
                 })
             }
 
+            override fun onCancelled(error: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+        })
+    }
+
+    fun getPassedTrainings(context: Context, trainingsRecycleView: RecyclerView) {
+        val trainingsList = ArrayList<TrainingModel>()
+        val loggedInUser = LoggedInUser(context)
+        val userId = loggedInUser.getUserId()
+        val current = LocalDate.now()
+        val formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy")
+
+        val dataQuery = database.getReference("Training")
+        dataQuery.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                trainingsList.clear()
+                for (trainingSnapshot in snapshot.children) {
+                    val training = trainingSnapshot.getValue(TrainingModel::class.java)
+                    val dateToString = LocalDate.parse(training!!.date, formatter)
+                    if (training != null && userId in training.participantsId.orEmpty() && dateToString.isBefore(current)) {
+                        trainingsList.add(training)
+                    }
+                }
+                trainingsRecycleView.adapter = PassedClassesHomepageAdapter(trainingsList)
+            }
             override fun onCancelled(error: DatabaseError) {
                 TODO("Not yet implemented")
             }

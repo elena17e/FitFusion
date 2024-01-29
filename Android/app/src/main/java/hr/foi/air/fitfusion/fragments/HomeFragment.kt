@@ -13,6 +13,7 @@ import android.content.Intent
 import android.widget.ImageButton
 import hr.foi.air.fitfusion.TrainerDetailsActivity
 import hr.foi.air.fitfusion.WelcomeActivity
+import hr.foi.air.fitfusion.adapters.PassedClassesHomepageAdapter
 import hr.foi.air.fitfusion.adapters.TrainingHomepageAdapter
 import hr.foi.air.fitfusion.data_classes.FirebaseManager
 import hr.foi.air.fitfusion.data_classes.TrainingModel
@@ -21,8 +22,11 @@ class HomeFragment : Fragment() {
 
     private lateinit var recyclerView: RecyclerView
     private lateinit var trainingsArrayListModel: ArrayList<TrainingModel>
+    private lateinit var passedTrainingsList: ArrayList<TrainingModel>
+    //private lateinit var adapterPassed: PassedClassesHomepageAdapter
 
     private lateinit var trainingsRecycleView: RecyclerView
+    private lateinit var passedTrainingsRecycleView: RecyclerView
     private val firebaseManager = FirebaseManager()
 
     override fun onCreateView(
@@ -65,6 +69,17 @@ class HomeFragment : Fragment() {
         addButton.setOnClickListener{
             navigateToCalendarTab()
         }
+
+        passedTrainingsRecycleView = view.findViewById(R.id.passed_classes_homepage)
+        passedTrainingsRecycleView.layoutManager = LinearLayoutManager(view.context)
+
+        passedTrainingsList = ArrayList()
+        firebaseManager.getPassedTrainings(requireContext(), passedTrainingsRecycleView)
+        //adapterPassed = PassedClassesHomepageAdapter(passedTrainingsList) {}
+
+        //passedTrainingsRecycleView.adapter = adapterPassed
+
+
     }
 
     private fun navigateToCalendarTab(){
