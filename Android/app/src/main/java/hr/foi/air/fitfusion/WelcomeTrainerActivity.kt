@@ -101,7 +101,7 @@ class WelcomeTrainerActivity : AppCompatActivity() {
 
         val welcomeMessage = "Welcome $firstName!"
 
-        binding.txtWelcomeMessage.text = welcomeMessage
+        //binding.txtWelcomeMessage.text = welcomeMessage
 
     }
 }

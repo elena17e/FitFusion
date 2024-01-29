@@ -84,6 +84,6 @@ class WelcomeAdminActivity : AppCompatActivity() {
         val firstName = loggedInUser.getFirstName()
         val welcomeMessage = "Welcome $firstName!"
 
-        binding.txtWelcomeMessage.text = welcomeMessage
+        //binding.txtWelcomeMessage.text = welcomeMessage
     }
 }

@@ -23,10 +23,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="7dp"
-        android:text="@string/my_classes"
+        android:text="@string/my_strength_classes"
         android:textSize="25sp"
+        android:textColor="@color/black"
+        android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/rvClassListStrength"
-        app:layout_constraintEnd_toStartOf="@+id/btnNewClass"
+        app:layout_constraintEnd_toEndOf="@+id/btnNewClass"
         app:layout_constraintStart_toStartOf="@+id/btnNewClass"
         app:layout_constraintTop_toBottomOf="@+id/btnNewClass" />
 
@@ -35,11 +37,25 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginBottom="7dp"
-        app:layout_constraintBottom_toTopOf="@+id/rvClassListCardio"
+        app:layout_constraintBottom_toTopOf="@+id/txtMyClasses2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txtMyClasses"
         tools:listitem="@layout/class_list_item" />
+
+    <TextView
+        android:id="@+id/txtMyClasses2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="7dp"
+        android:text="@string/my_cardio_classes"
+        android:textColor="@color/black"
+        android:textSize="25sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/rvClassListCardio"
+        app:layout_constraintStart_toStartOf="@+id/rvClassListStrength"
+        app:layout_constraintEnd_toEndOf="@id/rvClassListStrength"
+        app:layout_constraintTop_toBottomOf="@+id/rvClassListStrength" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvClassListCardio"
@@ -48,11 +64,25 @@
         android:layout_marginStart="1dp"
         android:layout_marginEnd="1dp"
         android:layout_marginBottom="12dp"
-        app:layout_constraintBottom_toTopOf="@+id/rvClassListYoga"
+        app:layout_constraintBottom_toTopOf="@+id/txtMyClasses3"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/rvClassListStrength"
+        app:layout_constraintTop_toBottomOf="@+id/txtMyClasses2"
         tools:listitem="@layout/class_list_item" />
+
+    <TextView
+        android:id="@+id/txtMyClasses3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="7dp"
+        android:text="@string/my_yoga_classes"
+        android:textColor="@color/black"
+        android:textSize="25sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/rvClassListYoga"
+        app:layout_constraintStart_toStartOf="@+id/rvClassListCardio"
+        app:layout_constraintEnd_toEndOf="@id/rvClassListCardio"
+        app:layout_constraintTop_toBottomOf="@+id/rvClassListCardio" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvClassListYoga"
@@ -62,7 +92,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/rvClassListCardio"
+        app:layout_constraintTop_toBottomOf="@+id/txtMyClasses3"
         tools:listitem="@layout/class_list_item" />
 
 

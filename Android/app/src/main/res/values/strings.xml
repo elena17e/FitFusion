@@ -174,4 +174,6 @@
     <string name="default_web_client_id" />
     <string name="PassedClasses">Passed classes</string>
     <string name="Trainers">List of trainers</string>
+    <string name="my_classes_strenght">My Strenght Classes</string>
+    <string name="my_classes_cardio">My Cardio Classes\n</string>
 </resources>
