@@ -17,6 +17,7 @@ import hr.foi.air.fitfusion.entities.Event
 import hr.foi.air.fitfusion.entities.Post
 import hr.foi.air.fitfusion.entities.Reply
 import hr.foi.air.fitfusion.fragments.CardioDataListener
+import hr.foi.air.fitfusion.fragments.HomeFragment
 import hr.foi.air.fitfusion.fragments.StrengthDataListener
 import hr.foi.air.fitfusion.fragments.YogaDataListener
 import java.security.MessageDigest
@@ -752,5 +753,4 @@ class FirebaseManager {
             }
         }
     }
-
 }
