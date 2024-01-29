@@ -657,8 +657,8 @@ class FirebaseManager {
         })
     }
 
-    fun getPassedTrainings(context: Context, trainingsRecycleView: RecyclerView) {
-        val trainingsList = ArrayList<TrainingModel>()
+    fun getPassedTrainings(context: Context, passedTrainingsRecycleView: RecyclerView) {
+        val passedTrainingsList = ArrayList<TrainingModel>()
         val loggedInUser = LoggedInUser(context)
         val userId = loggedInUser.getUserId()
         val current = LocalDate.now()
@@ -667,15 +667,17 @@ class FirebaseManager {
         val dataQuery = database.getReference("Training")
         dataQuery.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
-                trainingsList.clear()
+                passedTrainingsList.clear()
                 for (trainingSnapshot in snapshot.children) {
                     val training = trainingSnapshot.getValue(TrainingModel::class.java)
                     val dateToString = LocalDate.parse(training!!.date, formatter)
                     if (training != null && userId in training.participantsId.orEmpty() && dateToString.isBefore(current)) {
-                        trainingsList.add(training)
+                        passedTrainingsList.add(training)
                     }
                 }
-                trainingsRecycleView.adapter = PassedClassesHomepageAdapter(trainingsList)
+                passedTrainingsRecycleView.adapter = PassedClassesHomepageAdapter(passedTrainingsList) {
+                    navigateToCalendarTab()
+                }
             }
             override fun onCancelled(error: DatabaseError) {
                 TODO("Not yet implemented")
