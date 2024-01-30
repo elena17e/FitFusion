@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/Type"
+        android:layout_width="99dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="10dp"
+        android:text="@string/session_type"
+        tools:ignore="TextSizeCheck" />
+
+    <Spinner
+        android:id="@+id/spinner"
+        android:layout_width="260dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginEnd="100dp"
+        android:layout_marginBottom="10dp"
+        android:spinnerMode="dropdown" />
+
+    <TextView
+        android:id="@+id/Participants"
+        android:layout_width="178dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginEnd="100dp"
+        android:text="@string/number_of_participants"
+        tools:ignore="TextSizeCheck" />
+
+
+    <EditText
+        android:id="@+id/participantsEditText"
+        android:layout_width="150dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="40dp"
+        android:inputType="number"
+        android:text="@string/textview3"
+        tools:ignore="Autofill,DuplicateSpeakableTextCheck,LabelFor" />
+
+    <TextView
+        android:id="@+id/Date"
+        android:layout_width="99dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginEnd="100dp"
+        android:layout_marginTop="10dp"
+        android:text="@string/date1" />
+
+    <LinearLayout
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/dateEditText"
+            android:layout_width="150dp"
+            android:layout_height="50dp"
+            android:inputType="date"
+            android:clickable="false"
+            android:focusable="false"
+            android:layout_marginStart="40dp"
+            android:text="@string/textview1"
+            tools:ignore="Autofill,LabelFor" />
+
+        <Button
+            android:id="@+id/SelectDate"
+            android:layout_width="100dp"
+            android:layout_height="60dp"
+            android:text="@string/SelectDate"
+            android:layout_marginStart="10dp"
+            android:backgroundTint="#D3D3D3"
+            android:textColor="#111111"
+            tools:ignore="VisualLintBounds" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/Time"
+        android:layout_width="99dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginEnd="100dp"
+        android:layout_marginTop="10dp"
+        android:text="@string/time1" />
+
+    <LinearLayout
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/timeEditText"
+            android:layout_width="150dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="40dp"
+            android:inputType="time"
+            android:clickable="false"
+            android:focusable="false"
+            android:text="@string/textview2"
+            tools:ignore="Autofill,LabelFor" />
+
+        <Button
+            android:id="@+id/SelectTime"
+            android:layout_width="100dp"
+            android:layout_height="60dp"
+            android:layout_marginStart="10dp"
+            android:backgroundTint="#D3D3D3"
+            android:text="@string/SelectTime"
+            android:textColor="#111111"
+            tools:ignore="DuplicateSpeakableTextCheck,VisualLintBounds" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/timeEndEditText"
+            android:layout_width="150dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="40dp"
+            android:inputType="time"
+            android:clickable="false"
+            android:focusable="false"
+            android:text="@string/textview2"
+            tools:ignore="Autofill,LabelFor" />
+
+        <Button
+            android:id="@+id/SelectTimeEnd"
+            android:layout_width="100dp"
+            android:layout_height="60dp"
+            android:layout_marginStart="10dp"
+            android:backgroundTint="#D3D3D3"
+            android:text="@string/select_end"
+            android:textColor="#111111"
+            tools:ignore="VisualLintBounds" />
+    </LinearLayout>
+
+
+
+    <androidx.appcompat.widget.SwitchCompat
+        android:id="@+id/switch1"
+        android:layout_width="223dp"
+        android:layout_height="58dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginBottom="20dp"
+        android:checked="true"
+        android:text="@string/active"
+        tools:ignore="UseSwitchCompatOrMaterialXml" />
+
+    <Button
+        android:id="@+id/Edit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="10dp"
+        android:text="@string/save"
+        tools:ignore="VisualLintButtonSize" />
+
+    <Button
+        android:id="@+id/Cancel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="10dp"
+        android:backgroundTint="#F44336"
+        android:text="@string/cancel1"
+        android:textColor="#000000"
+        tools:ignore="VisualLintButtonSize" />
+</LinearLayout>

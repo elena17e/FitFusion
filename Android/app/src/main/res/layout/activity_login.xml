@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FEFEFE"
+    android:orientation="vertical">
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_marginStart="100dp"
+        android:layout_marginTop="20dp"
+        android:src="@drawable/main_logo"
+        android:contentDescription="@string/todo3" />
+
+    <TextView
+        android:id="@+id/email"
+        android:layout_width="80dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="20dp"
+        android:text="@string/email3"
+        android:textSize="24sp"
+        tools:ignore="TextSizeCheck" />
+
+    <EditText
+        android:id="@+id/loginEmail"
+        android:layout_width="280dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="10dp"
+        android:ems="10"
+        android:inputType="textEmailAddress"
+        android:hint="@string/type_in_your_email"
+        android:textSize="20sp"
+        android:autofillHints="" />
+
+    <TextView
+        android:id="@+id/pass"
+        android:layout_width="120dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:text="@string/password2"
+        android:textSize="24sp"
+        tools:ignore="TextSizeCheck" />
+
+    <EditText
+        android:id="@+id/loginPassword"
+        android:layout_width="280dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="10dp"
+        android:ems="10"
+        android:inputType="textPassword"
+        android:hint="@string/type_in_your_password"
+        android:textSize="20sp"
+        android:autofillHints="" />
+
+    <CheckBox
+        android:id="@+id/showPasswordCheckBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:textSize="15sp"
+        android:text="@string/show_password1" />
+
+    <TextView
+        android:id="@+id/textViewGoogle"
+        android:layout_width="160dp"
+        android:layout_height="48dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
+        android:clickable="true"
+        android:text="@string/sign_in_with_google"
+        android:textColor="#0000ff"
+        android:textSize="18sp"
+        tools:ignore="TextSizeCheck" />
+
+    <Button
+        android:id="@+id/loginButton"
+        android:layout_width="180dp"
+        android:layout_height="60dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="6dp"
+        android:backgroundTint="@color/color_primary"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        android:text="@string/login" />
+
+    <Button
+        android:id="@+id/createAcc"
+        android:layout_width="270dp"
+        android:layout_height="60dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
+        android:backgroundTint="@color/color_primary"
+        android:text="@string/create_an_account"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        tools:ignore="TextSizeCheck" />
+
+
+
+</LinearLayout>

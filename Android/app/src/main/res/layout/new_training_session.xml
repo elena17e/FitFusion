@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="127dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="10dp"
+        android:text="@string/SessionType" />
+
+    <Spinner
+        android:id="@+id/spinner"
+        android:layout_width="260dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginEnd="100dp"
+        android:layout_marginBottom="20dp"
+        android:spinnerMode="dropdown" />
+
+    <TextView
+        android:id="@+id/number"
+        android:layout_width="180dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="40dp"
+        android:text="@string/NumberOfParticipants"
+        tools:ignore="TextSizeCheck" />
+
+    <EditText
+        android:id="@+id/Number"
+        android:layout_width="150dp"
+        android:layout_height="50dp"
+        android:layout_marginBottom="20dp"
+        android:layout_marginStart="40dp"
+        android:ems="10"
+        android:autofillHints="number"
+        android:hint="@string/number"
+        android:inputType="number" />
+
+    <TextView
+        android:id="@+id/date"
+        android:layout_width="100dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="40dp"
+        android:text="@string/Date" />
+
+    <LinearLayout
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/Date"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_weight="1"
+            android:layout_marginBottom="10dp"
+            android:layout_marginStart="40dp"
+            android:ems="10"
+            android:hint="@string/date2"
+            android:autofillHints="date"
+            android:inputType="date"
+            android:focusable="false"
+            android:clickable="false" />
+
+        <Button
+            android:id="@+id/SelectDate"
+            android:layout_width="100dp"
+            android:layout_height="60dp"
+            android:text="@string/SelectDate"
+            android:layout_marginStart="10dp"
+            android:backgroundTint="#D3D3D3"
+            android:textColor="#111111"
+            tools:ignore="VisualLintBounds" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/time"
+        android:layout_width="100dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="40dp"
+        android:text="@string/Time" />
+
+    <LinearLayout
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/Time"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="40dp"
+            android:layout_marginBottom="30dp"
+            android:layout_weight="1"
+            android:clickable="false"
+            android:ems="10"
+            android:focusable="false"
+            android:autofillHints="time"
+            android:hint="@string/time2"
+            android:inputType="none" />
+
+        <Button
+            android:id="@+id/SelectTime"
+            android:layout_width="100dp"
+            android:layout_height="60dp"
+            android:layout_marginStart="10dp"
+            android:backgroundTint="#D3D3D3"
+            android:text="@string/SelectTime"
+            android:textColor="#111111" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/TimeEnd"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="40dp"
+            android:layout_marginBottom="30dp"
+            android:layout_weight="1"
+            android:clickable="false"
+            android:ems="10"
+            android:focusable="false"
+            android:autofillHints="time"
+            android:hint="@string/time_end"
+            android:inputType="none" />
+
+        <Button
+            android:id="@+id/SelectTimeEnd"
+            android:layout_width="100dp"
+            android:layout_height="60dp"
+            android:layout_marginStart="10dp"
+            android:backgroundTint="#D3D3D3"
+            android:text="@string/select_end"
+            android:textColor="#111111" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/Done"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="10dp"
+        android:text="@string/done2"
+        tools:ignore="VisualLintButtonSize" />
+
+    <Button
+        android:id="@+id/Cancel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:backgroundTint="#F44336"
+        android:text="@string/cancel"
+        android:textColor="#000000"
+        tools:ignore="VisualLintButtonSize" />
+
+</LinearLayout>
