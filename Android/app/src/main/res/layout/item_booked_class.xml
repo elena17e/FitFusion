@@ -4,25 +4,27 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_marginTop="10dp"
+    android:layout_margin="8dp"
     app:cardCornerRadius="8dp"
     app:cardElevation="8dp">
 
     <LinearLayout
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
-        android:orientation="vertical">
+        android:orientation="horizontal">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_gravity="center_vertical"
             android:orientation="horizontal"
             tools:ignore="UselessParent">
 
             <LinearLayout
-                android:layout_width="288dp"
+                android:layout_width="220dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:orientation="vertical"
@@ -80,14 +82,14 @@
 
             <ImageButton
                 android:id="@+id/cancelTraining"
-                android:layout_marginEnd="15dp"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:layout_marginStart="5dp"
-                android:layout_marginTop="15dp"
+                android:layout_gravity="center"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
                 android:layout_weight="1"
                 android:background="@drawable/roundcorner"
-                android:contentDescription="@string/todo"
+                android:contentDescription="@string/cancel"
                 app:srcCompat="@drawable/x_white"
                 tools:ignore="InefficientWeight" />
 

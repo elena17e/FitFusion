@@ -15,15 +15,15 @@
         android:scaleType="centerCrop"
         android:padding="40dp"
         android:layout_marginStart="20dp"
-        android:contentDescription="@string/todo4"
+        android:contentDescription="@string/logo"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toTopOf="@+id/viewpager3"
         tools:ignore="VisualLintBounds" />
 
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/viewpager3"
-        android:layout_width="411dp"
-        android:layout_height="700dp"
+        android:layout_width="match_parent"
+        android:layout_height="615dp"
         app:layout_constraintBottom_toTopOf="@+id/tabs2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

@@ -63,6 +63,7 @@ class LoginActivity2 : androidx.activity.ComponentActivity() {
                                 return@loginUser
                             }
                         }
+                        Toast.makeText(this@LoginActivity2, "Welcome, ${loggedInUser.getFirstName()}", Toast.LENGTH_SHORT).show()
                         startActivity(intent)
                         finish()
                     }

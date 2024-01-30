@@ -3,7 +3,6 @@ package hr.foi.air.fitfusion
 import android.content.Intent
 import android.os.Bundle
 import android.widget.ImageButton
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -81,10 +80,5 @@ class WelcomeAdminActivity : AppCompatActivity() {
             tab.setText(mainPagerAdapter.fragmentItems[position].titleRes)
             tab.setIcon(mainPagerAdapter.fragmentItems[position].iconRes)
         }.attach()
-
-        val firstName = loggedInUser.getFirstName()
-        val welcomeMessage = "Welcome $firstName!"
-
-        Toast.makeText(this@WelcomeAdminActivity, welcomeMessage, Toast.LENGTH_SHORT).show()
     }
 }
