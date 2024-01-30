@@ -17,7 +17,7 @@
             android:orientation="horizontal">
 
             <ImageView
-                android:layout_width="0dp"
+                android:layout_width="48dp"
                 android:layout_height="50dp"
                 android:layout_gravity="center"
                 android:layout_marginStart="10dp"
@@ -28,7 +28,8 @@
                 android:contentDescription="@string/todo7"
                 android:padding="3dp"
                 android:scaleType="centerCrop"
-                android:src="@drawable/baseline_sports_gymnastics_24">
+                android:src="@drawable/baseline_sports_gymnastics_24"
+                tools:ignore="InefficientWeight">
 
             </ImageView>
 
