@@ -39,7 +39,7 @@
 
         <Button
             android:id="@+id/btnForwardCl"
-            android:layout_width="4dp"
+            android:layout_width="12dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="5dp"
             android:layout_weight="1"
