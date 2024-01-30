@@ -1,3 +1,5 @@
+@file:Suppress("PrivatePropertyName")
+
 package hr.foi.air.fitfusion.ui.theme
 
 import android.app.Activity

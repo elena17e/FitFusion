@@ -4,27 +4,31 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/color_primary"
+    android:background="@color/white"
     >
 
     <Button
         android:id="@+id/SignUp"
-        android:layout_width="156dp"
-        android:layout_height="69dp"
-        android:layout_marginStart="120dp"
+        android:layout_width="200dp"
+        android:layout_height="70dp"
+        android:layout_gravity="center"
         android:layout_marginTop="150dp"
-        android:backgroundTint="#5d89ba  "
+        android:backgroundTint="@color/color_primary"
+        android:textColor="@color/white"
         android:text="@string/sign_up1"
+        android:textSize="17sp"
         tools:ignore="TextContrastCheck"
         />
 
     <Button
         android:id="@+id/LogIn"
-        android:layout_width="155dp"
-        android:layout_height="71dp"
-        android:layout_marginStart="120dp"
+        android:layout_width="200dp"
+        android:layout_height="70dp"
+        android:layout_gravity="center"
         android:layout_marginTop="30dp"
-        android:backgroundTint="#5d89ba"
+        android:textSize="17sp"
+        android:textColor="@color/white"
+        android:backgroundTint="@color/color_primary"
         android:text="@string/log_in"
         tools:ignore="TextContrastCheck" />
 

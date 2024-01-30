@@ -8,8 +8,8 @@ import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.database.*
 import hr.foi.air.fitfusion.WelcomeActivity
+import hr.foi.air.fitfusion.adapters.PassedClassesHomepageAdapter
 import hr.foi.air.fitfusion.adapters.ReplyAdapter
-import hr.foi.air.fitfusion.adapters.TrainingHomepageAdapter
 import hr.foi.air.fitfusion.entities.ClassesCardio
 import hr.foi.air.fitfusion.entities.ClassesStrength
 import hr.foi.air.fitfusion.entities.ClassesYoga
@@ -17,7 +17,6 @@ import hr.foi.air.fitfusion.entities.Event
 import hr.foi.air.fitfusion.entities.Post
 import hr.foi.air.fitfusion.entities.Reply
 import hr.foi.air.fitfusion.fragments.CardioDataListener
-import hr.foi.air.fitfusion.fragments.HomeFragment
 import hr.foi.air.fitfusion.fragments.StrengthDataListener
 import hr.foi.air.fitfusion.fragments.YogaDataListener
 import java.security.MessageDigest
@@ -623,13 +622,12 @@ class FirebaseManager {
     }
 
     @Suppress("SENSELESS_COMPARISON")
-    fun getTrainings(context: Context, trainingsRecycleView: RecyclerView?) {
+    fun getTrainings(context: Context, callback: (ArrayList<TrainingModel>) -> Unit) {
         val trainingsList = ArrayList<TrainingModel>()
         val loggedInUser = LoggedInUser(context)
         val userId = loggedInUser.getUserId()
         val current = LocalDate.now()
         val formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy")
-
 
         val dataQuery = database.getReference("Training")
         dataQuery.addListenerForSingleValueEvent(object : ValueEventListener {
@@ -642,15 +640,38 @@ class FirebaseManager {
                         trainingsList.add(training)
                     }
                 }
-                trainingsRecycleView?.adapter = TrainingHomepageAdapter(trainingsList, {
-
-                    navigateToCalendarTab()
-                }, { trainingModel ->
-
-                    removeParticipant(trainingModel, context)
-                })
+                callback(trainingsList)
             }
 
+            override fun onCancelled(error: DatabaseError) {
+                Toast.makeText(context, "Failed to fetch trainings: ${error.message}", Toast.LENGTH_SHORT).show()
+            }
+        })
+    }
+
+    @Suppress("SENSELESS_COMPARISON")
+    fun getPassedTrainings(context: Context, passedTrainingsRecycleView: RecyclerView) {
+        val passedTrainingsList = ArrayList<TrainingModel>()
+        val loggedInUser = LoggedInUser(context)
+        val userId = loggedInUser.getUserId()
+        val current = LocalDate.now()
+        val formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy")
+
+        val dataQuery = database.getReference("Training")
+        dataQuery.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                passedTrainingsList.clear()
+                for (trainingSnapshot in snapshot.children) {
+                    val training = trainingSnapshot.getValue(TrainingModel::class.java)
+                    val dateToString = LocalDate.parse(training!!.date, formatter)
+                    if (training != null && userId in training.participantsId.orEmpty() && dateToString.isBefore(current)) {
+                        passedTrainingsList.add(training)
+                    }
+                }
+                passedTrainingsRecycleView.adapter = PassedClassesHomepageAdapter(passedTrainingsList) {
+                    navigateToCalendarTab()
+                }
+            }
             override fun onCancelled(error: DatabaseError) {
                 TODO("Not yet implemented")
             }
@@ -693,8 +714,7 @@ class FirebaseManager {
         dataQuery.removeValue().addOnSuccessListener { callback(true) }.addOnFailureListener { callback(false) }
     }
 
-    @SuppressLint("NotifyDataSetChanged")
-    fun removeParticipant(trainingModel: TrainingModel, context: Context) {
+    fun removeParticipant(trainingModel: TrainingModel, context: Context, callback: (Boolean) -> Unit) {
         val loggedInUser = LoggedInUser(context)
         val participantIdToRemove = loggedInUser.getUserId()
         if (participantIdToRemove != null && trainingModel.id != null) {
@@ -724,20 +744,13 @@ class FirebaseManager {
                     })
                     Toast.makeText(context, "You have successfully canceled your participation on training session!", Toast.LENGTH_SHORT)
                         .show()
+                    callback(true)
                 } else {
                     Toast.makeText(context, "Failed to cancel training!", Toast.LENGTH_SHORT)
                         .show()
+                    callback(false)
                 }
             }
         }
-        val trainingRecycleView = getVariableFromHomeFragment(context)
-        getTrainings(context, trainingRecycleView)
-        trainingRecycleView?.adapter?.notifyDataSetChanged()
-    }
-    private fun getVariableFromHomeFragment(context: Context): RecyclerView? {
-        val activity = context as? WelcomeActivity
-        val fragment =
-            activity?.supportFragmentManager?.findFragmentByTag("HomeFragment") as? HomeFragment
-        return fragment?.trainingsRecycleView
     }
 }

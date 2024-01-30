@@ -12,11 +12,14 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_marginBottom="20dp"
-        android:layout_marginTop="20dp">
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="5dp">
         <Button
             android:id="@+id/btnBackCl"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
             android:layout_weight="1"
             android:text="@string/back"
             android:textColor="@color/white"
@@ -36,8 +39,9 @@
 
         <Button
             android:id="@+id/btnForwardCl"
-            android:layout_width="0dp"
+            android:layout_width="4dp"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="5dp"
             android:layout_weight="1"
             android:text="@string/forward"
             android:textColor="@color/white"
