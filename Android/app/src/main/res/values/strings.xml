@@ -177,4 +177,7 @@
     <string name="my_classes_strenght">My Strength Classes</string>
     <string name="my_classes_cardio">My Cardio Classes\n</string>
     <string name="create_account">CREATE AN ACCOUNT</string>
+    <string name="todo4">TODO</string>
+    <string name="todo8">TODO</string>
+    <string name="todo7">TODO</string>
 </resources>

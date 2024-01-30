@@ -89,7 +89,7 @@
             android:textColor="@color/white"
             android:textSize="13sp"
             android:textStyle="bold"
-            tools:ignore="VisualLintButtonSize" />
+            tools:ignore="VisualLintButtonSize,VisualLintBounds" />
 
     </LinearLayout>
 

@@ -17,7 +17,7 @@
             android:orientation="horizontal">
 
             <ImageView
-                android:layout_width="48dp"
+                android:layout_width="0dp"
                 android:layout_height="50dp"
                 android:layout_gravity="center"
                 android:layout_marginStart="10dp"
@@ -25,7 +25,7 @@
                 android:layout_marginBottom="3dp"
                 android:layout_weight="0"
                 android:background="@null"
-                android:contentDescription="TODO"
+                android:contentDescription="@string/todo7"
                 android:padding="3dp"
                 android:scaleType="centerCrop"
                 android:src="@drawable/baseline_sports_gymnastics_24">

@@ -14,7 +14,6 @@ import android.content.Intent
 import android.widget.ImageButton
 import hr.foi.air.fitfusion.TrainerDetailsActivity
 import hr.foi.air.fitfusion.WelcomeActivity
-import hr.foi.air.fitfusion.adapters.PassedClassesHomepageAdapter
 import hr.foi.air.fitfusion.adapters.TrainingHomepageAdapter
 import hr.foi.air.fitfusion.data_classes.FirebaseManager
 import hr.foi.air.fitfusion.data_classes.TrainingModel
@@ -24,7 +23,6 @@ class HomeFragment : Fragment() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var trainingsArrayListModel: ArrayList<TrainingModel>
     private lateinit var passedTrainingsList: ArrayList<TrainingModel>
-    private lateinit var adapterPassed: PassedClassesHomepageAdapter
     private lateinit var adapter: TrainingHomepageAdapter
 
     private lateinit var trainingsRecycleView: RecyclerView
@@ -73,7 +71,7 @@ class HomeFragment : Fragment() {
         }
         trainingsRecycleView.adapter = adapter
 
-        firebaseManager.getTrainings(requireContext(), trainingsRecycleView) {trainings ->
+        firebaseManager.getTrainings(requireContext()) {trainings ->
             trainingsArrayListModel.clear()
             trainingsArrayListModel.addAll(trainings)
             adapter.notifyDataSetChanged()

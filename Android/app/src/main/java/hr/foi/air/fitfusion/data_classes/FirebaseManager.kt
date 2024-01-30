@@ -17,7 +17,6 @@ import hr.foi.air.fitfusion.entities.Event
 import hr.foi.air.fitfusion.entities.Post
 import hr.foi.air.fitfusion.entities.Reply
 import hr.foi.air.fitfusion.fragments.CardioDataListener
-import hr.foi.air.fitfusion.fragments.HomeFragment
 import hr.foi.air.fitfusion.fragments.StrengthDataListener
 import hr.foi.air.fitfusion.fragments.YogaDataListener
 import java.security.MessageDigest
@@ -623,7 +622,7 @@ class FirebaseManager {
     }
 
     @Suppress("SENSELESS_COMPARISON")
-    fun getTrainings(context: Context, trainingsRecycleView: RecyclerView, callback: (ArrayList<TrainingModel>) -> Unit) {
+    fun getTrainings(context: Context, callback: (ArrayList<TrainingModel>) -> Unit) {
         val trainingsList = ArrayList<TrainingModel>()
         val loggedInUser = LoggedInUser(context)
         val userId = loggedInUser.getUserId()
@@ -650,6 +649,7 @@ class FirebaseManager {
         })
     }
 
+    @Suppress("SENSELESS_COMPARISON")
     fun getPassedTrainings(context: Context, passedTrainingsRecycleView: RecyclerView) {
         val passedTrainingsList = ArrayList<TrainingModel>()
         val loggedInUser = LoggedInUser(context)
